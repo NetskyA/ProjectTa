@@ -1,0 +1,311 @@
+// FILE: MenuUpdateMasterMarketplace-Master.jsx
+
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import {
+  getLaporanMasterMarketPlace,
+  updateMasterMarketPlace,
+} from "../../../../../services/apiService";
+import { useSelector } from "react-redux";
+import Alert from "../../../../component/Alert";
+import Loading from "../../../../component/Loading";
+import Error from "../../../../component/Error";
+
+export default function MenuUpdateMasterMarketplace() {
+  const { id_marketplace } = useParams();
+  const token = useSelector((state) => state.auth.token);
+  const id_user = useSelector((state) => state.auth.id_user);
+  const id_toko = useSelector((state) => state.auth.id_toko); // Jika dibutuhkan
+  const navigate = useNavigate();
+
+  // State form untuk update master marketplace
+  const [formData, setFormData] = useState({
+    id_marketplace: "",
+    kode_marketplace: "",
+    nama_marketplace: "",
+    alamat: "",
+    status: 0, // 0 = Aktif, 1 = Non-Aktif
+  });
+
+  const [loading, setLoading] = useState(true);
+  const [submitLoading, setSubmitLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [alert, setAlert] = useState({ message: "", type: "", visible: false });
+
+  // Fetch data marketplace berdasarkan id_marketplace saat mount
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        // Ambil semua data marketplace
+        const data = await getLaporanMasterMarketPlace(token);
+        const marketArray = Array.isArray(data) ? data : Object.values(data);
+
+        // Cari data marketplace berdasarkan id_marketplace
+        const marketplace = marketArray.find(
+          (item) => parseInt(item.id_marketplace, 10) === parseInt(id_marketplace, 10)
+        );
+
+        if (!marketplace) {
+          throw new Error("Data marketplace tidak ditemukan.");
+        }
+
+        // Set state formData sesuai data yang didapat
+        setFormData({
+          id_marketplace: marketplace.id_marketplace,
+          kode_marketplace: marketplace.kode_marketplace,
+          nama_marketplace: marketplace.nama_marketplace,
+          alamat: marketplace.alamat || "",
+          status: marketplace.status, // 0 = Aktif, 1 = Non-Aktif
+        });
+      } catch (err) {
+        setError(err.message || "Gagal memuat data marketplace.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, [id_marketplace, token]);
+
+  // Handler perubahan input
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === "status" ? parseInt(value, 10) : value,
+    }));
+  };
+
+  // Handler submit form update
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // Validasi: pastikan semua field terisi
+    if (
+      !formData.kode_marketplace ||
+      !formData.nama_marketplace ||
+      !formData.alamat ||
+      formData.status === null
+    ) {
+      setAlert({
+        message: "Semua field (kode_marketplace, nama_marketplace, alamat, status) harus diisi.",
+        type: "error",
+        visible: true,
+      });
+      return;
+    }
+
+    setSubmitLoading(true);
+    try {
+      // Siapkan payload
+      const payload = {
+        id_marketplace: formData.id_marketplace,
+        kode_marketplace: formData.kode_marketplace,
+        nama_marketplace: formData.nama_marketplace,
+        alamat: formData.alamat,
+        status: formData.status,
+        id_user,  // passing id_user
+        id_toko,  // passing id_toko jika dibutuhkan
+      };
+
+      const response = await updateMasterMarketPlace(payload, token);
+      if (response.success) {
+        setAlert({
+          message: "Master Marketplace berhasil diupdate.",
+          type: "success",
+          visible: true,
+        });
+        // Setelah sukses, redirect ke halaman master marketplace
+        setTimeout(() => {
+          navigate("/dashboard/master/menu/master/marketplace");
+        }, 2000);
+      } else {
+        throw new Error(response.message || "Gagal memperbarui data marketplace.");
+      }
+    } catch (err) {
+      setAlert({
+        message: err.message || "Gagal memperbarui data marketplace.",
+        type: "error",
+        visible: true,
+      });
+    } finally {
+      setSubmitLoading(false);
+    }
+  };
+
+  // Handler untuk refresh
+  const handleRefresh = () => {
+    setLoading(true);
+    setError(null);
+    setAlert({ message: "", type: "", visible: false });
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+  };
+
+  if (loading) return <Loading />;
+  if (error) return <Error message={error} />;
+
+  return (
+    <div className="py-14 mb-10" style={{ fontFamily: "sans-serif" }}>
+      {alert.visible && (
+        <Alert
+          message={alert.message}
+          type={alert.type}
+          onClose={() => setAlert((prev) => ({ ...prev, visible: false }))}
+        />
+      )}
+
+      <div className="head flex justify-between items-center">
+        <div className="breadcrumb flex items-center">
+          <Link to="/dashboard/master" className="text-xs font-semibold text-blue-900">
+            Master
+          </Link>
+          <div className="mx-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-4 h-4 text-gray-500"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+          </div>
+          <Link to="/dashboard/master/menu/master/marketplace" className="text-xs font-semibold text-blue-900">
+            Master Marketplace
+          </Link>
+          <div className="mx-2">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-4 h-4 text-gray-500"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+          </div>
+          <Link
+            to={`/dashboard/master/menu/master/marketplace/update/${id_marketplace}`}
+            className="text-xs font-semibold text-gray-400"
+          >
+            Update Marketplace
+          </Link>
+        </div>
+        <button
+          onClick={handleRefresh}
+          className="w-14 h-6 text-sm rounded-md border-2 font-xs text-gray-100 bg-blue-900 hover:bg-blue-600 transition duration-300"
+        >
+          Refresh
+        </button>
+      </div>
+
+      <div className="bg-white flex rounded-md shadow-md p-4 justify-between items-center border border-gray-200 mb-1">
+        <p className="text-xl font-semibold text-blue-900">Update Master Marketplace</p>
+        <div className="flex space-x-2">
+          <Link to="/dashboard/master/menu/master/marketplace">
+            <button className="cetakpdf h-8 rounded-md flex items-center justify-center font-xs text-gray-100 bg-blue-900 hover:bg-blue-700 transition duration-300">
+              <p className="p-2">Back</p>
+            </button>
+          </Link>
+        </div>
+      </div>
+
+      <div className="p-4 max-w-2xl mt-2 bg-white rounded-md shadow-md border border-gray-300">
+        <h2 className="text-lg font-semibold mb-4">Detail Marketplace</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4 flex gap-4">
+            <div className="w-1/2">
+              <label
+                htmlFor="kode_marketplace"
+                className="block text-sm font-semibold text-blue-800 mb-1"
+              >
+                Kode Marketplace
+              </label>
+              <input
+                type="text"
+                id="kode_marketplace"
+                name="kode_marketplace"
+                value={formData.kode_marketplace}
+                onChange={handleChange}
+                className="w-full border border-gray-300 text-sm rounded-md p-2"
+                required
+              />
+            </div>
+            <div className="w-1/2">
+              <label
+                htmlFor="nama_marketplace"
+                className="block text-sm font-semibold text-blue-800 mb-1"
+              >
+                Nama Marketplace
+              </label>
+              <input
+                type="text"
+                id="nama_marketplace"
+                name="nama_marketplace"
+                value={formData.nama_marketplace}
+                onChange={handleChange}
+                className="w-full border border-gray-300 text-sm rounded-md p-2"
+                required
+              />
+            </div>
+          </div>
+          <div className="mb-4 flex gap-4">
+            <div className="w-1/2">
+              <label
+                htmlFor="alamat"
+                className="block text-sm font-semibold text-blue-800 mb-1"
+              >
+                Alamat Marketplace
+              </label>
+              <input
+                type="text"
+                id="alamat"
+                name="alamat"
+                value={formData.alamat}
+                onChange={handleChange}
+                className="w-full border border-gray-300 text-sm rounded-md p-2"
+                required
+              />
+            </div>
+            <div className="w-1/2">
+              <label
+                htmlFor="status"
+                className="block text-sm font-semibold text-blue-800 mb-1"
+              >
+                Status
+              </label>
+              <select
+                id="status"
+                name="status"
+                value={formData.status}
+                onChange={handleChange}
+                className="w-full border border-gray-300 text-sm rounded-md p-2"
+                required
+              >
+                <option value="">Pilih Status</option>
+                <option value={0}>Aktif</option>
+                <option value={1}>Non-Aktif</option>
+              </select>
+            </div>
+          </div>
+          <div className="flex justify-end">
+            <button
+              type="submit"
+              className={`w-full md:w-auto bg-blue-800 text-white p-2 text-sm rounded-md hover:bg-blue-950 transition duration-300 ${
+                submitLoading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={submitLoading}
+            >
+              {submitLoading ? <Loading /> : "Update Marketplace"}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+}
