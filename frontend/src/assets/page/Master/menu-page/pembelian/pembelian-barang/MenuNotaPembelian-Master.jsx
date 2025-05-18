@@ -235,11 +235,11 @@ export default function MenupembelianbarangBasetroli() {
   const uniqueStoreNames = [...new Set(data.map((r) => r.nama_store))];
 
   // const detailpembelianbarang = (id) =>
-  //   console.log("Navigating to detail with ID:", id);
+  //   // console.log("Navigating to detail with ID:", id);
   //   navigate(`/dashboard/master/menu/pembelianbarang/detail/${id}`);
 
     const detailpembelianbarang = (id) => {
-      console.log("Navigating to detail with ID:", id);
+      // console.log("Navigating to detail with ID:", id);
        navigate(`/dashboard/master/menu/pembelianbarang/detail/${id}`
       );
     }

@@ -352,7 +352,7 @@ export default function MenuAddPembelianBarangBasetroli() {
     const loadGabungan = async () => {
       try {
         const res = await getMasterPengecekanGabunganPermintaan(token);
-        console.log("gabunganList", res);
+        // console.log("gabunganList", res);
         // flat response
         const flat = res
           .flatMap((o) => Object.values(o))
@@ -416,7 +416,7 @@ export default function MenuAddPembelianBarangBasetroli() {
         setAdonanMaster(real);
       })
       .catch(console.error);
-    console.log(">> adonanMaster", adonanMaster);
+    // console.log(">> adonanMaster", adonanMaster);
   }, [token]);
 
   useEffect(() => {
@@ -444,7 +444,7 @@ export default function MenuAddPembelianBarangBasetroli() {
         if (storeList.length) setStoreTujuan(storeList[0].id_lokasi);
 
         const kitchenRes = await getMasterLokasiKitchen(token);
-        console.log("kitchenRes", kitchenRes);
+        // console.log("kitchenRes", kitchenRes);
         const kitchenList = Object.values(kitchenRes || {}).filter(
           (l) => l.status === 0
         );
@@ -478,7 +478,7 @@ export default function MenuAddPembelianBarangBasetroli() {
         // console.log("soRaw", soRaw);
         const ppRaw = await getMasterPesananPembelian(token);
         const rawSo = await getMasterPengcekanPembelianSO(token);
-        console.log("rawSo", rawSo);
+        // console.log("rawSo", rawSo);
         // normalize rows and drop metadata:
         const flatten = (arr) =>
           arr

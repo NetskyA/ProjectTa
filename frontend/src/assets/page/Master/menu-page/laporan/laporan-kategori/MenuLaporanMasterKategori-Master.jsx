@@ -63,7 +63,7 @@ export default function MenuLaporanMasterMarketPlace() {
 
         // Panggil API
         const result = await getLaporanMasterKategori(token);
-        console.log("Data Laporan Master Kategori (original):", result);
+        // console.log("Data Laporan Master Kategori (original):", result);
 
         let flattenData = [];
         if (Array.isArray(result)) {
@@ -74,7 +74,7 @@ export default function MenuLaporanMasterMarketPlace() {
           flattenData = Object.values(result);
         }
 
-        console.log("Data Laporan Master Kategori (flattened):", flattenData);
+        // console.log("Data Laporan Master Kategori (flattened):", flattenData);
 
         setData(flattenData);
         setFilteredData(flattenData);

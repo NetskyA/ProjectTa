@@ -131,8 +131,8 @@ export default function MenuPelunasanPenjualan() {
   const id_tokoString = useSelector((state) => state.auth.id_toko);
   const id_toko = parseInt(id_tokoString, 10);
 
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
 
   // Ambil data dari API
   useEffect(() => {
@@ -142,7 +142,7 @@ export default function MenuPelunasanPenjualan() {
         setError(null);
 
         const pelunasanData = await getPelunasanPenjualanAll();
-        console.log("pelunasanData:", pelunasanData);
+        // console.log("pelunasanData:", pelunasanData);
 
         // Filter data sesuai id_toko
         const filteredPelunasanData = pelunasanData.filter(

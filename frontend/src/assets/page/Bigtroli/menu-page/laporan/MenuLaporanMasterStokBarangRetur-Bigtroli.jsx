@@ -123,8 +123,8 @@ export default function MenuLaporanMasterStokBarangReturBasetroli() {
   const dispatch = useDispatch();
   const id_user = useSelector((state) => state.auth.id_user); // Pastikan ini mengambil dari Redux state
   const id_toko = useSelector((state) => state.auth.id_toko); // Tetap diambil dari Redux state
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -133,7 +133,7 @@ export default function MenuLaporanMasterStokBarangReturBasetroli() {
         setError(null);
 
         const laporanData = await getLaporanStokBarangRetur();
-        console.log("laporanData:", laporanData);
+        // console.log("laporanData:", laporanData);
 
         // Pastikan data yang diterima berupa array objek
         const dataRows = Array.isArray(laporanData)

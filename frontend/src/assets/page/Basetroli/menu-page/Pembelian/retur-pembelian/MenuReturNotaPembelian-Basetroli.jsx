@@ -112,8 +112,8 @@ export default function MenuReturNotaPembelianBasetroli() {
   const token = useSelector((state) => state.auth.token);
   const id_user = useSelector((state) => state.auth.id_user);
   const id_toko = useSelector((state) => state.auth.id_toko);
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
 
   // Search State
   const [searchTerm, setSearchTerm] = useState("");

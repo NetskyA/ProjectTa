@@ -131,8 +131,8 @@ export default function MenuNotaPenjualanbigtorlly() {
   const dispatch = useDispatch();
   const id_user = useSelector((state) => state.auth.id_user); // Pastikan ini mengambil dari Redux state
   const id_toko = useSelector((state) => state.auth.id_toko); // Tetap diambil dari Redux state
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -141,7 +141,7 @@ export default function MenuNotaPenjualanbigtorlly() {
         setError(null);
 
         const laporanData = await getNotaPenjualanAll(token);
-        console.log("laporanData:", laporanData);
+        // console.log("laporanData:", laporanData);
 
         // Akses data dari results[0]
         const dataRows = laporanData[0] ? Object.values(laporanData[0]) : [];
@@ -310,7 +310,7 @@ export default function MenuNotaPenjualanbigtorlly() {
 
   // Handler untuk Navigasi Detail
   const detailNotaJual = (idHeaderPemesanan) => {
-    console.log("Navigating to detail with ID:", idHeaderPemesanan);
+    // console.log("Navigating to detail with ID:", idHeaderPemesanan);
     navigate(
       `/dashboard/basetroli/menu/notapenjualan/notajual/${idHeaderPemesanan}`
     );

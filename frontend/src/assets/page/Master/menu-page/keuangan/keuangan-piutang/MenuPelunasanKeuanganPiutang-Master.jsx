@@ -139,7 +139,7 @@ export default function MenuPelunasanPenjualan() {
         setError(null);
 
         const pelunasanData = await getPelunasanPenjualanAll();
-        console.log("pelunasanData:", pelunasanData);
+        // console.log("pelunasanData:", pelunasanData);
 
         // Simpan semua data tanpa filter id_toko
         setData(pelunasanData);

@@ -259,7 +259,7 @@ export default function MenuLaporanPenjualanBesttroli() {
     }));
 
   const detail = (id) => {
-    console.log("Navigating to detail with ID:", id);
+    // console.log("Navigating to detail with ID:", id);
     navigate(`/dashboard/master/menu/laporanpenjualan/detail/${id}`);
   };
 

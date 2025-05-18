@@ -139,7 +139,7 @@ useEffect(() => {
     try {
       setLoading(true);
       const res = await getMasterSalesOrderKitchen(token);
-      console.log("data master pesanan pembelian", res);
+      // console.log("data master pesanan pembelian", res);
 
       let rows = [];
       if (Array.isArray(res) && res.length > 0) {
@@ -264,11 +264,11 @@ useEffect(() => {
   const uniqueStoreNames = [...new Set(data.map((r) => r.nama_store))];
 
   // const detailNotaPembelian = (id) =>
-  //   console.log("Navigating to detail with ID:", id);
+  //   // console.log("Navigating to detail with ID:", id);
   //   navigate(`/dashboard/adminpembelian/menu/notapembelian/detail/${id}`);
 
   const detailNotaPembelian = (id) => {
-    console.log("Navigating to detail with ID:", id);
+    // console.log("Navigating to detail with ID:", id);
     navigate(`/dashboard/master/menu/salesorder/detail/${id}`);
   };
 
@@ -604,15 +604,12 @@ useEffect(() => {
                         {truncate(r.catatan, 40)}
                       </td>
                       <td className="px-2 py-0.5 border border-gray-500 uppercase">
-                        {r.tanggal_transaksi}
-                      </td>
-                      <td className="px-2 py-0.5 border border-gray-500 uppercase">
-                        {r.tanggal_verifikasi_ap || "-"}
-                      </td>
-                      <td className="px-2 py-0.5 border border-gray-500 uppercase">
                         {r.tanggal_kirim}
                       </td>
                       
+                      <td className="px-2 py-0.5 border border-gray-500 uppercase">
+                        {r.tanggal_verifikasi_ap || "-"}
+                      </td>
                       <td className="px-2 py-0.5 border border-gray-500 uppercase">
                         {r.status_batal_text}
                       </td>

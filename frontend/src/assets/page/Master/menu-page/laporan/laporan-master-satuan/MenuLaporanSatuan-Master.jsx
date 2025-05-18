@@ -143,7 +143,7 @@ export default function MenuLaporanMasterSatuan() {
         setLoading(true);
         setError(null);
         const result = await getLaporanMasterSatuan(token);
-        console.log("Data Master Satuan (original):", result);
+        // console.log("Data Master Satuan (original):", result);
 
         let formattedData = [];
         // Jika response berupa array dengan objek data di elemen pertama
@@ -338,7 +338,7 @@ export default function MenuLaporanMasterSatuan() {
 
   // Handler untuk Edit
   const handleEdit = (id_satuan) => {
-    console.log("Navigating to update page with id_satuan:", id_satuan);
+    // console.log("Navigating to update page with id_satuan:", id_satuan);
     navigate(`/dashboard/master/menu/master/satuan/update/${id_satuan}`);
   };
 

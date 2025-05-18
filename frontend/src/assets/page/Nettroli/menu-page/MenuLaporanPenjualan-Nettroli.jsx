@@ -40,7 +40,7 @@ export default function MenuLaporanPenjualanBesttroli() {
         setError(null);
 
         const laporanData = await getLaporanPenjualanNettroli();
-        console.log("laporanData:", laporanData);
+        // console.log("laporanData:", laporanData);
 
         const dataRows = laporanData
           .flatMap((item) => Object.values(item))

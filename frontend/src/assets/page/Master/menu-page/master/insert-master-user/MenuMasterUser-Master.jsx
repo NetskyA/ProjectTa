@@ -143,7 +143,7 @@ export default function MasterUser() {
         setError(null);
 
         const masterUserData = await getMasterUser(token);
-        console.log("Data master user:", masterUserData);
+        // console.log("Data master user:", masterUserData);
         setData(masterUserData);
         setFilteredData(masterUserData);
       } catch (err) {

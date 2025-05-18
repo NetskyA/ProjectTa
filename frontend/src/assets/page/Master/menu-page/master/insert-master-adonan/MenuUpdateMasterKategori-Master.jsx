@@ -106,7 +106,7 @@ export default function MenuInsertMasterDataBarangMaster() {
     const fetchStokBarang = async () => {
       try {
         const result = await getLaporanStokBarangAll();
-        console.log("Stok Barang:", result);
+        // console.log("Stok Barang:", result);
         setStokBarangData(
           Array.isArray(result) ? result : Object.values(result)
         );
@@ -211,7 +211,7 @@ export default function MenuInsertMasterDataBarangMaster() {
       setLoading(true);
       try {
         const adonanRes = await getMasterAdonan();
-        console.log("adonanRes", adonanRes);
+        // console.log("adonanRes", adonanRes);
         const adonanList = Array.isArray(adonanRes)
           ? adonanRes
           : Object.values(adonanRes);
@@ -222,7 +222,7 @@ export default function MenuInsertMasterDataBarangMaster() {
         setDataAdonan(master);
 
         const detailRes = await getMasterDetailAdonan();
-        console.log("detailRes", detailRes);
+        // console.log("detailRes", detailRes);
         const detailList = Array.isArray(detailRes)
           ? detailRes
           : Object.values(detailRes);

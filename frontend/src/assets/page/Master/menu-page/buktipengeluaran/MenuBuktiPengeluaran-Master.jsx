@@ -129,7 +129,7 @@ export default function MenuNotaPembelianBasetroli() {
       try {
         setLoading(true);
         const res = await getMasterBuktiPengeluaran (token);
-        console.log("res", res);
+        // console.log("res", res);
         let rows = [];
         if (Array.isArray(res) && res.length > 0) {
           const first = res[0];
@@ -249,11 +249,11 @@ const formatDateNoTime = (isoString) => {
   const uniqueKitchenName = [...new Set(data.map((r) => r.nama_kitchen))];
 
   // const detailGabunganPermintaan = (id) =>
-  //   console.log("Navigating to detail with ID:", id);
+  //   // console.log("Navigating to detail with ID:", id);
   //   navigate(`/dashboard/adminpembelian/menu/notapembelian/detail/${id}`);
 
   const detailGabunganPermintaan = (id) => {
-    console.log("Navigating to detail with ID:", id);
+    // console.log("Navigating to detail with ID:", id);
     navigate(`/dashboard/master/menu/buktipengeluaran/detail/${id}`);
   };
 

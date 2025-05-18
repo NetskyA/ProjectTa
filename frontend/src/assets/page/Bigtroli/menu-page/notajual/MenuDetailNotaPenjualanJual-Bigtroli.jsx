@@ -214,7 +214,7 @@ const [biayaMap, setBiayaMap] = useState(new Map());
     (async () => {
       try {
         const raw = await getMasterNotaPenjualan(token);
-        console.log("master nota penjualan", raw);
+        // console.log("master nota penjualan", raw);
         const all = Array.isArray(raw)
           ? raw.flatMap((r) => Object.values(r))
           : [];
@@ -264,8 +264,8 @@ const [biayaMap, setBiayaMap] = useState(new Map());
 
         // 4) Flatten sales orders
         const allSO = flattenMySQLPayload(resSo);
-        console.log("🟦 Pesanan Pembelian (allHdr):", allHdr);
-        console.log("🟩 Sales Orders (allSO):", allSO);
+        // console.log("🟦 Pesanan Pembelian (allHdr):", allHdr);
+        // console.log("🟩 Sales Orders (allSO):", allSO);
         // 5) Sisipkan tanggal dari sales order
         const headersForThis = allHdr
           .filter((h) => allowedPB.has(h.id_master_pesanan_pembelian))
@@ -302,7 +302,7 @@ const [biayaMap, setBiayaMap] = useState(new Map());
               token,
               h.id_master_pesanan_pembelian
             ).catch(() => null);
-            console.log("master pesanan pembelian detail", raw);
+            // console.log("master pesanan pembelian detail", raw);
             return flattenMySQLPayload(raw)
               .filter(
                 (r) =>
@@ -653,7 +653,7 @@ setBiayaMap(map);
         const detFlat = Object.values(detRaw[0] || {}).filter(
           (d) => String(d.id_master_gabungan_pemintaan) === String(id)
         );
-        console.log("detFlat", detFlat);
+        // console.log("detFlat", detFlat);
         setGpDetails(detFlat);
 
         const soHdrRaw = await getMasterPengcekanPembelianSO(token);

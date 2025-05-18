@@ -128,8 +128,8 @@ export default function MenuMasterStokBarangBasetroli() {
   const id_tokoString = useSelector((state) => state.auth.id_toko);
   const id_toko = parseInt(id_tokoString, 10);
 
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
 
   const navigate = useNavigate();
 
@@ -186,7 +186,7 @@ export default function MenuMasterStokBarangBasetroli() {
           (item) => parseInt(item.id_toko, 10) === id_toko
         );
 
-        console.log("Data Laporan Stok Barang:", filteredRows);
+        // console.log("Data Laporan Stok Barang:", filteredRows);
         setData(filteredRows);
         setFilteredData(filteredRows);
       } catch (err) {

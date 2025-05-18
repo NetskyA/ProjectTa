@@ -137,7 +137,7 @@ export default function MenuLaporanMasterKategori() {
       try {
         setLoading(true);
         const result = await getMasterAdonan(token);
-        console.log("result", result);
+        // console.log("result", result);
         const list = Array.isArray(result) ? result : Object.values(result);
         setData(list);
         setFilteredData(list);
@@ -245,7 +245,7 @@ export default function MenuLaporanMasterKategori() {
 
   // edit & delete
   const detailMasterAdonan = (id) => {
-    console.log(`Detail Master Adonan ID: ${id}`);
+    // console.log(`Detail Master Adonan ID: ${id}`);
     navigate(`/dashboard/master/menu/laporan/adonan/detail/${id}`);
   };
 

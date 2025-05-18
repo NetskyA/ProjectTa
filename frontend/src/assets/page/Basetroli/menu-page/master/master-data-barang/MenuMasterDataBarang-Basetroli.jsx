@@ -145,7 +145,7 @@ export default function MenuLaporanMasterBarangBasetroli() {
       try {
         setLoading(true);
         const laporanData = await getLaporanMasterDataBarang(token);
-        console.log("data", laporanData);
+        // console.log("data", laporanData);
         const rows = Array.isArray(laporanData)
           ? laporanData
               .reduce((acc, item) => acc.concat(Object.values(item)), [])
@@ -392,7 +392,7 @@ export default function MenuLaporanMasterBarangBasetroli() {
   if (error) return <Error message={error} />;
 
   const detailMasterProduk = (id) => {
-    console.log("Navigating to detail with ID:", id);
+    // console.log("Navigating to detail with ID:", id);
     navigate(`/dashboard/adminpembelian/menu/masterdatabarang/detail/${id}`);
   };
 

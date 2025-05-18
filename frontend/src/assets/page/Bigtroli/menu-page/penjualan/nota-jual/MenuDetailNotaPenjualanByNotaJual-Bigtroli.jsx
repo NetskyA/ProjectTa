@@ -114,8 +114,8 @@ export default function MenuNotaDetailPenjualanBesttroli() {
   const dispatch = useDispatch();
   const id_user = useSelector((state) => state.auth.id_user); // Pastikan ini mengambil dari Redux state
   const id_toko = useSelector((state) => state.auth.id_toko); // Tetap diambil dari Redux state
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
   const { id_header_pemesanan } = useParams(); // Mengambil parameter dari URL
 
   // State untuk Search
@@ -145,7 +145,7 @@ export default function MenuNotaDetailPenjualanBesttroli() {
           token,
           id_header_pemesanan
         );
-        console.log("laporanData:", laporanData);
+        // console.log("laporanData:", laporanData);
 
         const dataRows = laporanData[0] ? Object.values(laporanData[0]) : [];
         console.log("dataRows:", dataRows);

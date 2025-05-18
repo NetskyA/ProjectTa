@@ -128,8 +128,8 @@ export default function MenuLaporanKartuStokBarangRetur() {
   const dispatch = useDispatch();
   const id_user = useSelector((state) => state.auth.id_user); // Pastikan ini mengambil dari Redux state
   const id_toko = useSelector((state) => state.auth.id_toko); // Tetap diambil dari Redux state
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
 
   // Ambil data laporan kartu stok retur dari API
   useEffect(() => {

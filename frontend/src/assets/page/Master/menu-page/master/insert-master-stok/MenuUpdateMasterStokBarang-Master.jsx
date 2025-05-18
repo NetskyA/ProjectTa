@@ -18,7 +18,7 @@ import Error from "../../../../component/Error";
 
 export default function MenuInsertMasterSatuan() {
   const { id_bahan_baku } = useParams();
-  console.log("id_bahan_baku", id_bahan_baku);
+  // console.log("id_bahan_baku", id_bahan_baku);
   const token = useSelector((state) => state.auth.token);
   const id_user = useSelector((state) => state.auth.id_user);
   const id_toko = useSelector((state) => state.auth.id_toko); // Jika memang dibutuhkan di backend

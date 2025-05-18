@@ -54,7 +54,7 @@ export default function MenuLaporanPenjualanBesttroli() {
 
         // Panggil API
         const result = await getMasterUser(token);
-        console.log("Data Master User:", result);
+        // console.log("Data Master User:", result);
         setData(result);
         setFilteredData(result);
       } catch (err) {

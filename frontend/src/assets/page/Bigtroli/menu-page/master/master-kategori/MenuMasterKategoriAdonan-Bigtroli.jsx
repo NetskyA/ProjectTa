@@ -236,7 +236,7 @@ export default function MenuLaporanMasterKategori() {
 
   // edit & delete
   const detailMasterAdonan = (id) => {
-    console.log(`Detail Master Adonan ID: ${id}`);
+    // console.log(`Detail Master Adonan ID: ${id}`);
     navigate(`/dashboard/adminkitchen/menu/masterkategori/detail/${id}`);
   };
 
@@ -279,7 +279,7 @@ export default function MenuLaporanMasterKategori() {
           </div>
           <Link
             to="/dashboard/adminkitchen/menu/masterkategori"
-            className="text-xs font-semibold text-blue-900"
+            className="text-xs font-semibold text-gray-500"
           >
             Master Adonan
           </Link>

@@ -258,11 +258,11 @@ export default function MenuNotaPembelianBasetroli() {
   const uniqueKitchenName = [...new Set(data.map((r) => r.nama_kitchen))];
 
   // const detailGabunganPermintaan = (id) =>
-  //   console.log("Navigating to detail with ID:", id);
+  //   // console.log("Navigating to detail with ID:", id);
   //   navigate(`/dashboard/adminpembelian/menu/notapembelian/detail/${id}`);
 
   const detailGabunganPermintaan = (id) => {
-    console.log("Navigating to detail with ID:", id);
+    // console.log("Navigating to detail with ID:", id);
     navigate(`/dashboard/master/menu/gabunganpermintaan/detail/${id}`);
   };
 

@@ -21,8 +21,8 @@ export default function MenuUpdateMasterStokBarangMaster() {
   const id_tokoString = useSelector((state) => state.auth.id_toko);
   const id_toko = parseInt(id_tokoString, 10);
 
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
 
   // State form untuk update stok barang
   // Perubahan: hilangkan stok_tambahan, update langsung nilai stok_sebelumnya
@@ -52,7 +52,7 @@ export default function MenuUpdateMasterStokBarangMaster() {
         const stokArray = Array.isArray(stokData)
           ? stokData
           : Object.values(stokData);
-        console.log("Stok Data:", stokArray);
+        // console.log("Stok Data:", stokArray);
 
         // Temukan stok berdasarkan idstokbarang
         const stok = stokArray.find(

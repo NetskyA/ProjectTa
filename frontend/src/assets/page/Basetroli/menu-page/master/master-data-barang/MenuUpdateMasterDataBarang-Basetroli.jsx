@@ -23,8 +23,8 @@ export default function MenuUpdateMasterDataBarangMaster() {
   // Ambil id_toko (untuk admin biasa)
   const id_tokoString = useSelector((state) => state.auth.id_toko);
   const id_toko = parseInt(id_tokoString, 10);
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
   const dispatch = useDispatch();
 
   // === FORM DATA (Tanpa id_kategori) ===

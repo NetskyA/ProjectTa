@@ -235,11 +235,11 @@ export default function MenuNotaPembelianBasetroli() {
   const uniqueStoreNames = [...new Set(data.map((r) => r.nama_store))];
 
   // const detailNotaPembelian = (id) =>
-  //   console.log("Navigating to detail with ID:", id);
+  //   // console.log("Navigating to detail with ID:", id);
   //   navigate(`/dashboard/adminpembelian/menu/notapembelian/detail/${id}`);
 
     const detailNotaPembelian = (id) => {
-      console.log("Navigating to detail with ID:", id);
+      // console.log("Navigating to detail with ID:", id);
        navigate(`/dashboard/adminpembelian/menu/notapembelian/detail/${id}`
       );
     }

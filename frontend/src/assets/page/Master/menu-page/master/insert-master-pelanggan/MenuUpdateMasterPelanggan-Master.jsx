@@ -15,7 +15,7 @@ const [alamat, setAlamat] = useState("");
 
 
     const { id_master_pelanggan_external } = useParams();
-  console.log("id_master_pelanggan_external", id_master_pelanggan_external);
+  // console.log("id_master_pelanggan_external", id_master_pelanggan_external);
   const token = useSelector((state) => state.auth.token);
   const id_user = useSelector((state) => state.auth.id_user);
   const id_toko = useSelector((state) => state.auth.id_toko); // Jika memang dibutuhkan di backend

@@ -134,7 +134,7 @@ function flattenMySQLPayload(res) {
 export default function MenuAddPembelianBarangBasetroli() {
   const { id: paramId, id_master_bukti_pengeluaran } = useParams();
   const id = paramId || id_master_bukti_pengeluaran;
-  console.log("Id yang ditanggkap", id);
+  // console.log("Id yang ditanggkap", id);
   /* ---------- Redux ---------- */
   const token = useSelector((s) => s.auth.token);
   const id_user = useSelector((s) => s.auth.id_user);
@@ -236,8 +236,8 @@ export default function MenuAddPembelianBarangBasetroli() {
 
         // 4) Flatten sales orders
         const allSO = flattenMySQLPayload(resSo);
-console.log("🟦 Pesanan Pembelian (allHdr):", allHdr);
-console.log("🟩 Sales Orders (allSO):", allSO);
+// console.log("🟦 Pesanan Pembelian (allHdr):", allHdr);
+// console.log("🟩 Sales Orders (allSO):", allSO);
         // 5) Sisipkan tanggal dari sales order
         const headersForThis = allHdr
           .filter((h) => allowedPB.has(h.id_master_pesanan_pembelian))
@@ -273,7 +273,7 @@ if (!match) {
               token,
               h.id_master_pesanan_pembelian
             ).catch(() => null);
-            console.log("raw", raw);
+            // console.log("raw", raw);
             return flattenMySQLPayload(raw)
               .filter(
                 (r) =>
@@ -531,7 +531,7 @@ if (!match) {
         const detFlat = Object.values(detRaw[0] || {}).filter(
           (d) => String(d.id_master_gabungan_pemintaan) === String(id)
         );
-        console.log("detFlat", detFlat);
+        // console.log("detFlat", detFlat);
         setGpDetails(detFlat);
 
         const soHdrRaw = await getMasterPengcekanPembelianSO(token);

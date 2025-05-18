@@ -31,8 +31,8 @@ export default function Navbarside({ role }) {
   const id_toko = useSelector((state) => state.auth.id_toko);
   const token = useSelector((state) => state.auth.token);
 
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
 
   const toggleLaporanProgres = () => {
     setIsLaporanProgres(!isLaporanProgres);
@@ -166,7 +166,7 @@ export default function Navbarside({ role }) {
                   Laporan S. Bahan Baku
                 </Link>
               </li>
-              <li className="m-1" data-aos="fade-right" data-aos-duration="1600">
+              <li className="m-1" data-aos="fade-right" data-aos-duration="1700">
                 <Link
                   to="menu/laporan/adonan"
                   className={`block py-1 px-2 text-xs text-white rounded-sm ${
@@ -180,7 +180,7 @@ export default function Navbarside({ role }) {
                   Laporan Adonan
                 </Link>
               </li>
-                            <li className="m-1" data-aos="fade-right" data-aos-duration="1000">
+                            <li className="m-1" data-aos="fade-right" data-aos-duration="1800">
                 <Link
                   to="menu/user/laporan"
                   className={`block py-1 px-2 text-xs text-white rounded-sm ${
@@ -192,7 +192,7 @@ export default function Navbarside({ role }) {
                   Laporan User
                 </Link>
               </li>
-              <li className="m-1" data-aos="fade-right" data-aos-duration="2400">
+              <li className="m-1" data-aos="fade-right" data-aos-duration="1900">
                 <Link
                   to="menu/laporan/pelanggan"
                   className={`block py-1 px-2 text-xs text-white rounded-sm ${
@@ -205,7 +205,7 @@ export default function Navbarside({ role }) {
                   Laporan Pelanggan
                 </Link>
               </li>
-              <li className="m-1" data-aos="fade-right" data-aos-duration="1800">
+              <li className="m-1" data-aos="fade-right" data-aos-duration="2000">
                 <Link
                   to="menu/laporan/satuan"
                   className={`block py-1 px-2 text-xs text-white rounded-sm ${

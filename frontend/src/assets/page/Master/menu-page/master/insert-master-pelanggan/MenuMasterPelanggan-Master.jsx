@@ -117,7 +117,7 @@ export default function MenuLaporanMasterRole() {
       try {
         setLoading(true);
         const result = await getMasterPelanggan(token);
-        console.log("Data pelanggan:", result);
+        // console.log("Data pelanggan:", result);
         const formatted = Array.isArray(result)
           ? result
           : Object.values(result);
@@ -268,10 +268,10 @@ export default function MenuLaporanMasterRole() {
 
   // Handler untuk Edit
   const handleEdit = (id_master_pelanggan_external) => {
-    console.log(
-      "Navigating to update page with id_master_pesanan_pembelian:",
-      id_master_pelanggan_external
-    );
+    // console.log(
+    //   "Navigating to update page with id_master_pesanan_pembelian:",
+    //   id_master_pelanggan_external
+    // );
     navigate(
       `/dashboard/master/menu/masterpelanggan/update/${id_master_pelanggan_external}`
     );

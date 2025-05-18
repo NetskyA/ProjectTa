@@ -108,7 +108,7 @@ export default function DashboardAdminMaster() {
 
         /* ── detail penjualan (grafik) */
         const penDet = await getLaporanPenjualanDetailMasterAll();
-        console.log("detail", penDet);
+        // console.log("detail", penDet);
         const rows = Array.isArray(penDet)
           ? penDet.flatMap((o) => Object.values(o))
           : Object.values(penDet);

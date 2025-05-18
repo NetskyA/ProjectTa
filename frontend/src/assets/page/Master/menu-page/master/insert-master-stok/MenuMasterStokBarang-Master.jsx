@@ -134,8 +134,8 @@ export default function MenuMasterStokBarangBasetroli() {
   const id_tokoString = useSelector((state) => state.auth.id_toko);
   const id_toko = parseInt(id_tokoString, 10);
 
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
 
   const navigate = useNavigate();
 
@@ -195,13 +195,13 @@ export default function MenuMasterStokBarangBasetroli() {
         setError(null);
 
         const stokData = await getLaporanStokBarangAll(token);
-        console.log("stokData:", stokData);
+        // console.log("stokData:", stokData);
         const dataRows = Array.isArray(stokData)
           ? stokData
           : Object.values(stokData);
 
         // Tampilkan seluruh data tanpa filter berdasarkan id_toko
-        console.log("Data Laporan Stok Barang:", dataRows);
+        // console.log("Data Laporan Stok Barang:", dataRows);
         setData(dataRows);
         setFilteredData(dataRows);
       } catch (err) {
@@ -407,7 +407,7 @@ export default function MenuMasterStokBarangBasetroli() {
 
   // EDIT HANDLER -> Navigasi ke halaman update menggunakan id_bahan_baku
   const handleEdit = (id_bahan_baku) => {
-    console.log("Navigating to update page with id_bahan_baku:", id_bahan_baku);
+    // console.log("Navigating to update page with id_bahan_baku:", id_bahan_baku);
     navigate(`/dashboard/master/menu/masterstokbarang/update/${id_bahan_baku}`);
   };
 

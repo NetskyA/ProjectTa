@@ -148,7 +148,7 @@ export default function MenuInsertMasterDataBarangMaster() {
       <div className="head flex justify-between items-center">
         <div className="flex items-center">
           <Link
-            to="/dashboard/adminpembelian"
+            to="/dashboard/adminkitchen"
             className="text-xs font-semibold text-blue-900"
           >
             Master
@@ -167,7 +167,7 @@ export default function MenuInsertMasterDataBarangMaster() {
             />
           </svg>
           <Link
-            to="/dashboard/adminpembelian/menu/masterkategori"
+            to="/dashboard/adminkitchen/menu/masterkategori"
             className="text-xs font-semibold text-blue-900"
           >
             Master Adonan
@@ -200,7 +200,7 @@ export default function MenuInsertMasterDataBarangMaster() {
       {/* DETAIL MASTER */}
       <div className="bg-white flex rounded-md shadow-md p-3 justify-between items-center border border-gray-200 mb-1">
         <p className="text-xl font-semibold text-blue-900">Detail Adonan</p>
-        <Link to="/dashboard/adminpembelian/menu/masterkategori">
+        <Link to="/dashboard/adminkitchen/menu/masterkategori">
           <button className="cetakpdf h-6 rounded-md flex text-sm items-center justify-center font-xs text-gray-100 bg-blue-900 hover:bg-blue-700 transition duration-300">
             <p className="p-2">Back</p>
           </button>

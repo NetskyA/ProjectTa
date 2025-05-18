@@ -130,7 +130,7 @@ function FilterSelect({ label, options, value, onChange }) {
 export default function MenuAddPembelianBarangBasetroli() {
   const { id: paramId, id_master_pesanan_pembelian } = useParams();
   const id = paramId || id_master_pesanan_pembelian;
-  console.log("id", id);
+  // console.log("id", id);
 
   const token = useSelector((s) => s.auth.token);
   const navigate = useNavigate();
@@ -235,7 +235,7 @@ export default function MenuAddPembelianBarangBasetroli() {
 
         // 2) Load the order master data
         const rawMaster = await getMasterPesananPembelian(token);
-        console.log("rawMaster", rawMaster);
+        // console.log("rawMaster", rawMaster);
         const flat = Array.isArray(rawMaster)
           ? rawMaster.flatMap((g) => Object.values(g))
           : Object.values(rawMaster);
@@ -288,7 +288,7 @@ export default function MenuAddPembelianBarangBasetroli() {
 
         // 3) Load detail rows
         const rawDetail = await getMasterPesananPembelianDetail(token, id);
-        console.log("rawDetail", rawDetail);
+        // console.log("rawDetail", rawDetail);
         const detailArr = Array.isArray(rawDetail)
           ? rawDetail.flatMap((g) => Object.values(g))
           : Object.values(rawDetail || {});
@@ -297,7 +297,7 @@ export default function MenuAddPembelianBarangBasetroli() {
         );
 
         const raw = await getMasterPengcekanPembelianSO();
-        console.log("🔍 rawMasterSO:", raw);
+        // console.log("🔍 rawMasterSO:", raw);
 
         // normalize every row:
         const soItems = raw
@@ -317,13 +317,13 @@ export default function MenuAddPembelianBarangBasetroli() {
           // now drop anything that doesn’t look like a real SO record
           .filter((item) => item && item.id_master_pesanan_pembelian);
 
-        console.log("✅ soItems:", soItems);
+        // console.log("✅ soItems:", soItems);
 
         // finally match against your route param `id`
         const mySO = soItems.find(
           (so) => String(so.id_master_pesanan_pembelian) === String(id)
         );
-        console.log("🎯 mySO:", mySO);
+        // console.log("🎯 mySO:", mySO);
 
         if (mySO) {
           setSalesOrderId(mySO.id_master_sales_order);
@@ -361,12 +361,12 @@ export default function MenuAddPembelianBarangBasetroli() {
         );
         const status = myProd?.status_produksi ?? 0;
         setProdStatus(status);
-        console.log("DEBUG kondisi disable:", {
-          hasGabungan,
-          statusSalesOrder,
-          hasHistory,
-          prodStatus: status,
-        });
+        // console.log("DEBUG kondisi disable:", {
+        //   hasGabungan,
+        //   statusSalesOrder,
+        //   hasHistory,
+        //   prodStatus: status,
+        // });
       }
 
       // 4️⃣ cek gabungan

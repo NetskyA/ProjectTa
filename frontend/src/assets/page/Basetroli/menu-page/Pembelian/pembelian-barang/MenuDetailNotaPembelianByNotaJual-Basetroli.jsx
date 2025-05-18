@@ -262,7 +262,7 @@ export default function MenuAddPembelianBarangBasetroli() {
 
         // 3) Load detail rows
         const rawDetail = await getMasterPesananPembelianDetail(token, id);
-        console.log("rawDetail", rawDetail);
+        // console.log("rawDetail", rawDetail);
         const detailArr = Array.isArray(rawDetail)
           ? rawDetail.flatMap((g) => Object.values(g))
           : Object.values(rawDetail || {});

@@ -120,7 +120,7 @@ export default function MenuLaporanMasterRole() {
       try {
         setLoading(true);
         const result = await getMasterPelanggan(token);
-        console.log("Data pelanggan:", result);
+        // console.log("Data pelanggan:", result);
         const formatted = Array.isArray(result)
           ? result
           : Object.values(result);

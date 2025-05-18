@@ -107,8 +107,8 @@ export default function MenuInsertMasterStokBarangBasetroli() {
   const id_user = useSelector((state) => state.auth.id_user);
   const id_tokoString = useSelector((state) => state.auth.id_toko);
   const id_toko = parseInt(id_tokoString, 10);
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
   const navigate = useNavigate();
 
   // Ubah id_toko ke number jika diperlukan (tetap tersedia, meski tidak digunakan untuk filter)

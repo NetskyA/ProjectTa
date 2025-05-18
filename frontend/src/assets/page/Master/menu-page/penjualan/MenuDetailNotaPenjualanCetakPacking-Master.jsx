@@ -35,8 +35,8 @@ export default function MenuNotaDetailPenjualanBesttroli() {
   const id_toko = parseInt(id_tokoString, 10);
 
   // Debug
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
 
   // Filter tambahan: berdasarkan nama_toko
   const [storeFilter, setStoreFilter] = useState("");
@@ -76,7 +76,7 @@ export default function MenuNotaDetailPenjualanBesttroli() {
         setError(null);
 
         const laporanData = await getDetailNotaPenjualanCetakPackingAll(token);
-        console.log("laporanData:", laporanData);
+        // console.log("laporanData:", laporanData);
 
         // laporanData[0] kemungkinan object => convert ke array
         const dataRows = laporanData[0] ? Object.values(laporanData[0]) : [];

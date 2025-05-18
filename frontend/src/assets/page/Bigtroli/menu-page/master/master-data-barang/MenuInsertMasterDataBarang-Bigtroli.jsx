@@ -53,7 +53,7 @@ export default function MenuInsertMasterDataBarangMaster() {
       setError(null);
       try {
         const barangResult = await getLaporanMasterDataBarang();
-        console.log("barangResult", barangResult);
+        // console.log("barangResult", barangResult);
         const barangItems = Array.isArray(barangResult)
           ? barangResult
           : Object.values(barangResult);

@@ -192,7 +192,7 @@ export default function MenuLaporanStokBarangMaster() {
         }
 
         // Catatan: Filter berdasarkan id_toko jika diperlukan bisa ditambahkan di sini
-        console.log("Data laporan (final):", dataRows);
+        // console.log("Data laporan (final):", dataRows);
         setData(dataRows);
         setFilteredData(dataRows);
       } catch (err) {

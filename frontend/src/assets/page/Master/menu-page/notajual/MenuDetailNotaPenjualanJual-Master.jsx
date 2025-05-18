@@ -24,6 +24,8 @@ import {
   getMasterLokasiKitchen,
   getMasterNotaPenjualan,
   updateCetakNotaPenjualan,
+  getLaporanMasterDataBarang,
+  uploadFile
 } from "../../../../services/apiService";
 
 /* =================================================================================
@@ -136,7 +138,7 @@ function flattenMySQLPayload(res) {
 export default function MenuAddPembelianBarangBasetroli() {
   const { id: paramId, id_master_bukti_pengeluaran } = useParams();
   const id = paramId || id_master_bukti_pengeluaran;
-  console.log("Id yang ditanggkap", id);
+  // console.log("Id yang ditanggkap", id);
   /* ---------- Redux ---------- */
   const token = useSelector((s) => s.auth.token);
   const id_user = useSelector((s) => s.auth.id_user);
@@ -189,7 +191,7 @@ export default function MenuAddPembelianBarangBasetroli() {
   const [poDetails, setPoDetails] = useState([]);
   const [pesananDetails, setPesananDetails] = useState([]);
   const isBuktiVerified = buktiHeader?.status_bukti_pengeluaran === 1;
-
+const [biayaMap, setBiayaMap] = useState(new Map());
   const [notaPenjualanData, setNotaPenjualanData] = useState(null);
 
   useEffect(() => {
@@ -212,6 +214,7 @@ export default function MenuAddPembelianBarangBasetroli() {
     (async () => {
       try {
         const raw = await getMasterNotaPenjualan(token);
+        // console.log("master nota penjualan", raw);
         const all = Array.isArray(raw)
           ? raw.flatMap((r) => Object.values(r))
           : [];
@@ -261,8 +264,8 @@ export default function MenuAddPembelianBarangBasetroli() {
 
         // 4) Flatten sales orders
         const allSO = flattenMySQLPayload(resSo);
-        console.log("🟦 Pesanan Pembelian (allHdr):", allHdr);
-        console.log("🟩 Sales Orders (allSO):", allSO);
+        // console.log("🟦 Pesanan Pembelian (allHdr):", allHdr);
+        // console.log("🟩 Sales Orders (allSO):", allSO);
         // 5) Sisipkan tanggal dari sales order
         const headersForThis = allHdr
           .filter((h) => allowedPB.has(h.id_master_pesanan_pembelian))
@@ -282,6 +285,8 @@ export default function MenuAddPembelianBarangBasetroli() {
               salesOrderDate: match?.tanggal_transaksi || null,
               id_master_sales_order: match?.id_master_sales_order || null,
               kode_sales_order: match?.kode_sales_order || null,
+              id_store: match?.id_store || null,
+              id_kitchen: match?.id_kitchen || null,
               kode_lokasi_kitchen: h.kode_lokasi_kitchen,
               catatan_header: h.catatan,
               nama_pesanan: h.nama_pesanan,
@@ -297,7 +302,7 @@ export default function MenuAddPembelianBarangBasetroli() {
               token,
               h.id_master_pesanan_pembelian
             ).catch(() => null);
-            console.log("raw", raw);
+            // console.log("master pesanan pembelian detail", raw);
             return flattenMySQLPayload(raw)
               .filter(
                 (r) =>
@@ -315,6 +320,37 @@ export default function MenuAddPembelianBarangBasetroli() {
         const allDetails = detailArrays.flat();
         setPesananDetails(allDetails);
         setPoDetails(allDetails);
+
+
+
+ try {
+   const lapRes = await getLaporanMasterDataBarang(token);
+   const laporanFlat = flattenMySQLPayload(lapRes);               // pakai helper yg sudah ada
+
+   //  map: { kode_produk → biaya_total_adonan }
+const map = new Map(
+  laporanFlat.map((item) => [item.kode_produk, item.biaya_total_adonan])
+);
+setBiayaMap(map);  
+
+   //  loop semua detail PO yang sudah Anda punya
+   allDetails.forEach((d) => {
+     const biaya = biayaMap.get(d.kode_produk);
+     if (biaya !== undefined) {
+       console.log(
+         "biaya_total_adonan",
+         d.kode_produk,
+         "=>",
+         biaya
+       );
+     }
+   });
+ } catch (err) {
+   console.error("Gagal memuat Laporan Master Data Barang:", err);
+ }
+
+
+
       })
       .catch((err) => {
         console.error(err);
@@ -617,7 +653,7 @@ export default function MenuAddPembelianBarangBasetroli() {
         const detFlat = Object.values(detRaw[0] || {}).filter(
           (d) => String(d.id_master_gabungan_pemintaan) === String(id)
         );
-        console.log("detFlat", detFlat);
+        // console.log("detFlat", detFlat);
         setGpDetails(detFlat);
 
         const soHdrRaw = await getMasterPengcekanPembelianSO(token);
@@ -885,47 +921,81 @@ export default function MenuAddPembelianBarangBasetroli() {
   };
 
   //* ── handler verifikasi (Verifikasi Pengeluaran) ─────────────────────── */
-  const handleVerifyPengeluaran = async () => {
-    try {
-      setLoading(true);
+// ── handler verifikasi (Verifikasi Selesai) ──────────────────────────────
+const handleVerifyPengeluaran = async () => {
+  try {
+    setLoading(true);
 
-      const notaId = notaPenjualanData?.id_master_nota_penjualan;
-      const buktiId = buktiHeader?.id_master_bukti_pengeluaran;
+    /* 0. Validasi basic -------------------------------------------------- */
+    const notaId  = notaPenjualanData?.id_master_nota_penjualan;
+    const buktiId = buktiHeader?.id_master_bukti_pengeluaran;
+    if (!notaId || !buktiId) throw new Error("Nota / Bukti Pengeluaran belum lengkap.");
 
-      if (!notaId || !buktiId) {
-        throw new Error(
-          "Data Nota Penjualan atau Bukti Pengeluaran tidak lengkap."
-        );
-      }
+    /* 1. Compose headerData --------------------------------------------- */
+    const headerData = poHeaders.map((hdr, idx) => {
+      /* 1a. Detail ------------------------------------------------------- */
+      const details = poDetails
+        .filter((d) => d.id_master_pesanan_pembelian === hdr.id_master_pesanan_pembelian)
+        .map((d) => ({
+          kode_barang : d.kode_produk,
+          id_satuan   : 7,                                      // <<< HARDCODE 7
+          jumlah      : Number(d.quantity  || 0),
+          harga       : Number(d.harga_jual || 0),
+          discount    : 0,                                      // <<< selalu 0
+          hpp_satuan  : Number(biayaMap.get(d.kode_produk) || 0),
+        }));
 
-      // Update status cetak nota penjualan hanya jika belum dilakukan
-      await updateCetakNotaPenjualan(token, {
-        id_master_nota_penjualan: notaId,
-        id_master_bukti_pengeluaran: buktiId,
-      });
+      /* hitung grand_total (∑ qty × harga) ------------------------------ */
+      const grand_total = details.reduce((tot, r) => tot + r.jumlah * r.harga, 0);
 
-      setAlert({
-        type: "success",
-        message: "Status cetak berhasil diperbarui.",
-        visible: true,
-      });
+      /* helper tanggal YYYY-MM-DD --------------------------------------- */
+      const toSqlDate = (jsDate) => new Date(jsDate).toISOString().slice(0, 10);
 
-      setTimeout(() => {
-        setAlert((a) => ({ ...a, visible: false }));
-        window.location.reload();
-      }, 2000);
-    } catch (err) {
-      setAlert({
-        type: "error",
-        message: err.message || "Gagal memperbarui status cetak nota.",
-        visible: true,
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
+      /* Buat no_transaksi unik  ----------------------------------------- 
+         pola :   kode_nota  + '-' + (idx+1).padStart(2,'0')
+         ex  :   JL.L008.250513.0002-01
+      */
+      const no_transaksi_unique =
+        `${notaPenjualanData?.kode_master_nota_penjualan}-${String(idx + 1).padStart(2, "0")}`;
 
-  console.log("Nota Penjualan Data:", handleVerifyPengeluaran);
+      return {
+        /* kolom master sesuai prosedur */
+        tanggal_transaksi    : toSqlDate(hdr.salesOrderDate || hdr.tanggal_transaksi || new Date()),
+        no_transaksi         : no_transaksi_unique,            // <<< UNIQUE
+        id_jenis_transaksi   : 1,                              // <<< HARDCODE 1
+        no_pesanan_penjualan : hdr.kode_sales_order,
+        no_surat_jalan       : buktiHeader?.kode_bukti_pengeluaran,
+        id_syarat_bayar      : 1,                              // <<< HARDCODE 1
+        id_lokasi            : Number(hdr.id_store   || 0),
+        id_kitchen           : Number(hdr.id_kitchen || 0),
+        grand_total,
+        details,
+      };
+    });
+
+    /* 2. POST ke /upload ------------------------------------------------- */
+    await uploadFile({ id_user, id_toko: id_tokoInt, headerData });
+
+    /* 3. Ubah status cetak nota ----------------------------------------- */
+    await updateCetakNotaPenjualan(token, {
+      id_master_nota_penjualan   : notaId,
+      id_master_bukti_pengeluaran: buktiId,
+    });
+
+    /* 4. Feedback -------------------------------------------------------- */
+    setAlert({ type: "success", message: "Verifikasi selesai & data tersimpan.", visible: true });
+    setTimeout(() => { setAlert((a) => ({ ...a, visible: false })); window.location.reload(); }, 2000);
+
+  } catch (err) {
+    setAlert({ type: "error", message: err.message || "Gagal memproses verifikasi.", visible: true });
+  } finally {
+    setLoading(false);
+  }
+};
+
+
+
+  // console.log("Nota Penjualan Data:", handleVerifyPengeluaran);
 
   const nowSQL = () => {
     const d = new Date();

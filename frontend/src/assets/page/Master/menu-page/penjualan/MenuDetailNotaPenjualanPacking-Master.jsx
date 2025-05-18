@@ -128,8 +128,8 @@ export default function MenuNotaDetailPenjualanBesttroli() {
   const dispatch = useDispatch();
   const id_user = useSelector((state) => state.auth.id_user);
   const id_toko = useSelector((state) => state.auth.id_toko);
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
 
   useEffect(() => {
     const fetchData = async () => {

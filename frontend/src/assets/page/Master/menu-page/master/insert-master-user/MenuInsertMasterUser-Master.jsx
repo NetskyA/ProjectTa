@@ -44,8 +44,8 @@ export default function MenuInsertMasterUserMaster() {
   const id_toko = useSelector((state) => state.auth.id_toko);
   const roleAuth = useSelector((state) => state.auth.role);
   const kode_toko_auth = useSelector((state) => state.auth.kode_toko);
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
   console.log("role:", roleAuth);
   console.log("kode_toko:", kode_toko_auth);
 

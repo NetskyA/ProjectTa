@@ -138,9 +138,9 @@ export default function MenuInsertMasterDataBarangMaster() {
   const id_tokoString = useSelector((state) => state.auth.id_toko);
   const username = useSelector((state) => state.auth.username);
   const id_toko = parseInt(id_tokoString, 10);
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
-  console.log("username:", username);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
+  // console.log("username:", username);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -195,7 +195,7 @@ export default function MenuInsertMasterDataBarangMaster() {
         setLoading(true);
         setError(null);
         const result = await getLaporanMasterSatuan(token);
-        console.log("result:", result);
+        // console.log("result:", result);
         let formattedData = [];
 
         if (
@@ -252,9 +252,9 @@ export default function MenuInsertMasterDataBarangMaster() {
     const fetchAdonan = async () => {
       try {
         const kategori = await getMasterAdonan(token);
-        console.log("kategori:", kategori);
+        // console.log("kategori:", kategori);
         const detail = await getMasterDetailAdonan(token);
-        console.log("detail:", detail);
+        // console.log("detail:", detail);
         // ✅ Ubah ke array jika perlu
         const kategoriArray = Array.isArray(kategori)
           ? kategori

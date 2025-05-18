@@ -36,8 +36,8 @@ export default function MenuLaporanMasterMarketPlace() {
   const dispatch = useDispatch();
   const id_user = useSelector((state) => state.auth.id_user);
   const id_toko = useSelector((state) => state.auth.id_toko);
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
 
   // FILTERS
   const [namaMarketplaceFilter, setNamaMarketplaceFilter] = useState("");
@@ -71,7 +71,7 @@ export default function MenuLaporanMasterMarketPlace() {
         setError(null);
 
         const laporanData = await getLaporanMasterKategori(token);
-        console.log("laporanData:", laporanData);
+        // console.log("laporanData:", laporanData);
 
         // Pastikan data yang diterima berupa array objek
         const dataRows = Array.isArray(laporanData)

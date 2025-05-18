@@ -38,7 +38,7 @@ export default function MenuNotaPenjualanBesttroli() {
         setError(null);
 
         const laporanData = await getNotaPenjualanKiumart(token);
-        console.log("laporanData:", laporanData);
+        // console.log("laporanData:", laporanData);
 
         // Akses data dari results[0]
         const dataRows = laporanData[0] ? Object.values(laporanData[0]) : [];

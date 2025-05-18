@@ -36,7 +36,7 @@ export default function MenuUpdateMasterSatuan() {
       try {
         setLoading(true);
         const data = await getLaporanMasterSatuan(token);
-        console.log("Data Master Satuan (update):", data);
+        // console.log("Data Master Satuan (update):", data);
 
         let satuanArray = [];
         // Jika response merupakan array dengan objek data di elemen pertama

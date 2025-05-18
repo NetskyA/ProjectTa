@@ -35,8 +35,8 @@ export default function Navbarside({ role }) {
   const id_toko = useSelector((state) => state.auth.id_toko);
   const token = useSelector((state) => state.auth.token);
 
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
 
   // Fungsi pembantu untuk cek akses berdasarkan nama menu
   const hasAccess = (menuName) => {

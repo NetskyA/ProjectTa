@@ -157,8 +157,8 @@ export default function MenuReturNotaDetailPenjualanBesttroli() {
   // Ubah ke integer
   const id_toko = parseInt(id_tokoString, 10);
 
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
 
   // Ambil data No Pemesanan dari API tanpa filter id_toko
   useEffect(() => {

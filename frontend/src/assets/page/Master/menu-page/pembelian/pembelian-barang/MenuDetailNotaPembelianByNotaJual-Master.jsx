@@ -122,7 +122,7 @@ function FilterSelect({ label, options, value, onChange }) {
 export default function MenuAddPembelianBarangBasetroli() {
   const { id: paramId, id_master_pesanan_pembelian } = useParams();
   const id = paramId || id_master_pesanan_pembelian;
-  console.log("ID", id);
+  // console.log("ID", id);
 
   const token = useSelector((s) => s.auth.token);
   const navigate = useNavigate();
@@ -263,7 +263,7 @@ export default function MenuAddPembelianBarangBasetroli() {
 
         // 3) Load detail rows
         const rawDetail = await getMasterPesananPembelianDetail(token, id);
-        console.log("rawDetail", rawDetail);
+        // console.log("rawDetail", rawDetail);
         const detailArr = Array.isArray(rawDetail)
           ? rawDetail.flatMap((g) => Object.values(g))
           : Object.values(rawDetail || {});

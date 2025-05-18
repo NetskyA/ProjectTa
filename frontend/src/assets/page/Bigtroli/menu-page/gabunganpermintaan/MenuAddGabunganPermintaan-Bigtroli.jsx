@@ -434,7 +434,7 @@ export default function MenuAddPembelianBarangBasetroli() {
         // console.log(">> benar–benar adonanMaster:", real);
       })
       .catch(console.error);
-    console.log(">> adonanMaster", adonanMaster);
+    // console.log(">> adonanMaster", adonanMaster);
   }, [token]);
 
   useEffect(() => {
@@ -462,7 +462,7 @@ export default function MenuAddPembelianBarangBasetroli() {
         if (storeList.length) setStoreTujuan(storeList[0].id_lokasi);
 
         const kitchenRes = await getMasterLokasiKitchen(token);
-        console.log("kitchenRes", kitchenRes);
+        // console.log("kitchenRes", kitchenRes);
         const kitchenList = Object.values(kitchenRes || {}).filter(
           (l) => l.status === 0
         );
@@ -493,7 +493,7 @@ export default function MenuAddPembelianBarangBasetroli() {
         setMasterKategoriProduk(katList);
 
         const soRaw = await getMasterPengcekanPembelianSO(token);
-        console.log("soRaw", soRaw);
+        // console.log("soRaw", soRaw);
         const ppRaw = await getMasterPesananPembelian(token);
         const rawSo = await getMasterPengcekanPembelianSO(token);
         // console.log("soRaw", soRaw);

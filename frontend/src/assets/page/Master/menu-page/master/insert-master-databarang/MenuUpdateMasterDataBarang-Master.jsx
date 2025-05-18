@@ -182,7 +182,7 @@ useEffect(() => {
 
       // Cek apakah produk sudah pernah digunakan dalam penjualan
       const salesDataResult = await getMasterDetailSalesOrder();
-      console.log("Sales Data Result:", salesDataResult); // Debug
+      // console.log("Sales Data Result:", salesDataResult); // Debug
 const dataArray = Object.values(salesDataResult[0]); // ambil array dari objek indeks ke-0
 const isUsedInSales = dataArray.some(
   (item) =>
@@ -190,7 +190,7 @@ const isUsedInSales = dataArray.some(
     String(item.kode_produk) === String(matchedBarang.kode_produk)
 );
 
-      console.log("Is Used In Sales:", isUsedInSales);
+      // console.log("Is Used In Sales:", isUsedInSales);
       setDisableHarga(isUsedInSales);
 
       // Set form update dari matchedBarang

@@ -38,8 +38,8 @@ export default function MenuUpdateMasterKategori() {
   const id_tokoString = useSelector((state) => state.auth.id_toko);
   const id_toko = parseInt(id_tokoString, 10);
   
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
   const navigate = useNavigate();
 
   // State form untuk update master kategori
@@ -253,7 +253,7 @@ export default function MenuUpdateMasterKategori() {
 
       <div className="head flex justify-between items-center">
         <div className="breadcrumb flex items-center">
-          <Link to="/dashboard/basetroli" className="text-xs font-semibold text-blue-900">
+          <Link to="/dashboard/adminkitchen" className="text-xs font-semibold text-blue-900">
             Master
           </Link>
           <div className="mx-2">
@@ -284,7 +284,7 @@ export default function MenuUpdateMasterKategori() {
             </svg>
           </div>
           <Link
-            to={`/dashboard/basetroli/menu/masterkategori/update/${id_kategori}`}
+            to={`/dashboard/adminkitchen/menu/masterkategori/update/${id_kategori}`}
             className="text-xs font-semibold text-gray-400"
           >
             Update Kategori

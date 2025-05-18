@@ -127,7 +127,7 @@ function FilterSelect({ label, options, value, onChange }) {
 export default function MenuAddPembelianBarangBasetroli() {
   const { id: paramId, id_master_produksi } = useParams();
   const id = paramId || id_master_produksi;
-  console.log("Id yang ditanggkap", id);
+  // console.log("Id yang ditanggkap", id);
   /* ---------- Redux ---------- */
   const token = useSelector((s) => s.auth.token);
   const id_user = useSelector((s) => s.auth.id_user);
@@ -494,7 +494,7 @@ export default function MenuAddPembelianBarangBasetroli() {
         // console.log(">> benar–benar adonanMaster:", real);
       })
       .catch(console.error);
-    console.log(">> adonanMaster", adonanMaster);
+    // console.log(">> adonanMaster", adonanMaster);
   }, [token]);
 
   useEffect(() => {
@@ -618,7 +618,7 @@ export default function MenuAddPembelianBarangBasetroli() {
 
         /* 1️⃣ HEADER GABUNGAN  ------------------------------------------------*/
         const headerRaw = await getMasterGabunganPermintaan(token);
-        console.log("headerRaw", headerRaw);
+        // console.log("headerRaw", headerRaw);
         const gpFlat = Object.values(headerRaw[0] || {}).find(
           (h) => String(h.id_master_gabungan_pemintaan) === String(id)
         );
@@ -696,7 +696,7 @@ export default function MenuAddPembelianBarangBasetroli() {
             });
         }
 
-        console.log("rows", rows); // 🔹 cek hasil akhir
+        // console.log("rows", rows); // 🔹 cek hasil akhir
         setTableRows(rows);
       } catch (e) {
         setError(e.message || "Gagal memuat data.");

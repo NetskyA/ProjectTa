@@ -107,8 +107,8 @@ export default function MenuLaporanMasterKategori() {
   // Tidak lagi digunakan untuk filter, karena kita menampilkan semua data
   const id_toko = parseInt(id_tokoString, 10);
   
-  console.log("id_user:", id_user);
-  console.log("id_toko:", id_toko);
+  // console.log("id_user:", id_user);
+  // console.log("id_toko:", id_toko);
   // FILTERS
   const [marketplaceFilter, setMarketplaceFilter] = useState("");
   const [tokoFilter, setTokoFilter] = useState("");

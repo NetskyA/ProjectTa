@@ -144,7 +144,7 @@ export default function MenuLaporanMasterSatuan() {
     try {
       setLoading(true);
       const result = await getLaporanStokBarangAll(token);
-      console.log("Data Stok Barang (original):", result);
+      // console.log("Data Stok Barang (original):", result);
       const formatted = Array.isArray(result) ? result : Object.values(result);
       setData(formatted);
       setFilteredData(formatted);
@@ -269,7 +269,7 @@ export default function MenuLaporanMasterSatuan() {
 
   // Handler untuk Edit
   const handleEdit = (id_bahan_baku) => {
-    console.log("Navigating to update page with id_bahan_baku:", id_bahan_baku);
+    // console.log("Navigating to update page with id_bahan_baku:", id_bahan_baku);
     navigate(`/dashboard/master/menu/masterbahanbaku/update/${id_bahan_baku}`);
   };
 

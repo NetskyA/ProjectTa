@@ -137,7 +137,7 @@ export default function MenuLaporanMasterBarangBasetroli() {
         setError(null);
 
         const laporanData = await getLaporanMasterDataBarang(token);
-        console.log("laporanData:", laporanData);
+        // console.log("laporanData:", laporanData);
 
         // Jika laporanData bukan array, gunakan reduce untuk menggabungkan nilai-nilainya
         const dataRows = Array.isArray(laporanData)
@@ -410,7 +410,7 @@ export default function MenuLaporanMasterBarangBasetroli() {
 
   // Handler Edit - navigasi ke halaman update menggunakan id_produk
   const handleEdit = (idProduk) => {
-    console.log("Navigating to update page with id_produk:", idProduk);
+    // console.log("Navigating to update page with id_produk:", idProduk);
     navigate(`/dashboard/master/menu/laporan/databarang/detail/${idProduk}`);
   };
 

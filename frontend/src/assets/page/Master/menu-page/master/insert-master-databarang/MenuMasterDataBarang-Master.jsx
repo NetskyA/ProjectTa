@@ -147,7 +147,7 @@ const [selectedId, setSelectedId] = useState(null);
       try {
         setLoading(true);
         const laporanData = await getLaporanMasterDataBarang(token);
-        console.log("data", laporanData);
+        // console.log("data", laporanData);
         const rows = Array.isArray(laporanData)
           ? laporanData
               .reduce((acc, item) => acc.concat(Object.values(item)), [])
@@ -443,7 +443,7 @@ const cancelDelete = () => {
   if (error) return <Error message={error} />;
 
   const detailMasterProduk = (id) => {
-    console.log("Navigating to detail with ID:", id);
+    // console.log("Navigating to detail with ID:", id);
     navigate(`/dashboard/master/menu/databarang/update/${id}`);
   };
 

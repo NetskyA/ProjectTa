@@ -240,7 +240,7 @@ export default function MenuLaporanMasterKategori() {
 
   // edit & delete
   const detailMasterAdonan = (id) => {
-    console.log(`Detail Master Adonan ID: ${id}`);
+    // console.log(`Detail Master Adonan ID: ${id}`);
     navigate(`/dashboard/master/menu/adonan/update/${id}`);
   };
 

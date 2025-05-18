@@ -140,7 +140,7 @@ export default function MenuLaporanMasterBarangBasetroli() {
       try {
         setLoading(true);
         const laporanData = await getLaporanMasterDataBarang(token);
-        console.log("data", laporanData)
+        // console.log("data", laporanData)
         const rows = Array.isArray(laporanData)
           ? laporanData
               .reduce((acc, item) => acc.concat(Object.values(item)), [])
