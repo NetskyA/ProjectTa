@@ -116,6 +116,7 @@ router.post("/insert/gabungan/permintaan", async (req, res) => {
       kitchenCode = kRaw?.kode_lokasi || id_kitchen;
     }
     const kodeGP = await generateKodeGP(kitchenCode, trx);
+const tglVerif = tanggal_verifikasi_gb || null;
 
     const [hdr] = await db.query(
       "CALL procedure_insert_master_gabungan_pemintaan(:k,:ik,:tgl,0,0,:cb);",
@@ -123,7 +124,7 @@ router.post("/insert/gabungan/permintaan", async (req, res) => {
         replacements: {
           k: kodeGP,
           ik: id_kitchen,
-          tgl: tanggal_verifikasi_gb,
+          tgl: tglVerif,
           cb: id_user
         },
         type: QueryTypes.SELECT,
