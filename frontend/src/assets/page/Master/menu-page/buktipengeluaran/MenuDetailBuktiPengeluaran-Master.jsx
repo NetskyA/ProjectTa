@@ -307,159 +307,144 @@ if (!match) {
     return `C${kodeGP}-${rnd}`;
   };
 
-  const handlePrintGabungan = () => {
-    const mmPerInch = 25.4;
-    const width = 9.5 * mmPerInch;
-    const height = 5.5 * mmPerInch;
-    const doc = new jsPDF({
-      orientation: "landscape",
-      unit: "mm",
-      format: [width, height],
+const handlePrintGabungan = () => {
+  const mmPerInch = 25.4;
+  const width = 9.5 * mmPerInch;
+  const height = 5.5 * mmPerInch;
+  const doc = new jsPDF({
+    orientation: "landscape",
+    unit: "mm",
+    format: [width, height],
+  });
+
+  const today = new Date().toLocaleDateString("id-ID");
+
+  poHeaders.forEach((h, idx) => {
+    if (idx > 0) doc.addPage([width, height], "landscape");
+
+    // Header
+    doc.setFontSize(14).setFont("helvetica", "bold");
+    doc.text("DOUBLE O BAKERY", 10, 10);
+    doc.text("SURAT JALAN", width - 10, 10, { align: "right" });
+
+    // Box Info
+    const boxY = 15;
+    const boxHeight = 15;
+    const leftBoxW = width * 0.6 - 7;
+    const rightX = 10 + leftBoxW + 5;
+    const rightW = width * 0.4 - 18;
+
+    doc.rect(10, boxY, leftBoxW, boxHeight);
+    doc.setFontSize(7).setFont("courier", "normal");
+    doc.text("Kepada Yth", 12, boxY + 2);
+    doc.text(h.nama_store || "-", 12, boxY + 6);
+    doc.text(h.nama_pelanggan_external || "-", 12, boxY + 10);
+    doc.text(`Tgl Cetak: ${today}`, 12, boxY + 14);
+
+    doc.rect(rightX, boxY, rightW, boxHeight);
+    doc.text(`No. SJ  : ${buktiHeader.kode_bukti_pengeluaran || "-"}`, rightX + 2, boxY + 2);
+    doc.text(`Tgl SJ  : ${formatDate(buktiHeader.tanggal_verifikasi_bk)}`, rightX + 2, boxY + 6);
+    doc.text(`No. SO  : ${h.kode_sales_order}`, rightX + 2, boxY + 10);
+    doc.text(`Tgl SO  : ${formatDate(h.salesOrderDate)}`, rightX + 2, boxY + 14);
+
+    // Table
+    const details = poDetails
+      .filter((d) => d.id_master_pesanan_pembelian === h.id_master_pesanan_pembelian)
+      .map((d, i) => [i + 1, d.nama_produk, d.quantity + " PCS", d.catatan || ""]);
+
+    let finalTableY = 0;
+
+    autoTable(doc, {
+      startY: boxY + boxHeight + 2,
+      head: [["No", "Nama", "Jumlah", "Keterangan"]],
+      body: details,
+      theme: "grid",
+      styles: {
+        fontSize: 8,
+        font: "courier",
+        cellPadding: 1,
+        lineWidth: 0.1,
+        lineColor: [120, 120, 120],
+      },
+      headStyles: {
+        fillColor: [255, 255, 255],
+        textColor: [0, 0, 0],
+        lineWidth: 0.1,
+        lineColor: [120, 120, 120],
+      },
+      margin: { left: 10, right: 10 },
+      didDrawPage: function (data) {
+        finalTableY = data.cursor.y; // track last Y after table
+      },
     });
 
-    const today = new Date().toLocaleDateString("id-ID");
-    poHeaders.forEach((h, idx) => {
-      if (idx > 0) doc.addPage([width, height], "landscape");
+    const signatureHeight = 40;
 
-      // ——— Title (font 14) ———
-      doc
-        .setFontSize(14)
-        .setFont("helvetica", "bold")
-        .text("DOUBLE O BAKERY", 10, 10)
-        .text("SURAT JALAN", width - 10, 10, { align: "right" });
+    if (finalTableY + signatureHeight > height) {
+      doc.addPage([width, height], "landscape");
+      addSignatureArea(doc, width, height, h.catatan);
+    } else {
+      addNotesAndSignature(doc, finalTableY, width, height, h.catatan);
+    }
+  });
 
-      // ukuran kotak
-      const boxHeight = 15; // sebelumnya 20
-      const boxY = 15;
-
-      // ——— Kotak Kiri ———
-      const leftBoxW = width * 0.6 - 7;
-      doc
-        .setLineWidth(0.1)
-        .setDrawColor(120)
-        .rect(10, boxY, leftBoxW, boxHeight);
-      doc
-        .setFontSize(7)
-        .setFont("courier", "normal")
-        .text("Kepada Yth", 12, boxY + 2)
-        .text(h.nama_store || "-", 12, boxY + 6)
-        .text(h.nama_pelanggan_external || "-", 12, boxY + 10)
-        .text(`Tgl Cetak: ${today}`, 12, boxY + 14);
-
-      // ——— Kotak Kanan ———
-      const rightX = 10 + leftBoxW + 5;
-      const rightW = width * 0.4 - 18;
-      doc.rect(rightX, boxY, rightW, boxHeight);
-      doc
-        .setFont("courier")
-        .setFontSize(7)
-        .text(
-          `No. SJ  : ${buktiHeader.kode_bukti_pengeluaran || "-"}`,
-          rightX + 2,
-          boxY + 2
-        )
-        .text(
-          `Tgl SJ  : ${formatDate(buktiHeader.tanggal_verifikasi_bk)}`,
-          rightX + 2,
-          boxY + 6
-        )
-        .text(`No. SO  : ${h.kode_sales_order}`, rightX + 2, boxY + 10)
-        .text(
-          `Tgl SO  : ${formatDate(h.salesOrderDate)}`,
-          rightX + 2,
-          boxY + 14
-        );
-
-      // ——— Table & Catatan (sama seperti sebelumnya) ———
-      const details = poDetails
-        .filter(
-          (d) => d.id_master_pesanan_pembelian === h.id_master_pesanan_pembelian
-        )
-        .map((d, i) => [
-          i + 1,
-          d.nama_produk,
-          d.quantity + " PCS",
-          d.catatan || "",
-        ]);
-      doc.setTextColor(0, 0, 0);
-
-      autoTable(doc, {
-        startY: boxY + boxHeight + 2,
-        head: [["No", "Nama", "Jumlah", "Keterangan"]],
-        body: details,
-        theme: "grid",
-        styles: {
-          fontSize: 8,
-          font: "courier",
-          cellPadding: 1,
-          lineWidth: 0.1,
-          lineColor: [120, 120, 120],
-          fillColor: [255, 255, 255],
-          textColor: [0, 0, 0], // Jaga teks body tetap hitam
-        },
-        headStyles: {
-          fillColor: [255, 255, 255], // background putih
-          textColor: [0, 0, 0], // teks header hitam
-          lineWidth: 0.1,
-          lineColor: [120, 120, 120],
-        },
-        margin: { left: 10, right: 10 },
-      });
-
-      // kotak Catatan
-      const finalY = doc.lastAutoTable.finalY;
-      doc.rect(10, finalY + 2, width - 20, 15);
-      doc
-        .setFontSize(8)
-        .setFont("courier", "normal")
-        .text("Catatan:", 12, finalY + 7)
-        .text(h.catatan || "-", 28, finalY + 7);
-
-      // ——— Area Tanda Tangan (posisi tetap) ———
-      const bottomMargin = 20;
-      const sigY = height - bottomMargin; // Y untuk label (“Penerima”, “Hormat Kami”)
-      const gapLabelToLine = 19; // jarak dari label ke garis ttd
-
-      // X-grid
-      const usableWidth = width - 20;
-      const colWidth = usableWidth / 3;
-      const x1 = 10,
-        x2 = x1 + colWidth,
-        x3 = x1 + 2 * colWidth;
-
-      // 1️⃣ Penerima
-      doc.setFontSize(9).setFont("courier", "normal");
-      doc.text("Penerima", x1 + 12, sigY);
-      doc.text("(_____________________)", x1, sigY + gapLabelToLine);
-
-      // 2️⃣ Tanda tangan tengah saja
-      doc.text(
-        "(_____________________)",
-        x2 + colWidth / 2 - 45,
-        sigY + gapLabelToLine
-      );
-
-      // 3️⃣ Hormat Kami / DOUBLE O
-      doc.text("Hormat Kami, DOUBLE O BAKERY", x3 - 3, sigY);
-      doc.text("(_____________________)", x3, sigY + gapLabelToLine);
-    });
-
-    // Cetak
-    const blob = doc.output("blob");
-    const url = URL.createObjectURL(blob);
-    const iframe = document.createElement("iframe");
-    iframe.style.display = "none";
-    iframe.src = url;
-    document.body.appendChild(iframe);
-    iframe.onload = () => {
-      iframe.contentWindow.focus();
-      iframe.contentWindow.print();
-      iframe.onafterprint = () => {
-        URL.revokeObjectURL(url);
-        document.body.removeChild(iframe);
-      };
+  // Output
+  const blob = doc.output("blob");
+  const url = URL.createObjectURL(blob);
+  const iframe = document.createElement("iframe");
+  iframe.style.display = "none";
+  iframe.src = url;
+  document.body.appendChild(iframe);
+  iframe.onload = () => {
+    iframe.contentWindow.focus();
+    iframe.contentWindow.print();
+    iframe.onafterprint = () => {
+      URL.revokeObjectURL(url);
+      document.body.removeChild(iframe);
     };
   };
+};
+
+// Sama seperti sebelumnya
+function addNotesAndSignature(doc, finalY, width, height, catatanText) {
+  doc.rect(10, finalY + 2, width - 20, 15);
+  doc.setFontSize(8).setFont("courier", "normal");
+  doc.text("Catatan:", 12, finalY + 7);
+  doc.text(catatanText || "-", 28, finalY + 7);
+
+  const sigY = height - 20;
+  const gap = 19;
+  const usableWidth = width - 20;
+  const colW = usableWidth / 3;
+  const x1 = 10, x2 = x1 + colW, x3 = x1 + 2 * colW;
+
+  doc.setFontSize(9);
+  doc.text("Penerima", x1 + 12, sigY);
+  doc.text("(_____________________)", x1, sigY + gap);
+  doc.text("(_____________________)", x2 + colW / 2 - 45, sigY + gap);
+  doc.text("Hormat Kami, DOUBLE O BAKERY", x3 - 3, sigY);
+  doc.text("(_____________________)", x3, sigY + gap);
+}
+
+function addSignatureArea(doc, width, height, catatanText) {
+  doc.setFontSize(8).setFont("courier", "normal");
+  doc.rect(10, 10, width - 20, 15);
+  doc.text("Catatan:", 12, 15);
+  doc.text(catatanText || "-", 28, 15);
+
+  const sigY = 40;
+  const gap = 19;
+  const usableWidth = width - 20;
+  const colW = usableWidth / 3;
+  const x1 = 10, x2 = x1 + colW, x3 = x1 + 2 * colW;
+
+  doc.setFontSize(9);
+  doc.text("Penerima", x1 + 12, sigY);
+  doc.text("(_____________________)", x1, sigY + gap);
+  doc.text("(_____________________)", x2 + colW / 2 - 45, sigY + gap);
+  doc.text("Hormat Kami, DOUBLE O BAKERY", x3 - 3, sigY);
+  doc.text("(_____________________)", x3, sigY + gap);
+}
 
   const rekapData = useMemo(() => {
     const map = new Map();

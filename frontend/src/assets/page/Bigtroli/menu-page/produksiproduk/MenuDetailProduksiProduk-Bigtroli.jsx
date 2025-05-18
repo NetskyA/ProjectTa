@@ -238,7 +238,7 @@ export default function MenuAddPembelianBarangBasetroli() {
 
       case "kebBahanBaku":
         title = "KEBUTUHAN BAHAN BAKU";
-        tblW = 100;
+        tblW = 80;
         rowsPerHalf = 80;
         head = [["NO", "NAMA", "STOK (gr)", "TOTAL KBT (gr)", "KBT (gr)"]];
         body = bahanBakuAggregated.map((b, idx) => [
