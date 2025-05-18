@@ -845,10 +845,10 @@ export default function MenuAddPembelianBarangBasetroli() {
         setTableRows([]);
         setSelectedSOIds([]);
         setKebutuhanAdonan([]);
-        
-        // setTimeout(() => {
-        //   window.location.reload();
-        // }, 2000);
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } else {
         setAlert({ type: "warning", message: res.message, visible: true });
       }
