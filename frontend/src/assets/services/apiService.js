@@ -463,7 +463,7 @@ export const getDetailNotaPenjualanCetakPackingBigtroli = async () => {
 export const getNotaPenjualanEtroli = async () => {
   try {
     const response = await axios.post(`${BASE_URL}/notapenjualan/etrolly`); 
-    // console.log( "hallo ", response.data);
+    console.log( "hallo ", response.data);
     return response.data;
   } catch (error) {
     console.error("Get data NJ best error:", error.response?.data || error.message);
