@@ -88,6 +88,11 @@ router.post("/insert/produksi/produk", async (req, res) => {
 
     // generate kode produksi unik
     const kodeProduksi = await generateKodeProduksi(kitchenCode, trx);
+const tanggalVerifikasiValid = (
+  tanggal_verifikasi_pr && tanggal_verifikasi_pr !== "0"
+    ? new Date(tanggal_verifikasi_pr)
+    : null
+);
 
     // 1) insert ke master_produksi
     const [hdr] = await db.query(
@@ -95,7 +100,7 @@ router.post("/insert/produksi/produk", async (req, res) => {
       {
         replacements: {
           kode: kodeProduksi,
-          tgl: tanggal_verifikasi_pr,
+          tgl: tanggalVerifikasiValid,
           cb: id_user
         },
         type: QueryTypes.SELECT,
