@@ -742,40 +742,21 @@ export default function MenuLaporanMasterBarangBasetroli() {
         </div>
 
         {/* Subtotal Table (contoh subtotal, disesuaikan jika diperlukan) */}
+        {/* SUB-TOTAL */}
         <div className="mt-1">
           <table className="w-full text-xs text-left text-gray-500 border-collapse border">
-            <colgroup>
-              <col style={{ width: "10%" }} />
-              <col style={{ width: "15%" }} />
-              <col style={{ width: "10%" }} />
-              <col style={{ width: "10%" }} />
-            </colgroup>
             <tfoot>
               <tr className="font-semibold text-blue-900 bg-gray-200">
                 <td
                   colSpan={9}
-                  className="px-1 py-0.5 border border-gray-700 font-semibold text-right uppercase bg-gray-300"
+                  className="px-1 py-0.5 border border-gray-700 text-right uppercase bg-gray-300"
                 >
                   Sub Total Harga Jual
                 </td>
                 <td className="px-1 py-0.5 border border-gray-700 font-semibold bg-lime-400">
                   {formatRupiah(
                     filteredData.reduce(
-                      (sum, item) => sum + Number(item.harga_barang || 0),
-                      0
-                    )
-                  )}
-                </td>
-                <td
-                  colSpan={9}
-                  className="px-1 py-0.5 border border-gray-700 font-semibold text-right uppercase bg-gray-300"
-                >
-                  Sub Total Harga Beli
-                </td>
-                <td className="px-1 py-0.5 border border-gray-700 font-semibold bg-lime-400">
-                  {formatRupiah(
-                    filteredData.reduce(
-                      (sum, item) => sum + Number(item.harga_beli || 0),
+                      (s, i) => s + Number(i.harga_jual || 0),
                       0
                     )
                   )}
