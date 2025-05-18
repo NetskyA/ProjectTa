@@ -714,7 +714,7 @@ const payload = {
                 type="text"
                 value={formatRupiah(dataBarang.harga_jual)}
                 readOnly
-                className="mt-1 w-full border text-sm border-gray-300 rounded p-1 bg-gray-200 cursor-not-allowed  text-right"
+                className="mt-1 w-full border text-sm border-gray-300 rounded p-1 bg-gray-200 cursor-not-allowed text-right"
               />
             </div>
             <div>
@@ -731,7 +731,7 @@ const payload = {
         pajak: parseFloat(e.target.value) / 100,
       }))
     }
-    className="mt-1 w-full border text-sm border-gray-300 rounded p-1 bg-white text-right"
+    className="mt-1 w-full border text-sm cursor-not-allowed border-gray-300 rounded p-1 bg-white text-right"
     disabled
   />
 

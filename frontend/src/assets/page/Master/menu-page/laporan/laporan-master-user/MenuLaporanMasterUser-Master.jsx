@@ -554,7 +554,7 @@ export default function MenuLaporanPenjualanBesttroli() {
                 currentItems.map((item, index) => (
 <tr
   key={item.id_user || index}
-  className={`border-b hover:bg-opacity-75 text-gray-800 ${
+  className={`border-b hover:bg-opacity-75 cursor-pointer text-gray-800 ${
     item.status === 0 ? "bg-lime-500" : item.status === 1 ? "bg-red-500" : "bg-white"
   }`}
 >

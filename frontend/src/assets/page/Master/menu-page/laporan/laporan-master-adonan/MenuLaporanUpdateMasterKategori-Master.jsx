@@ -57,12 +57,12 @@ function FilterSelect({ label, options, value, onChange, disabled = false }) {
       )}
       <input
         type="text"
-        className="border border-gray-300 text-xs rounded bg-gray-100 p-1 w-full"
+        className="border border-gray-300 text-xs cursor-not-allowed rounded bg-gray-100 p-1 w-full"
         value={inputValue}
         onChange={(e) => !disabled && setInputValue(e.target.value)}
         onFocus={() => !disabled && setShowOptions(true)}
         placeholder="Ketik atau pilih..."
-        disabled={disabled}
+        disabled
       />
       {showOptions && (
         <ul className="absolute z-50 w-full bg-white border border-gray-300 rounded-md max-h-40 overflow-y-auto mt-1 shadow-md">
@@ -70,6 +70,7 @@ function FilterSelect({ label, options, value, onChange, disabled = false }) {
             filteredOptions.map((option, idx) => (
               <li
                 key={idx}
+                disabled
                 onClick={() => handleSelect(option)}
                 className="px-2 py-1 hover:bg-gray-200 cursor-pointer"
               >
@@ -667,6 +668,7 @@ export default function MenuInsertMasterDataBarangMaster() {
                       onChange={(val) =>
                         handleRowChange(idx, "nama_kategori_bahan_baku", val)
                       }
+                      className="cursor-not-allowed"
                       disabled={row.status === 1}
                     />
                   </td>
@@ -722,14 +724,14 @@ export default function MenuInsertMasterDataBarangMaster() {
                   <td className="px-1 py-0.5 border border-gray-700">
                     <input
                       type="number"
-                      className="w-full border border-gray-300 text-xs rounded p-1"
+                      className="w-full border border-gray-300 cursor-not-allowed text-xs rounded p-1"
                       value={row.jumlah_kebutuhan}
                       onChange={(e) =>
                         handleRowChange(idx, "jumlah_kebutuhan", e.target.value)
                       }
                       min="0"
                       step="0.01"
-                      disabled={row.status === 1}
+                      disabled
                     />
                   </td>
 
