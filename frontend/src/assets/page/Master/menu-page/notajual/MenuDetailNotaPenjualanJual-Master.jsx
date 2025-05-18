@@ -367,221 +367,135 @@ setBiayaMap(map);
     return `C${kodeGP}-${rnd}`;
   };
 
-  const handlePrintGabungan = () => {
-    const mmPerInch = 25.4;
-    const width = 9.5 * mmPerInch;
-    const height = 5.5 * mmPerInch;
-    const doc = new jsPDF({
-      orientation: "landscape",
-      unit: "mm",
-      format: [width, height],
-    });
+const handlePrintGabungan = () => {
+  const mmPerInch = 25.4;
+  const width = 9.5 * mmPerInch;
+  const height = 5.5 * mmPerInch;
+  const doc = new jsPDF({
+    orientation: "landscape",
+    unit: "mm",
+    format: [width, height],
+  });
 
-    const today = new Date().toLocaleDateString("id-ID");
+  const today = new Date().toLocaleDateString("id-ID");
 
-    // helper terbilang
-    const terbilang = (n) => {
-      const angka = [
-        "",
-        "Satu",
-        "Dua",
-        "Tiga",
-        "Empat",
-        "Lima",
-        "Enam",
-        "Tujuh",
-        "Delapan",
-        "Sembilan",
-        "Sepuluh",
-        "Sebelas",
+  const terbilang = (n) => {
+    const angka = [
+      "", "Satu", "Dua", "Tiga", "Empat", "Lima", "Enam",
+      "Tujuh", "Delapan", "Sembilan", "Sepuluh", "Sebelas"
+    ];
+    n = Math.floor(n);
+    if (n < 12) return angka[n];
+    if (n < 20) return terbilang(n - 10) + " Belas";
+    if (n < 100) return terbilang(Math.floor(n / 10)) + " Puluh " + terbilang(n % 10);
+    if (n < 200) return "Seratus " + terbilang(n - 100);
+    if (n < 1000) return terbilang(Math.floor(n / 100)) + " Ratus " + terbilang(n % 100);
+    if (n < 2000) return "Seribu " + terbilang(n - 1000);
+    if (n < 1000000) return terbilang(Math.floor(n / 1000)) + " Ribu " + terbilang(n % 1000);
+    return "";
+  };
+
+  poHeaders.forEach((h, idx) => {
+    if (idx > 0) doc.addPage([width, height], "landscape");
+
+    doc.setFontSize(14).setFont("helvetica", "bold");
+    doc.text("DOUBLE O BAKERY", 10, 10);
+    doc.text("NOTA PENJUALAN", width - 10, 10, { align: "right" });
+
+    const boxY = 15;
+    const boxHeight = 15;
+    const leftBoxW = width * 0.6 - 7;
+    const rightX = 10 + leftBoxW + 5;
+    const rightW = width * 0.4 - 18;
+
+    doc.rect(10, boxY, leftBoxW, boxHeight);
+    doc.setFontSize(7).setFont("courier", "normal");
+    doc.text("Kepada Yth", 12, boxY + 2);
+    doc.text(h.nama_store || "-", 12, boxY + 6);
+    doc.text(h.nama_pelanggan_external || "-", 12, boxY + 10);
+    doc.text(`Tgl Cetak: ${today}`, 12, boxY + 14);
+
+    const verifDate = new Date(buktiHeader.tanggal_verifikasi_bk);
+    verifDate.setDate(verifDate.getDate() + 1);
+    const tglSJ = formatDate(verifDate);
+    const noSO = notaPenjualanData?.kode_master_nota_penjualan || "-";
+
+    doc.rect(rightX, boxY, rightW, boxHeight);
+    doc.text(`No. Jual    : ${noSO}`, rightX + 2, boxY + 2);
+    doc.text(`No. SJ      : ${buktiHeader.kode_bukti_pengeluaran || "-"}`, rightX + 2, boxY + 5);
+    doc.text(`No. SO      : ${h.kode_sales_order}`, rightX + 2, boxY + 8);
+    doc.text(`Jatuh Tempo : ${tglSJ}`, rightX + 2, boxY + 11);
+    doc.text(`Tgl SO      : ${formatDate(h.salesOrderDate)}`, rightX + 2, boxY + 14);
+
+    const rawDetails = poDetails.filter(d => d.id_master_pesanan_pembelian === h.id_master_pesanan_pembelian);
+    const tableBody = rawDetails.map((d, i) => {
+      const harga = d.harga_jual || 0;
+      const qty = d.quantity || 0;
+      const total = qty * harga;
+      return [
+        i + 1,
+        d.nama_produk,
+        `${qty} PCS`,
+        formatRp(harga),
+        formatRp(total),
+        ""
       ];
-      n = Math.floor(n);
-      if (n < 12) return angka[n];
-      if (n < 20) return terbilang(n - 10) + " Belas";
-      if (n < 100)
-        return terbilang(Math.floor(n / 10)) + " Puluh " + terbilang(n % 10);
-      if (n < 200) return "Seratus " + terbilang(n - 100);
-      if (n < 1000)
-        return terbilang(Math.floor(n / 100)) + " Ratus " + terbilang(n % 100);
-      if (n < 2000) return "Seribu " + terbilang(n - 1000);
-      if (n < 1000000)
-        return terbilang(Math.floor(n / 1000)) + " Ribu " + terbilang(n % 1000);
-      return "";
-    };
-
-    poHeaders.forEach((h, idx) => {
-      if (idx > 0) doc.addPage([width, height], "landscape");
-
-      // ——— Title (font 14) ———
-      doc
-        .setFontSize(14)
-        .setFont("helvetica", "bold")
-        .text("DOUBLE O BAKERY", 10, 10)
-        .text("NOTA PENJUALAN", width - 10, 10, { align: "right" });
-
-      // ukuran kotak
-      const boxHeight = 15; // sebelumnya 20
-      const boxY = 15;
-
-      // ——— Kotak Kiri ———
-      const leftBoxW = width * 0.6 - 7;
-      doc
-        .setLineWidth(0.1)
-        .setDrawColor(120)
-        .rect(10, boxY, leftBoxW, boxHeight);
-      doc
-        .setFontSize(7)
-        .setFont("courier", "normal")
-        .text("Kepada Yth", 12, boxY + 2)
-        .text(h.nama_store || "-", 12, boxY + 6)
-        .text(h.nama_pelanggan_external || "-", 12, boxY + 10)
-        .text(`Tgl Cetak: ${today}`, 12, boxY + 14);
-
-      // ——— Kotak Kanan ———
-      const verifDate = new Date(buktiHeader.tanggal_verifikasi_bk);
-      verifDate.setDate(verifDate.getDate() + 1);
-      const tglSJ = formatDate(verifDate);
-
-      // No. Jual = kode_master_nota_penjualan
-      const noSO = notaPenjualanData?.kode_master_nota_penjualan || "-";
-      const rightX = 10 + leftBoxW + 5;
-      const rightW = width * 0.4 - 18;
-      
-      doc.rect(rightX, boxY, rightW, boxHeight);
-      doc
-        .setFont("courier")
-        .setFontSize(7)
-        .text(`No. Jual    : ${noSO}`, rightX + 2, boxY + 2)
-        .text(
-          `No. SJ      : ${buktiHeader.kode_bukti_pengeluaran || "-"}`,
-          rightX + 2,
-          boxY + 5
-        )
-        .text(`No. SO      : ${h.kode_sales_order}`, rightX + 2, boxY + 8)
-        .text(`Jatuh Tempo : ${tglSJ}`, rightX + 2, boxY + 11)
-        .text(
-          `Tgl SO      : ${formatDate(h.salesOrderDate)}`,
-          rightX + 2,
-          boxY + 14
-        );
-
-      // Ambil detail untuk PO ini
-      const rawDetails = poDetails.filter(
-        (d) => d.id_master_pesanan_pembelian === h.id_master_pesanan_pembelian
-      );
-
-      // Tabel
-      const tableBody = rawDetails.map((d, i) => {
-        const harga = d.harga_jual || 0;
-        const qty = d.quantity || 0;
-        const total = qty * harga;
-
-        return [
-          i + 1,
-          d.nama_produk,
-          `${qty} PCS`,
-          formatRp(harga),
-          formatRp(total), // kolom total harga
-          "", // kolom keterangan
-        ];
-      });
-
-      autoTable(doc, {
-        startY: 32,
-        head: [["No", "Nama", "Jumlah", "Harga", "Total", "Keterangan"]],
-        body: tableBody,
-        theme: "grid",
-        styles: {
-          fontSize: 7,
-          font: "courier",
-          cellPadding: 1,
-          lineWidth: 0.1,
-          lineColor: [120, 120, 120],
-          fillColor: [255, 255, 255],
-        },
-        headStyles: {
-          fillColor: [255, 255, 255],
-          textColor: 20,
-          lineWidth: 0.1,
-          lineColor: [120, 120, 120],
-        },
-        alternateRowStyles: {},
-        margin: { left: 10, right: 10 },
-      });
-
-      // Setelah tabel
-      const finalY = doc.lastAutoTable.finalY || 20;
-      // ** ambil dari data tabel **
-      const subTotal = rawDetails.reduce(
-        (sum, d) => sum + (d.quantity || 0) * (d.harga_jual || 0),
-        0
-      );
-      const totalNoPesanan = rawDetails.length;
-
-      // Sisipkan Sub Total & Total No. Pemesanan & Terbilang
-      const y1 = finalY + 4;
-      doc
-        .setFontSize(7)
-        .setFont("courier", "normal")
-        .text(`Total No. Pemesanan : ${totalNoPesanan}`, 10, y1 + 4)
-        .text(`Sub Total           : ${formatRp(subTotal)}`, 10, y1)
-        .text(
-          `Terbilang           : ${terbilang(subTotal)} Rupiah`,
-          10,
-          y1 + 8
-        );
-
-      // Kotak Catatan (geser ke bawah)
-      const noteY = y1 + 12;
-      doc.rect(10, noteY, width - 20, 15);
-      doc.setFontSize(8).setFont("courier", "normal");
-      doc.text("Catatan:", 12, noteY + 4);
-      doc.text(h.catatan || "-", 28, noteY + 4);
-
-      const bottomMargin = 20;
-      const sigY = height - bottomMargin; // Y untuk label (“Penerima”, “Hormat Kami”)
-      const gapLabelToLine = 19; // jarak dari label ke garis ttd
-
-      // X-grid
-      const usableWidth = width - 20;
-      const colWidth = usableWidth / 3;
-      const x1 = 25,
-        x2 = x1 + colWidth,
-        x3 = x1 + 2 * colWidth;
-
-      // 1️⃣ Penerima
-      doc.setFontSize(9).setFont("courier", "normal");
-      doc.text("Penerima", x1 + 12, sigY);
-      doc.text("(_____________________)", x1, sigY + gapLabelToLine);
-
-      // 2️⃣ Tanda tangan tengah saja
-      doc.text(
-        "(_____________________)",
-        x2 + colWidth / 2 - 25,
-        sigY + gapLabelToLine
-      );
-
-      // 3️⃣ Hormat Kami / DOUBLE O
-      doc.text("Hormat Kami, DOUBLE O BAKERY", x3 - 35, sigY);
-      doc.text("(_____________________)", x3, sigY + gapLabelToLine);
     });
 
-    // Cetak
-    const blob = doc.output("blob");
-    const url = URL.createObjectURL(blob);
-    const iframe = document.createElement("iframe");
-    iframe.style.display = "none";
-    iframe.src = url;
-    document.body.appendChild(iframe);
-    iframe.onload = () => {
-      iframe.contentWindow.focus();
-      iframe.contentWindow.print();
-      iframe.onafterprint = () => {
-        URL.revokeObjectURL(url);
-        document.body.removeChild(iframe);
-      };
+    let finalTableY = 0;
+
+    autoTable(doc, {
+      startY: 32,
+      head: [["No", "Nama", "Jumlah", "Harga", "Total", "Keterangan"]],
+      body: tableBody,
+      theme: "grid",
+      styles: {
+        fontSize: 7,
+        font: "courier",
+        cellPadding: 1,
+        lineWidth: 0.1,
+        lineColor: [120, 120, 120],
+        fillColor: [255, 255, 255],
+      },
+      headStyles: {
+        fillColor: [255, 255, 255],
+        textColor: 20,
+        lineWidth: 0.1,
+        lineColor: [120, 120, 120],
+      },
+      margin: { left: 10, right: 10 },
+      didDrawPage: function (data) {
+        finalTableY = data.cursor.y;
+      }
+    });
+
+    const subTotal = rawDetails.reduce((sum, d) => sum + (d.quantity || 0) * (d.harga_jual || 0), 0);
+    const totalNoPesanan = rawDetails.length;
+    const blockHeight = 40;
+
+    if (finalTableY + blockHeight > height) {
+      doc.addPage([width, height], "landscape");
+      addNotaFooter(doc, width, height, subTotal, totalNoPesanan, h.catatan, terbilang);
+    } else {
+      addNotaFooterAt(doc, width, finalTableY + 4, height, subTotal, totalNoPesanan, h.catatan, terbilang);
+    }
+  });
+
+  const blob = doc.output("blob");
+  const url = URL.createObjectURL(blob);
+  const iframe = document.createElement("iframe");
+  iframe.style.display = "none";
+  iframe.src = url;
+  document.body.appendChild(iframe);
+  iframe.onload = () => {
+    iframe.contentWindow.focus();
+    iframe.contentWindow.print();
+    iframe.onafterprint = () => {
+      URL.revokeObjectURL(url);
+      document.body.removeChild(iframe);
     };
   };
+};
 
   const rekapData = useMemo(() => {
     const map = new Map();
