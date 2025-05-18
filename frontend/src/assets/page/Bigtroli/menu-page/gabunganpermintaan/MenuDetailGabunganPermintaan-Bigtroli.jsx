@@ -191,213 +191,225 @@ export default function MenuAddPembelianBarangBasetroli() {
     return `C${kodeGP}-${rnd}`;
   };
 
-  const handlePrintGabungan = () => {
-    /* ---------- 0. Persiapan data & kolom ------------------ */
-    let title = "";
-    let head = [];
-    let body = [];
-    let tblW = 90; // default 9 cm  → Info/ Rekap
-    let rowsPerHalf = 55;
+const handlePrintGabungan = () => {
+  let title = "";
+  let head = [];
+  let body = [];
+  let tblW = 90;
+  let rowsPerHalf = 55;
 
-    switch (activeView) {
-      case "infoProduk":
-        title = "DAFTAR INFO PRODUK";
-        head = [["NO", "SO", "KODE", "NAMA", "QTY"]];
-        body = tableRows.map((r, idx) => [
-          idx + 1,
-          r.kode_sales_order,
-          r.kode_barang,
-          r.namabarang,
-          r.quantity + " Pcs",
-        ]);
-        break;
+  switch (activeView) {
+    case "infoProduk":
+      title = "DAFTAR INFO PRODUK";
+      head = [["NO", "SO", "KODE", "NAMA", "QTY"]];
+      body = tableRows.map((r, idx) => [
+        idx + 1,
+        r.kode_sales_order,
+        r.kode_barang,
+        r.namabarang,
+        r.quantity + " Pcs",
+      ]);
+      break;
 
-      case "rekapProduk":
-        title = "REKAP PRODUK";
-        head = [["NO", "NAMA", "TOTAL QTY"]];
-        body = rekapData.map((r, idx) => [idx + 1, r.namabarang, r.totalQty + " Pcs"]);
-        break;
+    case "rekapProduk":
+      title = "REKAP PRODUK";
+      head = [["NO", "NAMA", "TOTAL QTY"]];
+      body = rekapData.map((r, idx) => [idx + 1, r.namabarang, r.totalQty + " Pcs"]);
+      break;
 
-      case "kebSetengahJadi":
-        title = "KEBUTUHAN BARANG SETENGAH JADI";
-        tblW = 100; // 15 cm
-        rowsPerHalf = 30; // lebih longgar
-        head = [["NO", "JENIS ADONAN", "BATCH", "BERAT/BT (gr)", "TOTAL (gr)"]];
-        body = kebutuhanAdonan.map((a, idx) => [
-          idx + 1,
-          a.nama,
-          a.batchCount,
-          a.beratPerBatch.toLocaleString("id-ID"),
-          a.totalBerat.toLocaleString("id-ID"),
-        ]);
-        break;
+    case "kebSetengahJadi":
+      title = "KEBUTUHAN BARANG SETENGAH JADI";
+      tblW = 100;
+      rowsPerHalf = 30;
+      head = [["NO", "JENIS ADONAN", "BATCH", "BERAT/BT (gr)", "TOTAL (gr)"]];
+      body = kebutuhanAdonan.map((a, idx) => [
+        idx + 1,
+        a.nama,
+        a.batchCount,
+        a.beratPerBatch.toLocaleString("id-ID"),
+        a.totalBerat.toLocaleString("id-ID"),
+      ]);
+      break;
 
-      case "kebBahanBaku":
-        title = "KEBUTUHAN BAHAN BAKU";
-        tblW = 100;
-        rowsPerHalf = 30;
-        head = [["NO", "NAMA", "STOK (gr)", "TOTAL KBT (gr)", "KBT (gr)"]];
-        body = bahanBakuAggregated.map((b, idx) => [
-          idx + 1,
-          b.nama_bahan_baku,
-          formatGr2(b.stok_bahan_baku),
-          formatGr2(b.totalKebutuhan),
-          formatGr2(b.kebutuhanPerPCS),
-        ]);
-        break;
+    case "kebBahanBaku":
+      title = "KEBUTUHAN BAHAN BAKU";
+      tblW = 100;
+      rowsPerHalf = 30;
+      head = [["NO", "NAMA", "STOK (gr)", "TOTAL KBT (gr)", "KBT (gr)"]];
+      body = bahanBakuAggregated.map((b, idx) => [
+        idx + 1,
+        b.nama_bahan_baku,
+        formatGr2(b.stok_bahan_baku),
+        formatGr2(b.totalKebutuhan),
+        formatGr2(b.kebutuhanPerPCS),
+      ]);
+      break;
 
-      default:
-        setAlert({
-          message: "Tab tidak dikenal – gagal cetak.",
-          type: "warning",
-          visible: true,
-        });
-        return;
-    }
-
-    if (!body.length) {
+    default:
       setAlert({
-        message: "Tidak ada data untuk dicetak.",
+        message: "Tab tidak dikenal – gagal cetak.",
         type: "warning",
         visible: true,
       });
       return;
-    }
+  }
 
-    /* ---------- 1. Inisialisasi PDF & header umum ----------- */
-    const doc = new jsPDF("p", "mm", "a4");
-    const kodeGP = gpHeader?.kode_gabungan_permintaan || "–";
-    const noCetak = generateNoCetak(kodeGP);
-    const today = new Date().toLocaleDateString("id-ID");
-
-    const addHeader = (yStart = 5) => {
-      doc.setFontSize(10).setFont("courier", "bold");
-    
-      /* —— pakai font monospace agar lebar karakter sama —— */
-      doc.setFontSize(7).setFont("courier", "normal");   // <‑‑ cukup di sini
-    
-      /* helper untuk meratakan lebar label */
-      const field = (label, val) => `${label.padEnd(11, " ")}:  ${val}`;
-    
-      const lines = [
-        field("No/Cetak",  noCetak),
-        field("Lokasi",    gpHeader?.nama_kitchen || "-"),
-        field("User",      gpHeader?.nama_user    || "-"),
-        field("Tgl Cetak", today),
-      ];
-    
-      lines.forEach((t, i) => doc.text(t, 10, yStart + 4 + i * 3));
-    
-      doc.setFontSize(8).setFont("courier", "bold");
-      doc.text(title, 10, yStart + 4 + lines.length * 3 + 2);
-    
-      return yStart + 20;      // posisi awal tabel
-    };
-    
-    /* ---------- 2. Util dua‑kolom per halaman --------------- */
-    const makeTwoColumns = (rows) => {
-      const chunked = [];
-      for (let i = 0; i < rows.length; i += rowsPerHalf) {
-        chunked.push(rows.slice(i, i + rowsPerHalf));
-      }
-      return chunked;
-    };
-
-    /* ---------- 3. Cetak tabel ------------------------------ */
-    const pageWidth = doc.internal.pageSize.getWidth();
-    const leftX = 10;
-    const rightX = leftX + tblW + 5; // 5 mm spasi antar kolom
-    const chunks = makeTwoColumns(body);
-
-    let colPos = 0; // 0 → kiri, 1 → kanan
-    let pagePos = 0; // nomor halaman (0‐based)
-
-    chunks.forEach((chunk, idx) => {
-      if (colPos === 0) {
-        // kolom kiri  ⇒  tambah halaman baru KECUALI pertama
-        if (idx !== 0) doc.addPage();
-        const startY = addHeader();
-        autoTable(doc, {
-          head,
-          body: chunk,
-          startY,
-          margin: { left: leftX },
-          tableWidth: tblW,
-          styles: {
-            fontSize: 6,
-            cellPadding: 0.6,
-            lineWidth: 0.1,
-            lineColor: [0, 0, 0], // hitam
-          },
-          headStyles: {
-            fillColor: [255, 255, 255],
-            textColor: [0, 0, 0],
-            fontStyle: "bold",
-            lineWidth: 0.1,
-            lineColor: [0, 0, 0],
-          },
-          theme: "grid",
-        });
-        colPos = 1;
-      } else {
-        /* kolom kanan di halaman yang sama */
-        const startY = 33; // sama dgn kiri
-        autoTable(doc, {
-          head,
-          body: chunk,
-          startY,
-          margin: { left: rightX },
-          tableWidth: tblW,
-          styles: {
-            fontSize: 6,
-            cellPadding: 0.6,
-            lineWidth: 0.1,
-            lineColor: [0, 0, 0],
-          },
-          headStyles: {
-            fillColor: [255, 255, 255],
-            textColor: [0, 0, 0],
-            fontStyle: "bold",
-            lineWidth: 0.1,
-            lineColor: [0, 0, 0],
-          },
-          theme: "grid",
-        });
-        colPos = 0;
-        pagePos++;
-      }
+  if (!body.length) {
+    setAlert({
+      message: "Tidak ada data untuk dicetak.",
+      type: "warning",
+      visible: true,
     });
+    return;
+  }
 
-    /* ---------- 4. Nomor halaman ---------------------------- */
-    const totalPages = doc.internal.getNumberOfPages();
-    for (let i = 1; i <= totalPages; i++) {
-      doc.setPage(i);
-      doc.setFontSize(7);
-      doc.text(`${i}`, 10, doc.internal.pageSize.getHeight() - 5);
-    }
+  const doc = new jsPDF("p", "mm", "a4");
+  const kodeGP = gpHeader?.kode_gabungan_permintaan || "–";
+  const noCetak = generateNoCetak(kodeGP);
+  const today = new Date().toLocaleDateString("id-ID");
 
-    /* ---------- 5. Simpan / tampilkan ----------------------- */
-    const pdfBlob = doc.output("blob");
-    const pdfUrl = URL.createObjectURL(pdfBlob);
+  const addHeader = (yStart = 5) => {
+    doc.setFontSize(10).setFont("courier", "bold");
+    doc.setFontSize(7).setFont("courier", "normal");
 
-    const iframe = document.createElement("iframe");
-    iframe.style.display = "none";
-    iframe.src = pdfUrl;
+    const field = (label, val) => `${label.padEnd(11, " ")}:  ${val}`;
 
-    iframe.onload = () => {
-      if (iframe.contentWindow) {
-        iframe.contentWindow.focus();
-        iframe.contentWindow.print();
-      }
-      iframe.onafterprint = () => {
-        console.log("Print selesai!");
-        URL.revokeObjectURL(pdfUrl);
-        document.body.removeChild(iframe);
-      };
-    };
+    const lines = [
+      field("No/Cetak", noCetak),
+      field("Lokasi", gpHeader?.nama_kitchen || "-"),
+      field("User", gpHeader?.nama_user || "-"),
+      field("Tgl Cetak", today),
+    ];
 
-    document.body.appendChild(iframe);
+    lines.forEach((t, i) => doc.text(t, 10, yStart + 4 + i * 3));
+
+    doc.setFontSize(8).setFont("courier", "bold");
+    doc.text(title, 10, yStart + 4 + lines.length * 3 + 2);
+
+    return yStart + 20;
   };
+
+  const makeTwoColumns = (rows) => {
+    const chunked = [];
+    for (let i = 0; i < rows.length; i += rowsPerHalf) {
+      chunked.push(rows.slice(i, i + rowsPerHalf));
+    }
+    return chunked;
+  };
+
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+  const leftX = 10;
+  const rightX = leftX + tblW + 5;
+  const chunks = makeTwoColumns(body);
+
+  let colPos = 0;
+  let pagePos = 0;
+  let lastYPosition = 0;
+
+  chunks.forEach((chunk, idx) => {
+    if (colPos === 0) {
+      if (idx !== 0) doc.addPage();
+      const startY = addHeader();
+      autoTable(doc, {
+        head,
+        body: chunk,
+        startY,
+        margin: { left: leftX },
+        tableWidth: tblW,
+        styles: {
+          fontSize: 6,
+          cellPadding: 0.6,
+          lineWidth: 0.1,
+          lineColor: [0, 0, 0],
+        },
+        headStyles: {
+          fillColor: [255, 255, 255],
+          textColor: [0, 0, 0],
+          fontStyle: "bold",
+          lineWidth: 0.1,
+          lineColor: [0, 0, 0],
+        },
+        theme: "grid",
+        didDrawPage: (data) => {
+          lastYPosition = data.cursor.y;
+        },
+      });
+      colPos = 1;
+    } else {
+      const startY = 33;
+      autoTable(doc, {
+        head,
+        body: chunk,
+        startY,
+        margin: { left: rightX },
+        tableWidth: tblW,
+        styles: {
+          fontSize: 6,
+          cellPadding: 0.6,
+          lineWidth: 0.1,
+          lineColor: [0, 0, 0],
+        },
+        headStyles: {
+          fillColor: [255, 255, 255],
+          textColor: [0, 0, 0],
+          fontStyle: "bold",
+          lineWidth: 0.1,
+          lineColor: [0, 0, 0],
+        },
+        theme: "grid",
+        didDrawPage: (data) => {
+          lastYPosition = data.cursor.y;
+        },
+      });
+      colPos = 0;
+      pagePos++;
+    }
+  });
+
+  // Tambah halaman baru untuk tanda tangan jika terlalu mepet
+  if (lastYPosition > pageHeight - 40) {
+    doc.addPage();
+  }
+
+  // Tambahkan tanda tangan di bawah
+  doc.setFontSize(8).setFont("courier", "normal");
+  const signatureY = pageHeight - 35;
+
+  doc.text("Catatan: Pesanan Pak Aldi kirim Jam 5 Pagi, No hp 087363833222", 10, signatureY);
+  doc.text("(__________________________)", 15, signatureY + 15);
+  doc.text("(__________________________)", 120, signatureY + 15);
+  doc.text("Hormat Kami,  DOUBLE O BAKERY", 120, signatureY + 5);
+
+  const totalPages = doc.internal.getNumberOfPages();
+  for (let i = 1; i <= totalPages; i++) {
+    doc.setPage(i);
+    doc.setFontSize(7);
+    doc.text(`${i}`, 10, pageHeight - 5);
+  }
+
+  const pdfBlob = doc.output("blob");
+  const pdfUrl = URL.createObjectURL(pdfBlob);
+
+  const iframe = document.createElement("iframe");
+  iframe.style.display = "none";
+  iframe.src = pdfUrl;
+
+  iframe.onload = () => {
+    if (iframe.contentWindow) {
+      iframe.contentWindow.focus();
+      iframe.contentWindow.print();
+    }
+    iframe.onafterprint = () => {
+      console.log("Print selesai!");
+      URL.revokeObjectURL(pdfUrl);
+      document.body.removeChild(iframe);
+    };
+  };
+
+  document.body.appendChild(iframe);
+};
+
 
   //bahanbaku
   const [bahanBakuMaster, setBahanBakuMaster] = useState([]);
