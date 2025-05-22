@@ -379,6 +379,7 @@ export default function MenuAddPembelianBarangBasetroli() {
 
       // 5️⃣ cek history terpenuhi
       const rawHistory = await getMasterHistoryTerpenuhi(token);
+      console.log("rawHistory", rawHistory);
       setHasHistory(
         Object.values(rawHistory || {}).flat().some(
           (h) =>

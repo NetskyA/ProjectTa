@@ -228,6 +228,14 @@ export default function MenuAddPembelianBarangBasetroli() {
     setCurrentPage(p);
   };
 
+useEffect(() => {
+  if (Number(jenisPembelian) === 2) {
+    setTglAwal("");
+    setTglAkhir("");
+  }
+}, [jenisPembelian]);
+
+
   /* ---------- LOAD master data ---------- */
   useEffect(() => {
     const load = async () => {
@@ -324,7 +332,7 @@ export default function MenuAddPembelianBarangBasetroli() {
       if (daysFromTrans < 0 || daysFromTrans > 4) {
         setAlert({
           message:
-            "Untuk Pembelian Reguler, Tanggal Kirim maksimal 2 hari setelah Tanggal Transaksi.",
+            "Untuk Pembelian Reguler, Tanggal Kirim maksimal 4 hari setelah Tanggal Transaksi.",
           type: "warning",
           visible: true,
         });
@@ -917,27 +925,45 @@ export default function MenuAddPembelianBarangBasetroli() {
               <label className="text-blue-900 font-semibold">
                 Tanggal Awal
               </label>
-              <input
-                type="date"
-                value={tglAwal}
-                max={tglAkhir || ""}
-                onChange={(e) => setTglAwal(e.target.value)}
-                disabled={Number(jenisPembelian) === 2}
-                className="w-full border h-7 text-xs border-gray-300 rounded p-1"
-              />
+<input
+  type="date"
+  value={tglAwal}
+  max={tglAkhir || ""}
+  onChange={(e) => setTglAwal(e.target.value)}
+  disabled={Number(jenisPembelian) === 2}
+  title={
+    Number(jenisPembelian) === 2
+      ? "Tidak perlu diisi untuk Pembelian Khusus"
+      : ""
+  }
+  className={`w-full h-7 text-xs border rounded p-1
+    ${Number(jenisPembelian) === 2
+      ? "bg-gray-200 border-gray-300 cursor-not-allowed"
+      : "border-gray-300"}`}
+/>
+
             </div>
             <div className="w-40">
               <label className="text-blue-900 font-semibold">
                 Tanggal Akhir
               </label>
-              <input
-                type="date"
-                value={tglAkhir}
-                min={tglAwal || ""}
-                onChange={(e) => setTglAkhir(e.target.value)}
-                disabled={Number(jenisPembelian) === 2}
-                className="w-full border h-7 text-xs border-gray-300 rounded p-1"
-              />
+<input
+  type="date"
+  value={tglAkhir}
+  min={tglAwal || ""}
+  onChange={(e) => setTglAkhir(e.target.value)}
+  disabled={Number(jenisPembelian) === 2}
+  title={
+    Number(jenisPembelian) === 2
+      ? "Tidak perlu diisi untuk Pembelian Khusus"
+      : ""
+  }
+  className={`w-full h-7 text-xs border rounded p-1
+    ${Number(jenisPembelian) === 2
+      ? "bg-gray-200 border-gray-300 cursor-not-allowed"
+      : "border-gray-300"}`}
+/>
+
             </div>
           </div>
           <div className="w-full text-xs mt-2">
