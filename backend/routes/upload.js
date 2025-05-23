@@ -100,19 +100,24 @@ router.post("/", async (req, res) => {
 
       /* —— insert semua detail —— */
       for (const det of details) {
-        await db.query("CALL procedure_insert_detail_penjualan(?,?,?,?,?,?,?,?)", {
-          replacements: [
-            idMaster,
-            det.kode_barang,
-            det.id_satuan,
-            parseInt(det.jumlah, 10) || 0,
-            parseFloat(String(det.harga).replace(/,/g, "")) || 0,
-            parseFloat(det.discount) || 0,
-            parseFloat(String(det.hpp_satuan).replace(/,/g, "")) || 0,
-            id_user,
-          ],
-          transaction: trx,
-        });
+await db.query("CALL procedure_insert_detail_penjualan(?,?,?,?,?,?,?,?,?,?,?)", {
+  replacements: [
+    idMaster,
+    det.kode_barang,
+    det.id_satuan,
+    parseInt(det.jumlah, 10) || 0,
+    parseInt(det.jumlah_retur, 10) || 0,
+    parseFloat(String(det.harga).replace(/,/g, "")) || 0,
+    parseFloat(det.discount) || 0,
+    parseFloat(String(det.hpp_satuan).replace(/,/g, "")) || 0,
+    parseInt(det.stok_toko, 10) || 0,
+    parseInt(det.umur_stok, 10) || 0,
+    id_user,
+  ],
+  transaction: trx,
+});
+
+
       }
     }
 

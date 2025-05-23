@@ -206,23 +206,26 @@ export default function MenuImport() {
   const id_toko = useSelector((state) => state.auth.id_toko);
 
   /* ---------- HEADER EXCEL ---------- */
-  const headers = [
-    "Tgl Trans",
-    "No. Trans",
-    "Jenis Transaksi",
-    "No. Penjualan",
-    "No. Surat Jalan",
-    "Syarat Bayar",
-    "Pelanggan",
-    "Kitchen",
-    "Grand Total (Rp)",
-    "Kode Barang",
-    "Satuan",
-    "Jumlah",
-    "Harga (Rp)",
-    "Disc (%)",
-    "HPP / Satuan (Rp)",
-  ];
+const headers = [
+  "Tgl Trans",
+  "No. Trans",
+  "Jenis Transaksi",
+  "No. Penjualan",
+  "No. Surat Jalan",
+  "Syarat Bayar",
+  "Pelanggan",
+  "Kitchen",
+  "Grand Total (Rp)",
+  "Kode Barang",
+  "Satuan",
+  "Jumlah",
+  "Jumlah Retur",              // NEW
+  "Harga (Rp)",
+  "Disc (%)",
+  "HPP / Satuan (Rp)",
+  "Umur Stok",                 // NEW
+  "Stok Toko",                 // NEW
+];
   const tableHeaders = ["No.", ...headers];
 
   /* ---------- HANDLE FILE CHANGE ---------- */
@@ -248,33 +251,32 @@ export default function MenuImport() {
 
       const rowsRaw = [];
       const prev = Array(headers.length).fill("");
-            ws.eachRow({ includeEmpty: true }, (row, i) => {
-               if (i === 1) return;                              // header Excel
-        
-                const dataRow = headers.map((_, idx) => {
-                  const cell = row.getCell(idx + 1);
-                  let value = cell.text?.trim() ?? "";            // default
-        
-                  // ⇢ khusus kolom tanggal (index 0)
-                  if (idx === 0) {
-                    if (cell.value instanceof Date) {
-                      const d = cell.value;
-                    value = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`; // M/D/YYYY
-                  }
-                }
-          if (value) {
-            prev[idx] = value;
-            return value;
-          }
-          // kolom master yg kosong → isi dgn nilai baris sebelumnya
-          if (idx <= 7) return prev[idx] || "UNKNOWN";
-          // detail kosong -> treat 0
-          return "0";
-        });
+ws.eachRow({ includeEmpty: true }, (row, i) => {
+  if (i === 1) return;
 
-        const emptyDetail = dataRow.slice(8).every((v) => v === "0");
-        if (!emptyDetail) rowsRaw.push(dataRow);
-      });
+  const dataRow = headers.map((_, idx) => {
+    const cell = row.getCell(idx + 1);
+    let value = cell.text?.trim() ?? "";
+
+    if (idx === 0 && cell.value instanceof Date) {
+      const d = cell.value;
+      value = `${d.getMonth() + 1}/${d.getDate()}/${d.getFullYear()}`;
+    }
+
+    if (value) {
+      prev[idx] = value;
+      return value;
+    }
+
+    // kolom master
+    if (idx <= 7) return prev[idx] || "UNKNOWN";
+    // detail kosong → treat 0
+    return "0";
+  });
+
+  const emptyDetail = dataRow.slice(8).every((v) => v === "0");
+  if (!emptyDetail) rowsRaw.push(dataRow);
+});
 
       /* ---- GROUPING MASTER–DETAIL (pakai id sesuai backend) ---- */
       const groupMap = {}; // key => { ...master, details:[] }
@@ -298,14 +300,18 @@ export default function MenuImport() {
           };
         }
 
-        groupMap[masterKey].details.push({
-          kode_barang: r[9],
-          id_satuan: r[10],
-          jumlah: r[11],
-          harga: r[12],
-          discount: r[13],
-          hpp_satuan: r[14],
-        });
+groupMap[masterKey].details.push({
+  kode_barang: r[9],
+  id_satuan: r[10],
+  jumlah: r[11],
+  jumlah_retur: r[12],         // NEW
+  harga: r[13],
+  discount: r[14],
+  hpp_satuan: r[15],
+  umur_stok: r[16],            // NEW
+  stok_toko: r[17],            // NEW
+});
+
       });
 
       const grouped = Object.values(groupMap);
@@ -873,7 +879,7 @@ export default function MenuImport() {
                         className="bg-white border-b hover:bg-gray-50"
                       >
                         {/* kolom No. */}
-                        <td className="px-1 py-1 border border-gray-300 text-center font-semibold text-blue-900">
+                        <td className="px-1 py-1 w-3 border border-gray-300 text-center font-semibold text-blue-900">
                           {nomor}
                         </td>
                         {row.map((c, cIdx) => (
