@@ -126,7 +126,7 @@ import MenuUpdateMasterPelanggan from "./assets/page/Master/menu-page/master/ins
 // Halaman dan Menu Admin Basetroli
 import DashboardAdminAdminPembelian from "./assets/page/Basetroli/dashboard-page/DashboardAdmin-Basetroli.jsx";
 import MenuLaporanAdminPembelian from "./assets/page/Basetroli/menu-page/laporan/MenuLaporan-Basetroli.jsx";
-import MenuImportAdminPembelian from "./assets/page/Basetroli/menu-page/Penjualan/import-penjualan/MenuImport-Basetroli.jsx";
+import MenuImportAdminPembelian from "./assets/page/Basetroli/menu-page/penjualan/import-penjualan/MenuImport-Basetroli.jsx";
 import MenuImportPelunasanAdminPembelian from "./assets/page/Basetroli/menu-page/pelunasan/MenuImportPelunasan-Basetroli.jsx";
 import MenuNotaPenjualanAdminPembelian from "./assets/page/Basetroli/menu-page/Penjualan/nota-jual/MenuNotaPenjualan-Basetroli.jsx";
 import MenuDetailNotaPenjualanAdminPembelian from "./assets/page/Basetroli/menu-page/Penjualan/packing-list/MenuDetailNotaPenjualanPacking-Basetroli.jsx";
