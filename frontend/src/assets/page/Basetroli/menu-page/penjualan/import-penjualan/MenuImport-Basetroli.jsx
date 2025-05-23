@@ -615,7 +615,7 @@ groupMap[masterKey].details.push({
             </svg>
           </div>
           <div className="text-xs font-bold text-gray-400">
-            Import Penjualan
+            Import Penjualan Test
           </div>
         </div>
         <button
