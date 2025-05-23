@@ -2,9 +2,7 @@
 
 import axios from "axios";
 
-// const BASE_URL = "http://localhost:3000"; // Sesuaikan dengan URL backend Anda
-const BASE_URL = "https://api.doubleobakery.online";
-
+const BASE_URL = "http://localhost:3000"; // Sesuaikan dengan URL backend Anda
 
 // Fungsi login
 export const login = async (nama_user, password) => {
