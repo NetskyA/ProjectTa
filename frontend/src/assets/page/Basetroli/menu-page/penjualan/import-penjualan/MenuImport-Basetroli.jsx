@@ -2,18 +2,18 @@
 import { useState, useEffect, useMemo, useRef } from "react";
 import ExcelJS from "exceljs";
 import { useDispatch, useSelector } from "react-redux";
-import { uploadStart, uploadSuccess, uploadFailure } from "../../../../../store/index";
+import { uploadStart, uploadSuccess, uploadFailure } from "../../../../store/index";
 import {
   uploadFile,
   getMasterJenisTransaksi,
   getMasterJenisPembayaran,
   getMasterLokasi,
   getLaporanMasterSatuan,
-} from "../../../../../services/apiService";
+} from "../../../../services/apiService";
 import { Link } from "react-router-dom";
-import IconDelete from "../../../../../image/icon/logo-delete.svg";
-import Alert from "../../../../component/Alert";
-import Loading from "../../../../component/Loading"; // Komponen loading
+import IconDelete from "../../../../image/icon/logo-delete.svg";
+import Alert from "../../../component/Alert";
+import Loading from "../../../component/Loading"; // Komponen loading
 
 /* --------------------------------------------------------------------------
    Komponen FilterSelect (autocomplete sederhana)
@@ -226,6 +226,7 @@ const headers = [
   "Umur Stok",                 // NEW
   "Stok Toko",                 // NEW
 ];
+
   const tableHeaders = ["No.", ...headers];
 
   /* ---------- HANDLE FILE CHANGE ---------- */
@@ -631,7 +632,7 @@ groupMap[masterKey].details.push({
         <div className="w-fit border-dashed border-2 border-blue-600 bg-gray-200 rounded-md p-3 text-center shadow-md transition hover:bg-gray-50">
           <label
             htmlFor="file-upload"
-            className="flex flex-col justify-center items-center cursor-pointer py-3 px-1 rounded-md"
+            className="flex flex-col justify-center items-center cursor-pointer py-2 px-1 rounded-md"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
