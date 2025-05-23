@@ -204,7 +204,6 @@ export default function MenuImport() {
   const { loading } = useSelector((state) => state.upload);
   const id_user = useSelector((state) => state.auth.id_user);
   const id_toko = useSelector((state) => state.auth.id_toko);
-  
 
   /* ---------- HEADER EXCEL ---------- */
 const headers = [
@@ -880,7 +879,7 @@ groupMap[masterKey].details.push({
                         className="bg-white border-b hover:bg-gray-50"
                       >
                         {/* kolom No. */}
-                        <td className="px-1 py-1 w-3 border border-gray-300 text-center font-semibold text-blue-900">
+                        <td className="px-1 py-1 border border-gray-300 text-center font-semibold text-blue-900">
                           {nomor}
                         </td>
                         {row.map((c, cIdx) => (
