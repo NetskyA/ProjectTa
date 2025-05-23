@@ -597,7 +597,7 @@ groupMap[masterKey].details.push({
       <div className="head flex justify-between items-center">
         <div className="cover flex items-center">
           <div className="text-xs font-bold text-blue-900">
-            <Link to="/dashboard/basetroli">Penjualan</Link>
+            <Link to="/dashboard/master">Penjualan</Link>
           </div>
           <div className="ml-1 mr-1">
             <svg

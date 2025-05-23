@@ -596,7 +596,7 @@ groupMap[masterKey].details.push({
       <div className="head flex justify-between items-center">
         <div className="cover flex items-center">
           <div className="text-xs font-bold text-blue-900">
-            <Link to="/dashboard/master">Penjualan</Link>
+            <Link to="/dashboard/adminpembelian">Penjualan</Link>
           </div>
           <div className="ml-1 mr-1">
             <svg
@@ -615,7 +615,7 @@ groupMap[masterKey].details.push({
             </svg>
           </div>
           <div className="text-xs font-bold text-gray-400">
-            Import Penjualan Test
+            Import Penjualan
           </div>
         </div>
         <button
