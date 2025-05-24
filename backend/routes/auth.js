@@ -31,10 +31,10 @@ router.post("/login", async (req, res) => {
     );
 
     // Logging hasil dari prosedur untuk debugging
-    console.log(
-      "Hasil dari procedure_login_user:",
-      JSON.stringify(results, null, 2)
-    );
+    // console.log(
+    //   "Hasil dari procedure_login_user:",
+    //   JSON.stringify(results, null, 2)
+    // );
 
     let row;
 
