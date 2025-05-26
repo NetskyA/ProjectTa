@@ -91,3 +91,10 @@ button:focus-visible {
   min-width: 300px; /* Lebar minimum untuk menghindari resize yang terlalu kecil */
   max-width: 100%; /* Lebar maksimum agar tidak terlalu besar */
 }
+
+/* @font-face {
+  font-family: 'CustomFont';
+  src: url('./assets/font/') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+} */

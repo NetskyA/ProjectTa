@@ -11,6 +11,7 @@ import LogoHidePassword from "../../image/icon/hide-password.svg"; // Ikon "Hide
 import LogoClosePassword from "../../image/icon/eye-closed.svg"; // Ikon "Show"
 import LogoBackground from "../../image/background/background-login4.jpg";
 import Netskya from "../../image/icon/logos.png";
+import "../../../index.css"; // Pastikan path ini benar
 
 import { setAuth, clearAuth } from "../../store/index.js";
 import axios from "axios";
@@ -196,6 +197,7 @@ export default function LoginPage() {
           backgroundImage: `url(${LogoBackground})`,
           backgroundSize: "cover",
           backgroundPosition: "center",
+          // fontFamily: "CustomFont",
         }}
       >
         {/* Bagian Kiri (Info / Branding) */}
