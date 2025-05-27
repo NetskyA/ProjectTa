@@ -110,6 +110,7 @@ export default function MenuLaporanMasterRole() {
   const [kodePesananFilter, setKodePesananFilter] = useState("");
   const [detailSalesData, setDetailSalesData] = useState([]);
   const [dataWithHarga, setDataWithHarga] = useState([]);
+  const [selisihFilter, setSelisihFilter] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -156,33 +157,32 @@ export default function MenuLaporanMasterRole() {
     fetchDetailSalesOrder();
   }, [token]);
 
-useEffect(() => {
-  const enriched = data
-    .map((item) => {
-      const match = detailSalesData.find(
-        (detail) =>
-          Number(detail.id_master_pesanan_pembelian) ===
-            Number(item.id_master_pesanan_pembelian) &&
-          detail.kode_produk.toString().trim() ===
-            item.kode_produk.toString().trim()
-      );
-      const harga = match ? parseFloat(match.harga_jual || 0) : 0;
-      const delta = (item.quantity_terpenuhi || 0) - (item.quantity || 0);
+  useEffect(() => {
+    const enriched = data
+      .map((item) => {
+        const match = detailSalesData.find(
+          (detail) =>
+            Number(detail.id_master_pesanan_pembelian) ===
+              Number(item.id_master_pesanan_pembelian) &&
+            detail.kode_produk.toString().trim() ===
+              item.kode_produk.toString().trim()
+        );
+        const harga = match ? parseFloat(match.harga_jual || 0) : 0;
+        const delta = (item.quantity_terpenuhi || 0) - (item.quantity || 0);
 
-      return {
-        ...item,
-        harga_jual: harga,
-        selisih: delta,
-        total_harga: harga * delta,
-        total_harga_terpenuhi: harga * (item.quantity_terpenuhi || 0),
-      };
-    })
-    // buang yang selisih-nya 0
-    .filter((item) => item.selisih !== 0);
+        return {
+          ...item,
+          harga_jual: harga,
+          selisih: delta,
+          total_harga: harga * delta,
+          total_harga_terpenuhi: harga * (item.quantity_terpenuhi || 0),
+        };
+      })
+      // buang yang selisih-nya 0
+      .filter((item) => item.selisih !== 0);
 
-  setDataWithHarga(enriched);
-}, [data, detailSalesData]);
-
+    setDataWithHarga(enriched);
+  }, [data, detailSalesData]);
 
   // Sort Config
   const [sortConfig, setSortConfig] = useState({
@@ -280,6 +280,12 @@ useEffect(() => {
       );
     }
 
+    if (selisihFilter === "lebih") {
+      filtered = filtered.filter((item) => item.selisih > 0);
+    } else if (selisihFilter === "kurang") {
+      filtered = filtered.filter((item) => item.selisih < 0);
+    }
+
     if (searchTerm) {
       const q = searchTerm.toLowerCase();
       filtered = filtered.filter((item) =>
@@ -297,6 +303,7 @@ useEffect(() => {
     kodeSalesOrderFilter,
     kodePesananFilter,
     statusFilter,
+    selisihFilter,
   ]);
 
   // Format tanggal
@@ -323,7 +330,6 @@ useEffect(() => {
 
   if (loading) return <Loading />;
   if (error) return <Error message={error} />;
-
   const handleExport = () => {
     if (sortedData.length === 0) {
       setAlert({
@@ -339,38 +345,47 @@ useEffect(() => {
     const mm = String(currentDate.getMonth() + 1).padStart(2, "0");
     const yyyy = currentDate.getFullYear();
     const formattedDate = `${dd}${mm}${yyyy}`;
-    const filename = `Laporan-Pelanggan-${formattedDate}.xlsx`;
+    const filename = `Laporan-Kartu-Stok-${formattedDate}.xlsx`;
 
-    const exportData = sortedData.map((item, index) => ({
-      No: indexOfFirstItem + index + 1,
-      Kode_Sales_Order: item.kode_sales_order,
-      Kode_Pesanan_Pembelian: item.kode_pesanan_pembelian,
-      Kode_Produk: item.kode_produk,
-      Quantity: item.quantity,
-      Quantity_Terpenuhi: item.quantity_terpenuhi,
-      Dibuat_Oleh: item.nama_user,
-      Tanggal_Buat: formatDate(item.createat),
-      Status:
-        item.status === 0
-          ? "Aktif"
-          : item.status === 1
-          ? "Non-Aktif"
-          : "Tidak Diketahui",
-    }));
+    const exportData = sortedData.map((item, index) => {
+      const selisih = (item.quantity_terpenuhi || 0) - (item.quantity || 0);
+      const tanda = selisih > 0 ? "+" : selisih < 0 ? "-" : "";
+      return {
+        No: indexOfFirstItem + index + 1,
+        Kode_Sales_Order: item.kode_sales_order,
+        Kode_Pesanan_Pembelian: item.kode_pesanan_pembelian,
+        Kode_Produk: item.kode_produk,
+        Quantity: item.quantity,
+        Quantity_Terpenuhi: item.quantity_terpenuhi,
+        Selisih: `${tanda}${Math.abs(selisih)}`,
+        Selisih_Harga: item.total_harga,
+        Total_Harga_Terpenuhi: item.total_harga_terpenuhi,
+      };
+    });
 
-    const worksheet = XLSX.utils.json_to_sheet(exportData);
+    const worksheet = XLSX.utils.json_to_sheet(exportData, {
+      header: [
+        "No",
+        "Kode_Sales_Order",
+        "Kode_Pesanan_Pembelian",
+        "Kode_Produk",
+        "Quantity",
+        "Quantity_Terpenuhi",
+        "Selisih",
+        "Selisih_Harga",
+        "Total_Harga_Terpenuhi",
+      ],
+    });
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "LaporanPelanggan");
+    XLSX.utils.book_append_sheet(workbook, worksheet, "LaporanKartuStok");
 
     const excelBuffer = XLSX.write(workbook, {
       bookType: "xlsx",
       type: "array",
     });
-
     const dataBlob = new Blob([excelBuffer], {
       type: "application/octet-stream",
     });
-
     saveAs(dataBlob, filename);
 
     setAlert({
@@ -378,13 +393,12 @@ useEffect(() => {
       type: "success",
       visible: true,
     });
-
     setTimeout(() => {
       setAlert({ message: "", type: "", visible: false });
     }, 2000);
   };
 
-    const handleEdit = (id_master_pesanan_pembelian) => {
+  const handleEdit = (id_master_pesanan_pembelian) => {
     navigate(
       `/dashboard/master/menu/salesorder/detail/${id_master_pesanan_pembelian}`
     );
@@ -455,6 +469,13 @@ useEffect(() => {
             ]}
             value={kodePesananFilter}
             onChange={setKodePesananFilter}
+          />
+
+          <FilterSelect
+            label="Filter Selisih"
+            options={["Semua", "Lebih", "Kurang"]}
+            value={selisihFilter}
+            onChange={(val) => setSelisihFilter(val.toLowerCase())}
           />
         </div>
       </div>
@@ -536,7 +557,7 @@ useEffect(() => {
                 </th>
                 <th
                   onClick={() => handleSort("quantity")}
-                  className="px-1 py-0.5 w-28 sticky top-0 border border-gray-700 bg-gray-200 text-blue-900 z-10 cursor-pointer"
+                  className="px-1 py-0.5 w-32 sticky top-0 border border-gray-700 bg-gray-200 text-blue-900 z-10 cursor-pointer"
                 >
                   Jumlah Pembelian{" "}
                   {sortConfig.key === "quantity" &&
@@ -584,7 +605,7 @@ useEffect(() => {
                   {sortConfig.key === "status" &&
                     (sortConfig.direction === "asc" ? " ▲" : " ▼")}
                 </th>
-                                <th className="px-1 py-0.5 w-14 sticky top-0 border border-gray-700 bg-gray-200 text-blue-900 z-10 cursor-pointer">
+                <th className="px-1 py-0.5 w-14 sticky top-0 border border-gray-700 bg-gray-200 text-blue-900 z-10 cursor-pointer">
                   Action
                 </th>
               </tr>
@@ -593,19 +614,20 @@ useEffect(() => {
               {currentItems.length > 0 ? (
                 currentItems.map((item, index) => {
                   const rowBg =
-                    item.status === 1
-                      ? "bg-white"
-                      : item.status === 0
-                      ? "bg-red-500"
+                    item.selisih < 0
+                      ? "bg-amber-500"
+                      : item.selisih > 0
+                      ? "bg-lime-500"
                       : "bg-white";
+
                   return (
-       <tr
-         key={index}
-         className={`text-gray-900 cursor-pointer hover:bg-gray-200 ${rowBg}`}
-         onDoubleClick={() =>
-           handleEdit(item.id_master_pesanan_pembelian)
-         }
-       >
+                    <tr
+                      key={index}
+                      className={`text-gray-900 cursor-pointer hover:bg-opacity-75 ${rowBg}`}
+                      onDoubleClick={() =>
+                        handleEdit(item.id_master_pesanan_pembelian)
+                      }
+                    >
                       <td className="px-1 py-0.5 border border-gray-700">
                         {indexOfFirstItem + index + 1}
                       </td>
