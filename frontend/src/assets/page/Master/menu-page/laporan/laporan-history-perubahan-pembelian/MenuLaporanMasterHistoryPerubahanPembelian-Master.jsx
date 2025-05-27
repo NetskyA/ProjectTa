@@ -116,7 +116,7 @@ export default function MenuLaporanMasterRole() {
       try {
         setLoading(true);
         const result = await getMasterHistoryPerubahanPembelian(token);
-        console.log("Data fetched from API:", result);
+        // console.log("Data fetched from API:", result);
 
         const historyArray =
           result && result.length > 0 && typeof result[0] === "object"
@@ -139,14 +139,14 @@ export default function MenuLaporanMasterRole() {
     const fetchDetailSalesOrder = async () => {
       try {
         const result = await getMasterDetailSalesOrder(token);
-        console.log("Raw detail SO:", result);
+        // console.log("Raw detail SO:", result);
 
         const rowsObj = result[0] || {};
         const detailArray = Object.entries(rowsObj)
           .filter(([key, val]) => /^\d+$/.test(key)) // hanya key “0”, “1”, dst.
           .map(([_, val]) => val); // ambil valuenya saja
 
-        console.log("Flattened detailSO:", detailArray);
+        // console.log("Flattened detailSO:", detailArray);
         setDetailSalesData(detailArray);
       } catch (err) {
         console.error(err);
@@ -156,8 +156,9 @@ export default function MenuLaporanMasterRole() {
     fetchDetailSalesOrder();
   }, [token]);
 
-  useEffect(() => {
-    const enriched = data.map((item) => {
+useEffect(() => {
+  const enriched = data
+    .map((item) => {
       const match = detailSalesData.find(
         (detail) =>
           Number(detail.id_master_pesanan_pembelian) ===
@@ -166,22 +167,22 @@ export default function MenuLaporanMasterRole() {
             item.kode_produk.toString().trim()
       );
       const harga = match ? parseFloat(match.harga_jual || 0) : 0;
-
       const delta = (item.quantity_terpenuhi || 0) - (item.quantity || 0);
-      const totalByDelta = harga * delta;
-      const totalByFulfill = harga * (item.quantity_terpenuhi || 0);
 
       return {
         ...item,
         harga_jual: harga,
         selisih: delta,
-        total_harga: totalByDelta,
-        total_harga_terpenuhi: totalByFulfill, // <- baru
+        total_harga: harga * delta,
+        total_harga_terpenuhi: harga * (item.quantity_terpenuhi || 0),
       };
-    });
+    })
+    // buang yang selisih-nya 0
+    .filter((item) => item.selisih !== 0);
 
-    setDataWithHarga(enriched);
-  }, [data, detailSalesData]);
+  setDataWithHarga(enriched);
+}, [data, detailSalesData]);
+
 
   // Sort Config
   const [sortConfig, setSortConfig] = useState({
