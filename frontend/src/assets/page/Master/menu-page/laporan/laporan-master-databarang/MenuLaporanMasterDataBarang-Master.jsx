@@ -522,7 +522,7 @@ export default function MenuLaporanMasterBarangBasetroli() {
       <div className="bg-white rounded-md shadow-md border border-gray-200 p-1.5 w-full">
         <div className="flex items-center justify-center mb-2 relative">
           <p className="text-xl font-semibold text-blue-900 absolute left-1">
-            Laporan Data Barang
+            Laporan Produk
           </p>
           {/* Search Bar */}
           <div className="w-2/6">

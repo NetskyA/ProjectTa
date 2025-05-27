@@ -2225,6 +2225,18 @@ export const getMasterHistoryTerpenuhi = async () => {
   }
 };
 
+export const getMasterHistoryPerubahanPembelian = async () => {
+  try {
+    const response = await axios.post(`${BASE_URL}/masterhistoryterpenuhi/history/terpenuhi`); 
+    return response.data;
+  } catch (error) {
+    console.error("Get data DNJ best error:", error.response?.data || error.message);
+    throw error.response?.data || { message: "Get Data DNJ best gagal" };
+  }
+};
+
+
+
 export const insertDetailAdonan = async (token, payload) => {
   try {
     const response = await axios.post(

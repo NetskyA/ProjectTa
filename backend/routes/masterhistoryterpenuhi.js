@@ -8,7 +8,7 @@ const router = express.Router();
 router.post("/history/terpenuhi", async (_req, res) => {
   try {
     const results = await db.query(
-      "CALL procedure_get_master_history_update_terpenuhi ()",
+      "CALL procedure_get_master_history_update_terpenuhi()",
       { type: QueryTypes.SELECT }
     );
     res.status(200).json(results);

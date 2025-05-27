@@ -1104,8 +1104,8 @@ export default function MenuAddPembelianBarangBasetroli() {
       </div>
 
       {/* ---------------- FILTER SECTION (kode / nama) --------------------- */}
-      <div className="bg-white flex flex-col mt-2 md:flex-row rounded-md shadow-md p-2 justify-between items-center border border-gray-200 mb-2">
-        <div className="flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 w-full">
+      <div className="bg-white flex-col mt-2 md:flex-row rounded-md shadow-md p-2 justify-between items-center border border-gray-200 mb-2">
+        <div className="flex flex-col md:flex-row mb-0.5 items-center space-y-4 md:space-y-0 md:space-x-4 w-full">
           <FilterSelect
             label="Filter Kode Barang"
             options={uniqueKode}
@@ -1119,7 +1119,9 @@ export default function MenuAddPembelianBarangBasetroli() {
             onChange={setNamaFilter}
           />
         </div>
+      <p className="text-xs text-red-500 italic">*Jika terdapat perubahan, jumlah pembelian mengikuti jumlah terpenuhi</p>
       </div>
+
 
       {/* ---------------- TABEL DATA -------------------------------------- */}
       <div className="bg-white border border-gray-200 rounded-md shadow-md p-2">
@@ -1250,6 +1252,7 @@ export default function MenuAddPembelianBarangBasetroli() {
                     <div className="flex items-center gap-1">
                       <input
                         type="text"
+                        title="Jika terdapat perubahan, jumlah pembelian mengikuti jumlah terpenuhi"
                         value={r.originalQty}
                         disabled
                         className="bg-gray-100 cursor-not-allowed text-xs p-1 rounded w-full"

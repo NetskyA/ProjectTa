@@ -121,6 +121,9 @@ import MenuMasterPelanggan from "./assets/page/Master/menu-page/master/insert-ma
 import MenuInsertMasterPelanggan from "./assets/page/Master/menu-page/master/insert-master-pelanggan/MenuInsertMasterPelanggan-Master.jsx";
 import MenuUpdateMasterPelanggan from "./assets/page/Master/menu-page/master/insert-master-pelanggan/MenuUpdateMasterPelanggan-Master.jsx";
 
+//laporan hsitory perubahan pembelian
+import MenuLaporanHistoryPembelian from "./assets/page/Master/menu-page/laporan/laporan-history-perubahan-pembelian/MenuLaporanMasterHistoryPerubahanPembelian-Master.jsx";
+
 
 
 // Halaman dan Menu Admin Basetroli
@@ -340,6 +343,9 @@ const router = createBrowserRouter([
       { path: "menu/masterpelanggan", element: <MenuMasterPelanggan /> },
       { path: "menu/masterpelanggan/insert", element: <MenuInsertMasterPelanggan /> },
       { path: "menu/masterpelanggan/update/:id_master_pelanggan_external", element: <MenuUpdateMasterPelanggan /> },
+
+      //laporan history perubahan pembelian
+      { path: "menu/laporan/historyperubahanpembelian", element: <MenuLaporanHistoryPembelian /> },
 
     ],
   },

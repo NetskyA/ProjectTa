@@ -140,6 +140,20 @@ export default function Navbarside({ role }) {
               </li>
               <li className="m-1" data-aos="fade-right" data-aos-duration="1400">
                 <Link
+                  to="menu/laporan/historyperubahanpembelian"
+                  className={`block py-1 px-2 text-xs text-white rounded-sm ${
+                    location.pathname === "/dashboard/menu/laporan/historyperubahanpembelian" ||
+                    location.pathname ===
+                      "/dashboard/master/menu/laporan/historyperubahanpembelian"
+                      ? "bg-slate-100 bg-opacity-30 rounded-sm hover:bg-blue-900"
+                      : "hover:bg-blue-900 bg-opacity-30 rounded-sm"
+                  }`}
+                >
+                  Laporan Kartu Stok
+                </Link>
+              </li>
+              <li className="m-1" data-aos="fade-right" data-aos-duration="1400">
+                <Link
                   to="menu/laporan/databarang"
                   className={`block py-1 px-2 text-xs text-white rounded-sm ${
                     location.pathname === "/dashboard/menu/databarang" ||
