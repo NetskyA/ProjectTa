@@ -305,11 +305,11 @@ export default function MenuAddPembelianBarangBasetroli() {
       showCancelledAlert();
       return;
     }
-  
+
     const updated = [...tableRows];
     updated[rowIdx].qtyBeli = newQty;
     setTableRows(updated);
-  
+
     const row = updated[rowIdx];
     try {
       await updateJumlahPembelian(token, {
@@ -322,9 +322,9 @@ export default function MenuAddPembelianBarangBasetroli() {
       // kalau mau, bisa tampilkan toast kecil bahwa update berhasil
     } catch (err) {
       const status = err.response?.status;
-      const msg    = err.response?.data?.message || "Gagal update qty.";
+      const msg = err.response?.data?.message || "Gagal update qty.";
       console.error("Gagal update qty:", msg);
-  
+
       setAlert({
         message: msg,
         type: status === 400 ? "warning" : "error",
@@ -332,17 +332,16 @@ export default function MenuAddPembelianBarangBasetroli() {
       });
       setTimeout(() => {
         setAlert({ message: "", type: "", visible: false });
-      }
-      , 5000);
+      }, 5000);
     }
   };
-  
+
   const handleSaveDetails = async () => {
     if (isCancelled) {
       showCancelledAlert();
       return;
     }
-  
+
     try {
       await Promise.all(
         tableRows.map((r) =>
@@ -355,21 +354,20 @@ export default function MenuAddPembelianBarangBasetroli() {
           })
         )
       );
-  
+
       setAlert({
         message: "Semua perubahan tersimpan.",
         type: "success",
         visible: true,
       });
-  
+
       // beri waktu 2 detik agar user bisa baca pesan
       setTimeout(() => window.location.reload(), 500);
-  
     } catch (err) {
       const status = err.response?.status;
-      const msg    = err.response?.data?.message || "Gagal menyimpan perubahan.";
+      const msg = err.response?.data?.message || "Gagal menyimpan perubahan.";
       console.error("Gagal bulk save:", msg);
-  
+
       setAlert({
         message: msg,
         type: status === 400 ? "warning" : "error",
@@ -377,11 +375,9 @@ export default function MenuAddPembelianBarangBasetroli() {
       });
       setTimeout(() => {
         setAlert({ message: "", type: "", visible: false });
-      }
-      , 5000);
+      }, 5000);
     }
   };
-  
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const openCancelDialog = () => {
@@ -517,6 +513,7 @@ export default function MenuAddPembelianBarangBasetroli() {
     );
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = visibleRows.slice(indexOfFirstItem, indexOfLastItem);
   const totalPages = Math.ceil(visibleRows.length / itemsPerPage);
 
   const formatRupiah = (number) => {
@@ -977,47 +974,58 @@ export default function MenuAddPembelianBarangBasetroli() {
               </tr>
             </thead>
             <tbody>
-              {tableRows.map((r, i) => (
-                <tr
-                  key={r.id_master_detail_pesanan_pembelian}
-                  className="text-gray-900 hover:bg-gray-200"
-                >
-                  <td className="px-1 py-0.5 border">{i + 1}</td>
-                  <td className="px-1 py-0.5 border">{r.kode_barang}</td>
-                  <td className="px-1 py-0.5 border">{r.namabarang}</td>
-                  <td className="px-1 py-0.5 border">
-                    <div className="flex items-center gap-1">
-                      <input
-                        type="text"
-                        value={r.qtyBeli}
-                        maxLength={4}
-                        onChange={(e) =>
-                          handleUpdateQty(i, e.target.value.replace(/\D/g, ""))
-                        }
-                        disabled={disableActions}
-                        className={`w-full border p-0.5 text-xs border-gray-300 bg-gray-100 rounded ${
-                          disableActions
-                            ? "bg-gray-100 border-gray-300 select-none cursor-not-allowed"
-                            : ""
-                        }`}
-                      />
-                      <span className="whitespace-nowrap text-xs">PCS</span>
-                    </div>
-                  </td>
-                  <td className="px-1 py-0.5 border text-right">
-                    {new Intl.NumberFormat("id-ID", {
-                      style: "currency",
-                      currency: "IDR",
-                    }).format(r.harga)}
-                  </td>
-                  <td className="px-1 py-0.5 border text-right">
-                    {new Intl.NumberFormat("id-ID", {
-                      style: "currency",
-                      currency: "IDR",
-                    }).format((+r.qtyBeli || 0) * r.harga)}
+              {currentItems.length > 0 ? (
+                currentItems.map((r, i) => (
+                  <tr
+                    key={r.id_master_detail_pesanan_pembelian}
+                    className="text-gray-900 hover:bg-gray-200"
+                  >
+                    <td className="px-1 py-0.5 border">{i + 1}</td>
+                    <td className="px-1 py-0.5 border">{r.kode_barang}</td>
+                    <td className="px-1 py-0.5 border">{r.namabarang}</td>
+                    <td className="px-1 py-0.5 border">
+                      <div className="flex items-center gap-1">
+                        <input
+                          type="text"
+                          value={r.qtyBeli}
+                          maxLength={4}
+                          onChange={(e) =>
+                            handleUpdateQty(
+                              i,
+                              e.target.value.replace(/\D/g, "")
+                            )
+                          }
+                          disabled={disableActions}
+                          className={`w-full border p-0.5 text-xs border-gray-300 bg-gray-100 rounded ${
+                            disableActions
+                              ? "bg-gray-100 border-gray-300 select-none cursor-not-allowed"
+                              : ""
+                          }`}
+                        />
+                        <span className="whitespace-nowrap text-xs">PCS</span>
+                      </div>
+                    </td>
+                    <td className="px-1 py-0.5 border text-right">
+                      {new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      }).format(r.harga)}
+                    </td>
+                    <td className="px-1 py-0.5 border text-right">
+                      {new Intl.NumberFormat("id-ID", {
+                        style: "currency",
+                        currency: "IDR",
+                      }).format((+r.qtyBeli || 0) * r.harga)}
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={6} className="text-center">
+                    Tidak ada data tersedia
                   </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
