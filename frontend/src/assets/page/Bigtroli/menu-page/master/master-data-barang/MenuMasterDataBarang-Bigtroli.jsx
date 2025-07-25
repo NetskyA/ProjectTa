@@ -173,13 +173,14 @@ export default function MenuLaporanMasterBarangBasetroli() {
     )}:${pad(d.getUTCSeconds())}`;
   };
 
-  const formatRupiah = (n) =>
-    n === undefined || n === null || isNaN(n)
-      ? "Data tidak tersedia"
-      : new Intl.NumberFormat("id-ID", {
-          style: "currency",
-          currency: "IDR",
-        }).format(n);
+  const formatRupiah = (number) => {
+    if (number === undefined || number === null || isNaN(number))
+      return "Data tidak tersedia";
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(number);
+  };
 
   // ─────────────────────────────────────────────────────────
   // NILAI UNIK UNTUK FILTER
@@ -699,10 +700,10 @@ export default function MenuLaporanMasterBarangBasetroli() {
                     <td className="px-1 py-0.5 border border-gray-700">
                       {item.nama_produk || "Data tidak ditemukan"}
                     </td>
-                    <td className="px-1 py-0.5 border border-gray-700">
+                    <td className="px-1 py-0.5 border text-right border-gray-700">
                       {item.nama_satuan || "Data tidak ditemukan"}
                     </td>
-                    <td className="px-1 py-0.5 border border-gray-700">
+                    <td className="px-1 py-0.5 border text-right border-gray-700">
                       {formatRupiah(item.harga_jual) || "Data tidak ditemukan"}
                     </td>
                     <td className="px-1 py-0.5 border font-semibold border-gray-700">
@@ -772,21 +773,7 @@ export default function MenuLaporanMasterBarangBasetroli() {
                 <td className="px-1 py-0.5 border border-gray-700 font-semibold bg-lime-400">
                   {formatRupiah(
                     filteredData.reduce(
-                      (s, i) => s + Number(i.harga_barang || 0),
-                      0
-                    )
-                  )}
-                </td>
-                <td
-                  colSpan={9}
-                  className="px-1 py-0.5 border border-gray-700 text-right uppercase bg-gray-300"
-                >
-                  Sub Total Harga Beli
-                </td>
-                <td className="px-1 py-0.5 border border-gray-700 font-semibold bg-lime-400">
-                  {formatRupiah(
-                    filteredData.reduce(
-                      (s, i) => s + Number(i.harga_beli || 0),
+                      (s, i) => s + Number(i.harga_jual || 0),
                       0
                     )
                   )}

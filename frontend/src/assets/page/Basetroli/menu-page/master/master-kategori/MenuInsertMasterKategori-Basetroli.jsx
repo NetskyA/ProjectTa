@@ -43,7 +43,17 @@ export default function MenuInsertMasterDataBarangMaster() {
       date.getMinutes()
     )}:${pad(date.getSeconds())}`;
   };
+  const formatGr = (n) =>
+    `${Number(n || 0).toLocaleString("id-ID", {
+      minimumFractionDigits: 4,
+      maximumFractionDigits: 4,
+    })} gr`;
 
+      const formatGr2 = (n) =>
+    `${Number(n || 0).toLocaleString("id-ID", {
+      minimumFractionDigits: 4,
+      maximumFractionDigits: 4,
+    })}`;
   const formatDateOnly = (d) => {
     if (!d) return "-";
     const date = new Date(d);
@@ -373,22 +383,22 @@ export default function MenuInsertMasterDataBarangMaster() {
                     <td className="px-2 py-1 border border-gray-500 text-black uppercase">
                       {it.nama_bahan_baku}
                     </td>
-                    <td className="px-2 py-1 border border-gray-500 text-black uppercase">
+                    <td className="px-2 py-1 border text-right border-gray-500 text-black uppercase">
                       {it.stok_bahan_baku + " " + it.nama_satuan}
                     </td>
-                    <td className="px-2 py-1 border border-gray-500 text-black uppercase">
-                      {it.jumlah_kebutuhan + " " + it.nama_satuan}
+                    <td className="px-2 py-1 border text-right border-gray-500 text-black uppercase">
+                      {formatGr2(it.jumlah_kebutuhan) + " " + it.nama_satuan}
                     </td>
-                    <td className="px-2 py-1 border border-gray-500 text-black uppercase">
+                    <td className="px-2 py-1 border text-right border-gray-500 text-black ">
                       {formatRupiah(it.harga_beli_barang)}
                     </td>
-                    <td className="px-2 py-1 border border-gray-500 text-black uppercase">
+                    <td className="px-2 py-1 border text-right border-gray-500 text-black ">
                       {formatRupiah(it.total_harga)}
                     </td>
-                    <td className="px-2 py-1 border border-gray-500 text-black uppercase">
+                    <td className="px-2 py-1 border text-right border-gray-500 text-black">
                       {formatRupiah(it.biaya_total_adonan)}
                     </td>
-                    <td className="px-2 py-1 border border-gray-500 text-black uppercase">
+                    <td className="px-2 py-1 border border-gray-500 text-black">
                       {it.nama_user}
                     </td>
                     <td className="px-2 py-1 border border-gray-500 text-black uppercase">
@@ -423,7 +433,7 @@ export default function MenuInsertMasterDataBarangMaster() {
                 >
                   Sub Total Biaya Adonan
                 </td>
-                <td className="px-1 py-0.5 border border-gray-500 font-semibold bg-lime-400">
+                <td className="px-1 py-0.5 border text-right border-gray-500 font-semibold bg-lime-400">
                   {formatRupiah(
                     filteredBahan.reduce(
                       (sum, r) => sum + Number(r.biaya_total_adonan),
@@ -437,11 +447,11 @@ export default function MenuInsertMasterDataBarangMaster() {
                 >
                   Total Jumlah Kebutuhan
                 </td>
-                <td className="px-1 py-0.5 border border-gray-500 font-semibold bg-lime-400">
-                  {filteredBahan.reduce(
+                <td className="px-1 py-0.5 border text-right border-gray-500 font-semibold bg-lime-400">
+                  {formatGr(filteredBahan.reduce(
                     (sum, r) => sum + Number(r.jumlah_kebutuhan || 0),
                     0
-                  ) + " GR"}
+                  ))}
                 </td>
               </tr>
             </tfoot>

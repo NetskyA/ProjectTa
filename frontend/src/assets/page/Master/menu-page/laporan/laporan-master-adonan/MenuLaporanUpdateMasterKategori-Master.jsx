@@ -258,7 +258,11 @@ export default function MenuInsertMasterDataBarangMaster() {
   const currentItems = filteredBahan.slice(firstIdx, lastIdx);
   const totalPages = Math.ceil(filteredBahan.length / itemsPerPageBahan);
   const paginate = (p) => setCurrentPageBahan(p);
-
+  const formatGr = (n) =>
+    `${Number(n || 0).toLocaleString("id-ID", {
+      minimumFractionDigits: 4,
+      maximumFractionDigits: 4,
+    })} gr`;
   const exportExcel = () => {
     if (!currentItems.length) {
       setAlert({
@@ -724,7 +728,7 @@ export default function MenuInsertMasterDataBarangMaster() {
                   <td className="px-1 py-0.5 border border-gray-700">
                     <input
                       type="number"
-                      className="w-full border border-gray-300 cursor-not-allowed text-xs rounded p-1"
+                      className="w-full border text-right border-gray-300 cursor-not-allowed text-xs rounded p-1"
                       value={row.jumlah_kebutuhan}
                       onChange={(e) =>
                         handleRowChange(idx, "jumlah_kebutuhan", e.target.value)
@@ -846,7 +850,7 @@ export default function MenuInsertMasterDataBarangMaster() {
                 >
                   Sub Total Biaya Adonan
                 </td>
-                <td className="px-1 py-0.5 border border-gray-500 font-semibold bg-lime-400">
+                <td className="px-1 py-0.5 border text-right border-gray-500 font-semibold bg-lime-400">
                   {formatRupiah(
                     filteredBahan.reduce(
                       (sum, r) => sum + Number(r.biaya_total_adonan),
@@ -860,11 +864,11 @@ export default function MenuInsertMasterDataBarangMaster() {
                 >
                   Total Jumlah Kebutuhan
                 </td>
-                <td className="px-1 py-0.5 border border-gray-500 font-semibold bg-lime-400">
-                  {filteredBahan.reduce(
+                <td className="px-1 py-0.5 border text-right border-gray-500 font-semibold bg-lime-400">
+                  {formatGr(filteredBahan.reduce(
                     (sum, r) => sum + Number(r.jumlah_kebutuhan || 0),
                     0
-                  ) + " GR"}
+                  ))}
                 </td>
               </tr>
             </tfoot>

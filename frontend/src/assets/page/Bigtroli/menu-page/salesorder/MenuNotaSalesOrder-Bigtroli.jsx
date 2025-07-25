@@ -170,7 +170,14 @@ useEffect(() => {
     }
   })();
 }, [token, id_toko]);
-
+  const formatRupiah = (number) => {
+    if (number === undefined || number === null || isNaN(number))
+      return "Data tidak tersedia";
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(number);
+  };
 
   // format date
   const formatDate = (dateString) => {
@@ -494,7 +501,12 @@ useEffect(() => {
                 >
                   Catatan
                 </th>
-              
+              <th
+                  scope="col"
+                  className="px-2 py-0.5 w-32 sticky top-0 border border-gray-500 bg-gray-200 z-10"
+                >
+                  Subtotal
+                </th>
                 <th
                   scope="col"
                   className="px-2 py-0.5 w-24 cursor-pointer sticky top-0 border border-gray-500 bg-gray-200 z-10"
@@ -540,12 +552,7 @@ useEffect(() => {
                 >
                   DI BUAT TANGGAL
                 </th>
-                <th
-                  scope="col"
-                  className="px-2 py-0.5 w-32 sticky top-0 border border-gray-500 bg-gray-200 z-10"
-                >
-                  Subtotal
-                </th>
+                
                 <th
                   scope="col"
                   className="px-2 py-0.5 w-32 sticky top-0 border border-gray-500 bg-gray-200 z-10"
@@ -603,6 +610,9 @@ useEffect(() => {
                       <td className="px-2 py-0.5 border border-gray-500 uppercase">
                         {truncate(r.catatan, 40)}
                       </td>
+                       <td className="px-2 py-0.5 border border-gray-500 uppercase text-right">
+                        {formatRupiah(r.subtotal)}
+                      </td>
                       {/* <td className="px-2 py-0.5 border border-gray-500 uppercase">
                         {r.tanggal_transaksi}
                       </td> */}
@@ -628,12 +638,7 @@ useEffect(() => {
                       <td className="px-2 py-0.5 border border-gray-500 uppercase">
                         {formatDate(r.createat)}
                       </td>
-                      <td className="px-2 py-0.5 border border-gray-500 uppercase text-right">
-                        {new Intl.NumberFormat("id-ID", {
-                          style: "currency",
-                          currency: "IDR",
-                        }).format(parseFloat(r.subtotal))}
-                      </td>
+                     
                       <td className="px-2 py-0.5 border border-gray-500 uppercase text-center">
                         <button
                           onClick={() =>

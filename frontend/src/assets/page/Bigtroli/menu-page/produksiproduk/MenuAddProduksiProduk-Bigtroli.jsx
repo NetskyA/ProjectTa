@@ -1347,21 +1347,21 @@ export default function MenuAddPembelianBarangBasetroli() {
                             {r.namabarang}
                           </td>
                           <td className="px-2 py-1 border border-gray-500 uppercase">
-                            <div className="flex items-center gap-0.5">
-                              <span className="whitespace-nowrap text-xs">
-                                {" "}
-                                {r.quantity}{" "}
-                              </span>
-                              <span className="whitespace-nowrap text-xs">
-                                PCS
-                              </span>
-                            </div>
-                          </td>
+  <div className="flex items-center gap-0.5 justify-end">
+                            <span className="whitespace-nowrap text-xs">
+                              {" "}
+                              {r.quantity}{" "}
+                            </span>
+                            <span className="whitespace-nowrap text-xs">
+                              PCS
+                            </span>
+  </div>
+</td>
 
-                          <td className="px-2 py-1 border border-gray-500 uppercase text-right">
+                          <td className="px-2 py-1 border border-gray-500 text-right">
                             {formatRp(r.harga_jual)}
                           </td>
-                          <td className="px-2 py-1 border border-gray-500 uppercase text-right">
+                          <td className="px-2 py-1 border border-gray-500 text-right">
                             {formatRp(subtotal)}
                           </td>
                         </tr>
@@ -1456,6 +1456,7 @@ export default function MenuAddPembelianBarangBasetroli() {
                             {row.namabarang}
                           </td>
                           <td className="px-2 py-1 border border-gray-500 uppercase">
+  <div className="flex items-center gap-0.5 justify-end">
                             <span className="whitespace-nowrap text-xs">
                               {" "}
                               {row.totalQty}{" "}
@@ -1463,7 +1464,8 @@ export default function MenuAddPembelianBarangBasetroli() {
                             <span className="whitespace-nowrap text-xs">
                               PCS
                             </span>
-                          </td>
+  </div>
+</td>
                         </tr>
                       ))}
                     </tbody>
@@ -1554,22 +1556,22 @@ export default function MenuAddPembelianBarangBasetroli() {
                             <td className="px-2 py-1 border border-gray-500 uppercase">
                               {nama}
                             </td>
-                            <td className="px-2 py-1 border border-gray-500 uppercase">
+                            <td className="px-2 py-1 border text-right border-gray-500 uppercase">
                               1
                             </td>
-                            <td className="px-2 py-1 border border-gray-500 uppercase">
+                            <td className="px-2 py-1 border text-right border-gray-500 uppercase">
                               {formatGr(a.beratPerBatch)}
                             </td>
-                            <td className="px-2 py-1 border border-gray-500 uppercase">
+                            <td className="px-2 py-1 border text-right border-gray-500 uppercase">
                               {formatKg(a.beratPerBatch)}
                             </td>
-                            <td className="px-2 py-1 border border-gray-500 uppercase">
+                            <td className="px-2 py-1 border text-right border-gray-500 uppercase">
                               {a.batchCount}
                             </td>
-                            <td className="px-2 py-1 border border-gray-500 uppercase">
+                            <td className="px-2 py-1 border text-right border-gray-500 uppercase">
                               {formatGr(a.totalBerat)}
                             </td>
-                            <td className="px-2 py-1 border border-gray-500 uppercase">
+                            <td className="px-2 py-1 border text-right border-gray-500 uppercase">
                               {formatKg(a.totalBerat)}
                             </td>
                           </tr>
@@ -1593,14 +1595,14 @@ export default function MenuAddPembelianBarangBasetroli() {
                         Total Kebutuhan (gr)
                       </td>
                       <td className="px-1 py-1 border bg-lime-400 text-right">
-                        {totalBeratBatchGr} gr
+                        {formatGr(totalBeratBatchGr)}
                       </td>
 
                       <td className="px-1 py-1 border bg-gray-300 text-right uppercase">
                         Total Kebutuhan (kg)
                       </td>
                       <td className="px-1 py-1 border bg-lime-400 text-right">
-                        {totalBeratBatchKg} kg
+                        {formatKg(totalBeratBatchKg)}
                       </td>
 
                       <td className="px-1 py-1 border bg-gray-300 text-right uppercase">
@@ -1614,14 +1616,14 @@ export default function MenuAddPembelianBarangBasetroli() {
                         Total Berat Kebutuhan (gr)
                       </td>
                       <td className="px-1 py-1 border bg-lime-400 text-right">
-                        {totalBeratGr} gr
+                        {formatGr(totalBeratGr)}
                       </td>
 
                       <td className="px-1 py-1 border bg-gray-300 text-right uppercase">
                         Total Berat Kebutuhan (kg)
                       </td>
                       <td className="px-1 py-1 border bg-lime-400 text-right">
-                        {totalBeratKg} kg
+                        {formatKg(totalBeratKg)}
                       </td>
                     </tr>
                   </tfoot>
@@ -1694,20 +1696,20 @@ export default function MenuAddPembelianBarangBasetroli() {
                               <td className="px-2 py-1 border border-gray-500 uppercase">
                                 {b.nama_bahan_baku}
                               </td>
-                              <td className="px-2 py-1 border border-gray-500 uppercase">
+                              <td className="px-2 py-1 border text-right border-gray-500 uppercase">
                                 {formatGr2(b.stok_bahan_baku) +
                                   " " +
                                   b.nama_satuan}
                               </td>
-                              <td className="px-2 py-1 border border-gray-500 uppercase">
+                              <td className="px-2 py-1 border text-right border-gray-500 uppercase">
                                 {formatGr2(b.kebutuhanPerPCS) +
                                   " " +
                                   b.nama_satuan}
                               </td>
-                              <td className="px-2 py-1 border border-gray-500 uppercase">
+                              <td className="px-2 py-1 border text-right border-gray-500 uppercase">
                                 {b.totalPCS}
                               </td>
-                              <td className="px-2 py-1 border border-gray-500 uppercase">
+                              <td className="px-2 py-1 border text-right border-gray-500 uppercase">
                                 {formatGr(b.totalKebutuhan)}
                               </td>
                             </tr>

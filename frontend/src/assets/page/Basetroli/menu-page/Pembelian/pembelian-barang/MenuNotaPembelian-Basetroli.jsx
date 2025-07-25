@@ -219,6 +219,14 @@ export default function MenuNotaPembelianBasetroli() {
     }
     return arr;
   }, [filtered, sortConfig]);
+  const formatRupiah = (number) => {
+    if (number === undefined || number === null || isNaN(number))
+      return "Data tidak tersedia";
+    return new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+    }).format(number);
+  };
 
   // pagination
   const iLast = currentPage * itemsPerPage;
@@ -354,6 +362,7 @@ export default function MenuNotaPembelianBasetroli() {
                 </th>
                 <th scope="col" className="px-2 py-0.5 w-32 sticky top-0 border border-gray-500 bg-gray-200 z-10">Pelanggan</th>
                 <th scope="col" className="px-2 py-0.5 max-w-lg sticky top-0 border border-gray-500 bg-gray-200 z-10">Catatan</th>
+                <th scope="col" className="px-2 py-0.5 w-32 sticky top-0 border border-gray-500 bg-gray-200 z-10">Subtotal</th>
                 <th scope="col" className="px-2 py-0.5 w-24 cursor-pointer sticky top-0 border border-gray-500 bg-gray-200 z-10" onClick={() => handleSort("tanggal_transaksi")}>
                   Tgl Transaksi{sortConfig.key === "tanggal_transaksi" && (sortConfig.direction === "asc" ? " ▲" : " ▼")}
                 </th>
@@ -366,7 +375,6 @@ export default function MenuNotaPembelianBasetroli() {
                 <th scope="col" className="px-2 py-0.5 w-32 sticky top-0 border border-gray-500 bg-gray-200 z-10">Status Sales Order</th>
                 <th scope="col" className="px-2 py-0.5 w-32 sticky top-0 border border-gray-500 bg-gray-200 z-10">DI BUAT OLEH</th>
                 <th scope="col" className="px-2 py-0.5 w-32 sticky top-0 border border-gray-500 bg-gray-200 z-10">DI BUAT TANGGAL</th>
-                <th scope="col" className="px-2 py-0.5 w-32 sticky top-0 border border-gray-500 bg-gray-200 z-10">Subtotal</th>
                 <th scope="col" className="px-2 py-0.5 w-32 sticky top-0 border border-gray-500 bg-gray-200 z-10">Action</th>
               </tr>
             </thead>
@@ -414,6 +422,9 @@ export default function MenuNotaPembelianBasetroli() {
           <td className="px-2 py-0.5 border border-gray-500 uppercase">
           {truncate(r.catatan, 40)}
           </td>
+          <td className="px-2 py-0.5 border border-gray-500  text-right">
+            {formatRupiah(r.subtotal)}
+          </td>
           <td className="px-2 py-0.5 border border-gray-500 uppercase">
             {r.tanggal_transaksi}
           </td>
@@ -438,12 +449,7 @@ export default function MenuNotaPembelianBasetroli() {
           <td className="px-2 py-0.5 border border-gray-500 uppercase">
             {formatDate(r.createat)}
           </td>
-          <td className="px-2 py-0.5 border border-gray-500 uppercase text-right">
-            {new Intl.NumberFormat("id-ID", {
-              style: "currency",
-              currency: "IDR",
-            }).format(parseFloat(r.subtotal))}
-          </td>
+
           <td className="px-2 py-0.5 border border-gray-500 uppercase text-center">
             <button onClick={() => detailNotaPembelian(r.id_master_pesanan_pembelian)}>
               <svg

@@ -690,7 +690,7 @@ export default function MenuLaporanMasterBarangBasetroli() {
                     <td className="px-1 py-0.5 border border-gray-700">
                       {item.nama_produk || "Data tidak ditemukan"}
                     </td>
-                    <td className="px-1 py-0.5 border border-gray-700">
+                    <td className="px-1 py-0.5 border text-right border-gray-700">
                       {item.nama_satuan || "Data tidak ditemukan"}
                     </td>
                     <td className="px-1 py-0.5 border font-semibold border-gray-700">
@@ -753,7 +753,7 @@ export default function MenuLaporanMasterBarangBasetroli() {
                 >
                   Sub Total Harga Jual
                 </td>
-                <td className="px-1 py-0.5 border border-gray-700 font-semibold bg-lime-400">
+                <td className="px-1 py-0.5 border text-right border-gray-700 font-semibold bg-lime-400">
                   {formatRupiah(
                     filteredData.reduce(
                       (s, i) => s + Number(i.harga_jual || 0),

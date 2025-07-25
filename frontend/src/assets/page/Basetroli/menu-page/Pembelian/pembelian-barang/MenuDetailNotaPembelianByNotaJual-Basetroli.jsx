@@ -984,7 +984,7 @@ export default function MenuAddPembelianBarangBasetroli() {
                     <td className="px-1 py-0.5 border">{r.kode_barang}</td>
                     <td className="px-1 py-0.5 border">{r.namabarang}</td>
                     <td className="px-1 py-0.5 border">
-                      <div className="flex items-center gap-1">
+                      <div className="flex items-center text-right gap-1">
                         <input
                           type="text"
                           value={r.qtyBeli}
@@ -996,7 +996,7 @@ export default function MenuAddPembelianBarangBasetroli() {
                             )
                           }
                           disabled={disableActions}
-                          className={`w-full border p-0.5 text-xs border-gray-300 bg-gray-100 rounded ${
+                          className={`w-full border text-right  p-0.5 text-xs border-gray-300 bg-gray-100 rounded ${
                             disableActions
                               ? "bg-gray-100 border-gray-300 select-none cursor-not-allowed"
                               : ""

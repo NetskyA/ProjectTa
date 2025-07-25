@@ -503,7 +503,7 @@ export default function MenuLaporanPenjualanBesttroli() {
                   className="px-2 py-1 w-32 sticky top-0 border border-gray-700 bg-gray-200 cursor-pointer"
                   onClick={() => setSort("nama_createby")}
                 >
-                  Create By{" "}
+                  DI BUAT OLEH{" "}
                   {sortConfig.key === "nama_createby" &&
                     (sortConfig.direction === "asc" ? "▲" : "▼")}
                 </th>
@@ -577,13 +577,13 @@ export default function MenuLaporanPenjualanBesttroli() {
                       <td className="px-2 py-0 border border-gray-700">
                         {it.nama_syarat_bayar || "-"}
                       </td>
-                      <td className="px-2 py-0 border border-gray-700">
+                      <td className="px-2 py-0 border text-right border-gray-700">
                         {formatRupiah(it.grand_total)}
                       </td>
-                      <td className="px-2 py-0 border border-gray-700">
+                      <td className="px-2 py-0 border text-right border-gray-700">
                         {formatRupiah(it.total_hpp)}
                       </td>
-                      <td className="px-2 py-0 border border-gray-700">
+                      <td className="px-2 py-0 border text-right border-gray-700">
                         {formatRupiah(it.profit_rp)}
                       </td>
                       <td className="px-2 py-1 border border-gray-700">
@@ -649,7 +649,7 @@ export default function MenuLaporanPenjualanBesttroli() {
                 >
                   Total Grand Total
                 </td>
-                <td className="px-2 py-1 border border-gray-700 font-semibold bg-lime-400">
+                <td className="px-2 py-1 border text-right border-gray-700 font-semibold bg-lime-400">
                   {formatRupiah(subtotalGrand)}
                 </td>
                 <td

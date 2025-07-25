@@ -788,46 +788,46 @@ export default function MenuLaporanPenjualanBesttroli() {
                       <td className="px-2 py-0 border border-gray-700">
                         {item.namabarang || "Data tidak ditemukan"}
                       </td>
-                      <td className="px-2 py-0 border border-gray-700">
+                      <td className="px-2 py-0 border text-right border-gray-700">
                         {item.total_quantity || "Data tidak ditemukan"}
                       </td>
-                      <td className="px-2 py-0 border border-gray-700">
+                      <td className="px-2 py-0 border text-right border-gray-700">
                         {item.besar
                           ? `${item.besar} ${item.satuanbesar}`
                           : `0 ${item.satuanbesar}`}
                       </td>
-                      <td className="px-2 py-0 border border-gray-700">
+                      <td className="px-2 py-0 border text-right border-gray-700">
                         {item.sedang
                           ? `${item.sedang} ${item.satuansedang}`
                           : `0 ${item.satuansedang}`}
                       </td>
-                      <td className="px-2 py-0 border border-gray-700">
+                      <td className="px-2 py-0 border text-right border-gray-700">
                         {item.kecil
                           ? `${item.kecil} ${item.satuankecil}`
                           : `0 ${item.satuankecil}`}
                       </td>
-                      <td className="px-2 py-0 border border-gray-700">
+                      <td className="px-2 py-0 border text-right border-gray-700">
                         {formatRupiah(item.harga_barang) ||
                           "Data tidak tersedia"}
                       </td>
-                      <td className="px-2 py-0 border border-gray-700">
+                      <td className="px-2 py-0 border text-right border-gray-700">
                         {formatRupiah(item.total_harga) ||
                           "Data tidak tersedia"}
                       </td>
-                      <td className="px-2 py-0 border border-gray-700">
+                      <td className="px-2 py-0 border text-right border-gray-700">
                         {item.biaya_admin
                           ? `${item.biaya_admin} %`
                           : "Data tidak tersedia"}
                       </td>
-                      <td className="px-2 py-0 border border-gray-700">
+                      <td className="px-2 py-0 border text-right border-gray-700">
                         {item.biaya_ongkir
                           ? `${item.biaya_ongkir} %`
                           : "Data tidak tersedia"}
                       </td>
-                      <td className="px-2 py-0 border border-gray-700">
+                      <td className="px-2 py-0 border text-right border-gray-700">
                         {formatRupiah(item.biaya) || formatRupiah(0)}
                       </td>
-                      <td className="px-2 py-0 border border-gray-700">
+                      <td className="px-2 py-0 border text-right border-gray-700">
                         {formatRupiah(item.netto) || formatRupiah(0)}
                       </td>
                       <td className="px-2 py-0 border border-gray-700">

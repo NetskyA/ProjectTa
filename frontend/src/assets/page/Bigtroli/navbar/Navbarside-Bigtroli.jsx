@@ -225,7 +225,7 @@ export default function Navbarside({ role }) {
         )}
         
         {/* Menu Utama Pembelian */}
-        {hasAccess("Pembelian") && (
+        {/* {hasAccess("Pembelian") && (
           <li className="mt-0 pt-0 m-2">
             <div className="group">
               <button
@@ -241,7 +241,6 @@ export default function Navbarside({ role }) {
               </button>
             </div>
 
-            {/* Submenu Pembelian */}
             {isPembelianOpen && (
               <ul className="mt-1 pl-0.5 relative">
                 {hasAccess("Analisa & Pemesanan") && (
@@ -262,10 +261,10 @@ export default function Navbarside({ role }) {
               </ul>
             )}
           </li>
-        )}
+        )} */}
 
         {/* Menu Utama Penjualan */}
-        {hasAccess("Penjualan") && (
+        {/* {hasAccess("Penjualan") && (
           <li className="mt-0 pt-0 m-2">
             <div className="group">
               <button
@@ -281,7 +280,6 @@ export default function Navbarside({ role }) {
               </button>
             </div>
 
-            {/* Submenu Penjualan */}
             {isPenjualanOpen && (
               <ul className="mt-1 pl-0.5 relative">
                 {hasAccess("Import Penjualan") && (
@@ -302,7 +300,7 @@ export default function Navbarside({ role }) {
               </ul>
             )}
           </li>
-        )}
+        )} */}
 
         {/* Menu Utama Pembelian */}
         {hasAccess("Produksi") && (

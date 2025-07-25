@@ -631,7 +631,7 @@ useEffect(() => {
                   return (
                     <tr
                       key={`${item.id_bahan_baku}-${index}`}
-                      className={`border-b ${rowBg} hover:opacity-80 text-black`}
+                      className={`border-b ${rowBg} cursor-pointer hover:opacity-80 text-black`}
                     >
                       {/* Nomor Urut */}
                       <td className="px-2 py-0.5 border border-gray-700">
@@ -652,16 +652,16 @@ useEffect(() => {
                       <td className="px-1 py-0.5 border border-gray-700">
                         {item.nama_bahan_baku || "Data tidak tersedia"}
                       </td>
-                      <td className="px-1 py-0.5 border border-gray-700">
+                      <td className="px-1 py-0.5 border text-right border-gray-700">
                         {item.stok_bahan_baku || "0"}
                       </td>
                       <td className="px-1 py-0.5 border border-gray-700">
                         {item.nama_satuan || "Data tidak tersedia"}
                       </td>
-                      <td className="px-1 py-0.5 border border-gray-700">
+                      <td className="px-1 py-0.5 border text-right border-gray-700">
                         {formatRupiah(item.harga_beli_barang)}
                       </td>
-                      <td className="px-1 py-0.5 border border-gray-700">
+                      <td className="px-1 py-0.5 border text-right border-gray-700">
                         {formatRupiah(item.total_harga)}
                       </td>
                       <td className="px-1 py-0.5 border border-gray-700">

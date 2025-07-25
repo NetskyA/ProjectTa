@@ -1268,7 +1268,7 @@ setMasterPelanggan(pelList);
                 >
                   Sub Total Pemesanan
                 </td>
-                <td className="px-1 py-0.5 w-52 border	border-gray-700 font-semibold bg-lime-400">
+                <td className="px-1 py-0.5 w-52 border text-right border-gray-700 font-semibold bg-lime-400">
                   {formatRp(subtotalGrand)}
                 </td>
                 <td
@@ -1277,7 +1277,7 @@ setMasterPelanggan(pelList);
                 >
                   Sub Total Harga
                 </td>
-                <td className="px-1 py-0.5 w-52	border border-gray-700 font-semibold bg-lime-400">
+                <td className="px-1 py-0.5 w-52	border text-right border-gray-700 font-semibold bg-lime-400">
                   {formatRp(subtotalHarga)}
                 </td>
               </tr>

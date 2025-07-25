@@ -307,7 +307,7 @@ export default function Navbarside({ role }) {
 
 
         {/* Menu Utama Pembelian */}
-        {hasAccess("Produksi") && (
+        {/* {hasAccess("Produksi") && (
           <li className="mt-0 pt-0 m-2">
             <div className="group">
               <button
@@ -323,7 +323,6 @@ export default function Navbarside({ role }) {
               </button>
             </div>
 
-            {/* Submenu Sales Order */}
             {isProduksiOpen&& (
               <ul className="mt-1 pl-0.5 relative">
                 {hasAccess("Sales Order") && (
@@ -405,7 +404,7 @@ export default function Navbarside({ role }) {
               </ul>
             )}
           </li>
-        )}
+        )} */}
 
         {/* Menu Utama Master */}
         {hasAccess("Master") && (

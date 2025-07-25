@@ -141,6 +141,11 @@ export default function MenuInsertMasterDataBarangMaster() {
       minimumFractionDigits: 4,
       maximumFractionDigits: 4,
     })} gr`;
+  const formatGr2 = (n) =>
+    `${Number(n || 0).toLocaleString("id-ID", {
+      minimumFractionDigits: 4,
+      maximumFractionDigits: 4,
+    })} `;
 
   const formatRupiah = (number) => {
     if (number == null || isNaN(number)) return "Data tidak tersedia";
@@ -963,8 +968,8 @@ onChange={(selected) => {
 
                         />
                       </td>
-                      <td className="px-2 py-1 border border-gray-500 text-black uppercase">
-                        {formatGr(row.jumlah_kebutuhan) + " GR"}
+                      <td className="px-2 py-1 border text-right border-gray-500 text-black uppercase">
+                        {formatGr(row.jumlah_kebutuhan)}
                       </td>
                       <td className="px-2 py-1 border border-gray-500 text-black">
                         {row.nama_user}
@@ -995,13 +1000,13 @@ onChange={(selected) => {
                   >
                     Total Jumlah Kebutuhan
                   </td>
-                  <td className="px-1 py-0.5 border border-gray-500 font-semibold bg-lime-400">
+                  <td className="px-1 py-0.5 border text-right border-gray-500 font-semibold bg-lime-400">
                     {formatGr(
                       filteredAdonan.reduce(
                         (sum, r) => sum + Number(r.jumlah_kebutuhan || 0),
                         0
                       )
-                    ) + " GR"}
+                    )}
                   </td>
                 </tr>
               </tfoot>
@@ -1132,16 +1137,16 @@ onChange={(selected) => {
                     <td className="px-2 py-1 border border-gray-500 text-black uppercase">
                       {r.nama_bahan_baku}
                     </td>
-                    <td className="px-2 py-1 border border-gray-500 text-black uppercase">
-                      {formatGr(r.jumlah_kebutuhan) + " " + r.nama_satuan}
+                    <td className="px-2 py-1 border text-right border-gray-500 text-black uppercase">
+                      {formatGr2(r.jumlah_kebutuhan) + " " + r.nama_satuan}
                     </td>
-                    <td className="px-2 py-1 border border-gray-500 text-black uppercase">
+                    <td className="px-2 py-1 border text-right border-gray-500 text-black uppercase">
                       {formatRupiah2(r.harga_beli_barang)}
                     </td>
-                    <td className="px-2 py-1 border border-gray-500 text-black uppercase">
+                    <td className="px-2 py-1 border text-right border-gray-500 text-black uppercase">
                       {formatRupiah2(r.biaya_total_adonan)}
                     </td>
-                    <td className="px-2 py-1 border border-gray-500 text-black uppercase">
+                    <td className="px-2 py-1 border text-right border-gray-500 text-black uppercase">
                       {formatRupiah2(r.total_harga)}
                     </td>
                     <td className="px-2 py-1 border border-gray-500 text-black uppercase">
@@ -1173,7 +1178,7 @@ onChange={(selected) => {
                 >
                   Sub Total Biaya Adonan
                 </td>
-                <td className="px-1 py-0.5 border border-gray-500 font-semibold bg-lime-400">
+                <td className="px-1 py-0.5 border text-right border-gray-500 font-semibold bg-lime-400">
                   {formatRupiah(
                     filteredBahan.reduce(
                       (sum, r) => sum + Number(r.biaya_total_adonan),
@@ -1188,13 +1193,13 @@ onChange={(selected) => {
                 >
                   Sub Total Jumlah Kebutuhan
                 </td>
-                <td className="px-1 py-0.5 border border-gray-500 font-semibold bg-lime-400">
+                <td className="px-1 py-0.5 border text-right border-gray-500 font-semibold bg-lime-400">
                   {formatGr(
                     filteredBahan.reduce(
                       (sum, r) => sum + Number(r.jumlah_kebutuhan),
                       0
                     )
-                  ) + " GR"}
+                  )}
                 </td>
               </tr>
             </tfoot>

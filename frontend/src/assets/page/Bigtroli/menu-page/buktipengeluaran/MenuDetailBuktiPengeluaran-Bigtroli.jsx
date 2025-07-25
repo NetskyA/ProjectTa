@@ -1424,7 +1424,7 @@ const payload = {
                             <td className="px-2 py-1 border border-gray-500 uppercase">
                               {h.catatan || "-"}
                             </td>
-                            <td className="px-2 py-1 border border-gray-500 uppercase text-right">
+                            <td className="px-2 py-1 border text-right border-gray-500">
                               {formatRp(total)}
                             </td>
                           </tr>
@@ -1504,9 +1504,17 @@ const payload = {
                         <td className="px-2 py-1 border border-gray-500 uppercase">
                           {row.nama_produk}
                         </td>
-                        <td className="px-2 py-1 border border-gray-500 uppercase">
-                          {row.totalQty} PCS
-                        </td>
+                                                  <td className="px-2 py-1 border border-gray-500 uppercase">
+  <div className="flex items-center gap-0.5 justify-end">
+                            <span className="whitespace-nowrap text-xs">
+                              {" "}
+                              {row.totalQty}{" "}
+                            </span>
+                            <span className="whitespace-nowrap text-xs">
+                              PCS
+                            </span>
+  </div>
+</td>
                       </tr>
                     ))}
                   </tbody>

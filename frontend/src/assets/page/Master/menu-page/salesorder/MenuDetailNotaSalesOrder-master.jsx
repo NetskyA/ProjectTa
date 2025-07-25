@@ -1255,7 +1255,7 @@ export default function MenuAddPembelianBarangBasetroli() {
                         title="Jika terdapat perubahan, jumlah pembelian mengikuti jumlah terpenuhi"
                         value={r.originalQty}
                         disabled
-                        className="bg-gray-100 cursor-not-allowed text-xs p-1 rounded w-full"
+                        className="bg-gray-100 text-right cursor-not-allowed text-xs p-1 rounded w-full"
                       />
                       <span className="whitespace-nowrap text-xs">PCS</span>
                     </div>
@@ -1280,7 +1280,7 @@ export default function MenuAddPembelianBarangBasetroli() {
                           statusSalesOrder !== 1 ||
                           hasHistory
                         }
-                        className={`w-full border p-0.5 text-xs rounded ${
+                        className={`w-full border text-right p-0.5 text-xs rounded ${
                           prodStatus === 1 ||
                           hasGabungan ||
                           statusSalesOrder !== 1 ||
@@ -1327,7 +1327,7 @@ export default function MenuAddPembelianBarangBasetroli() {
                 >
                   Sub Total Pemesanan
                 </td>
-                <td className="px-1 py-0.5 w-52 border	border-gray-700 font-semibold bg-lime-400">
+                <td className="px-1 py-0.5 w-52 border text-right	border-gray-700 font-semibold bg-lime-400">
                   {formatRupiah(subtotalGrand)}
                 </td>
                 <td
@@ -1336,7 +1336,7 @@ export default function MenuAddPembelianBarangBasetroli() {
                 >
                   Sub Total Harga
                 </td>
-                <td className="px-1 py-0.5 w-52	border border-gray-700 font-semibold bg-lime-400">
+                <td className="px-1 py-0.5 w-52	border text-right border-gray-700 font-semibold bg-lime-400">
                   {formatRupiah(subtotalHarga)}
                 </td>
               </tr>

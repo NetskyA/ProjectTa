@@ -775,21 +775,17 @@ export default function MenuLaporanStokBarangMaster() {
                       <td className="px-2 py-0.5 border border-gray-700">
                         {item.nama_bahan_baku || "Data tidak tersedia"}
                       </td>
-                      <td className="px-2 py-0.5 border border-gray-700">
+                      <td className="px-2 py-0.5 border text-right border-gray-700">
                         {item.stok_bahan_baku || "0"}
                       </td>
                       <td className="px-2 py-0.5 border border-gray-700">
                         {item.nama_satuan || "Data tidak tersedia"}
                       </td>
-                      <td className="px-2 py-0.5 border border-gray-700">
-                        {item.harga_beli_barang
-                          ? `Rp ${parseFloat(item.harga_beli_barang).toLocaleString()}`
-                          : "-"}
+                      <td className="px-2 py-0.5 border text-right border-gray-700">
+                        {formatRupiah(item.harga_beli_barang)}
                       </td>
-                      <td className="px-2 py-0.5 border border-gray-700">
-                        {item.total_harga
-                          ? `Rp ${parseFloat(item.total_harga).toLocaleString()}`
-                          : "-"}
+                      <td className="px-2 py-0.5 border text-right border-gray-700">
+                        {formatRupiah(item.total_harga)}
                       </td>
                       <td className="px-2 py-0.5 border border-gray-700">
                         {item.status === 0 ? "Aktif" : "Tidak Aktif"}
@@ -831,7 +827,7 @@ export default function MenuLaporanStokBarangMaster() {
                 >
                    Sub Total Harga Beli
                 </td>
-                <td className="px-1 py-0.5 border border-gray-700 font-semibold bg-lime-400">
+                <td className="px-1 py-0.5 border text-right border-gray-700 font-semibold bg-lime-400">
                 {formatRupiah(
                     filteredData.reduce(
                       (sum, item) =>
@@ -846,7 +842,7 @@ export default function MenuLaporanStokBarangMaster() {
                 >
                   Sub Total Harga Bahan
                 </td>
-                <td className="px-1 py-0.5 border border-gray-700 font-semibold bg-lime-400">
+                <td className="px-1 py-0.5 border text-right border-gray-700 font-semibold bg-lime-400">
                 {formatRupiah(
                     filteredData.reduce(
                       (sum, item) =>

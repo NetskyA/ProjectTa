@@ -1256,7 +1256,7 @@ export default function MenuAddPembelianBarangBasetroli() {
                         title="Jika terdapat perubahan, jumlah pembelian mengikuti jumlah terpenuhi"
                         value={r.originalQty}
                         disabled
-                        className="bg-gray-100 cursor-not-allowed text-xs p-1 rounded w-full"
+                        className="bg-gray-100 text-right cursor-not-allowed text-xs p-1 rounded w-full"
                       />
                       <span className="whitespace-nowrap text-xs">PCS</span>
                     </div>
@@ -1281,7 +1281,7 @@ export default function MenuAddPembelianBarangBasetroli() {
                           statusSalesOrder !== 1 ||
                           hasHistory
                         }
-                        className={`w-full border p-0.5 text-xs rounded ${
+                        className={`w-full border text-right p-0.5 text-xs rounded ${
                           prodStatus === 1 ||
                           hasGabungan ||
                           statusSalesOrder !== 1 ||

@@ -51,7 +51,7 @@ export default function NavbarUp() {
           className="text-xs font-semibold text-white"
         >
           <p className="text-white font-semibold capitalize text-xl">
-            Double O Bakery - {username}
+            Double O Bakery - Admin Pembelian
           </p>
         </Link>
       </div>

@@ -623,31 +623,31 @@ export default function MenuPenjualanDetail() {
                         <td className="px-2 py-0.5 border border-gray-500">
                           {d.jumlah + " Pcs"}
                         </td>
-                        <td className="px-2 py-0.5 border border-gray-500">
+                        <td className="px-2 py-0.5 border text-right border-gray-500">
                           {formatRupiah(d.harga)}
                         </td>
-                        <td className="px-2 py-0.5 border border-gray-500">
+                        <td className="px-2 py-0.5 border text-right border-gray-500">
                           {d.discount + " %"}
                         </td>
-                        <td className="px-2 py-0.5 border border-gray-500">
+                        <td className="px-2 py-0.5 border text-right border-gray-500">
                           {formatRupiah(d.hpp_satuan)}
                         </td>
-                        <td className="px-2 py-0.5 border border-gray-500">
+                        <td className="px-2 py-0.5 border text-right border-gray-500">
                           {formatRupiah(d.total_rp)}
                         </td>
-                        <td className="px-2 py-0.5 border border-gray-500">
+                        <td className="px-2 py-0.5 border text-right border-gray-500">
                           {formatRupiah(d.disc_rp)}
                         </td>
-                        <td className="px-2 py-0.5 border border-gray-500">
+                        <td className="px-2 py-0.5 border text-right border-gray-500">
                           {formatRupiah(d.subtotal_rp)}
                         </td>
-                        <td className="px-2 py-0.5 border border-gray-500">
+                        <td className="px-2 py-0.5 border text-right border-gray-500">
                           {formatRupiah(d.total_hpp)}
                         </td>
-                        <td className="px-2 py-0.5 border border-gray-500">
+                        <td className="px-2 py-0.5 border text-right border-gray-500">
                           {formatRupiah(d.grand_total)}
                         </td>
-                        <td className="px-2 py-0.5 border border-gray-500">
+                        <td className="px-2 py-0.5 border text-right border-gray-500">
                           {formatRupiah(d.profit_rp)}
                         </td>
                         <td className="px-2 py-0.5 border border-gray-500">

@@ -2,7 +2,7 @@
 
 import React from "react";
 
-const DialogTrueFalse = ({ isOpen, title, message, onConfirm, onCancel }) => {
+const DialogTrueFalse = ({ isOpen, title, message, onConfirm, onCancel, customButtons }) => {
   if (!isOpen) return null;
 
   return (
@@ -36,6 +36,7 @@ const DialogTrueFalse = ({ isOpen, title, message, onConfirm, onCancel }) => {
             Yes
           </button>
         </div>
+        
       </div>
     </div>
   );

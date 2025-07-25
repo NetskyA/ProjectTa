@@ -486,7 +486,7 @@ export default function MenuNotaPembelianBasetroli() {
                   return (
                     <tr
                       key={r.id_master_gabungan_pemintaan}
-                      className={`border-b cursor-pointer hover:opacity-70 text-blue-900 hover:text-black ${rowBg}`}
+                      className={`border-b cursor-pointer hover:opacity-70 text-black hover:text-black ${rowBg}`}
                       onDoubleClick={() =>
                         detailGabunganPermintaan(r.id_master_gabungan_pemintaan)
                       }
@@ -521,7 +521,7 @@ export default function MenuNotaPembelianBasetroli() {
                       </td>
 
                       {/* Kitchen */}
-                      <td className="px-2 py-0.5 border border-gray-500 uppercase">
+                      <td className="px-2 py-0.5 border text-right border-gray-500 uppercase">
                         {formatRupiah(r.total_gabungan)}
                       </td>
                       {/* Dibuat oleh */}

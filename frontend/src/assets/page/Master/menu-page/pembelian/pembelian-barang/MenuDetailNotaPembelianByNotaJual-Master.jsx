@@ -997,7 +997,7 @@ export default function MenuAddPembelianBarangBasetroli() {
                             )
                           }
                           disabled={disableActions}
-                          className={`w-full border p-0.5 text-xs border-gray-300 bg-gray-100 rounded ${
+                          className={`w-full border text-right p-0.5 text-xs border-gray-300 bg-gray-100 rounded ${
                             disableActions
                               ? "bg-gray-100 border-gray-300 select-none cursor-not-allowed"
                               : ""
@@ -1048,7 +1048,7 @@ export default function MenuAddPembelianBarangBasetroli() {
                 >
                   Sub Total Pemesanan
                 </td>
-                <td className="px-1 py-0.5 w-52 border	border-gray-700 font-semibold bg-lime-400">
+                <td className="px-1 py-0.5 w-52 border text-right border-gray-700 font-semibold bg-lime-400">
                   {formatRupiah(subtotalGrand)}
                 </td>
                 <td
@@ -1057,7 +1057,7 @@ export default function MenuAddPembelianBarangBasetroli() {
                 >
                   Sub Total Harga
                 </td>
-                <td className="px-1 py-0.5 w-52	border border-gray-700 font-semibold bg-lime-400">
+                <td className="px-1 py-0.5 w-52	border text-right border-gray-700 font-semibold bg-lime-400">
                   {formatRupiah(subtotalHarga)}
                 </td>
               </tr>

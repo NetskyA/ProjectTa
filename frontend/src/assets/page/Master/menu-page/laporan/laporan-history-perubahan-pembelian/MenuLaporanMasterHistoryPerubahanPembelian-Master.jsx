@@ -640,13 +640,13 @@ export default function MenuLaporanMasterRole() {
                       <td className="px-1 py-0.5 border border-gray-700">
                         {item.kode_produk}
                       </td>
-                      <td className="px-1 py-0.5 border border-gray-700">
+                      <td className="px-1 py-0.5 text-right border border-gray-700">
                         {item.quantity + " Pcs"}
                       </td>
-                      <td className="px-1 py-0.5 border border-gray-700">
+                      <td className="px-1 py-0.5 border text-right border-gray-700">
                         {item.quantity_terpenuhi + " Pcs"}
                       </td>
-                      <td className="px-1 py-0.5 border border-gray-700">
+                      <td className="px-1 py-0.5 border text-right border-gray-700">
                         {(() => {
                           const selisih =
                             item.quantity_terpenuhi - item.quantity;
@@ -655,10 +655,10 @@ export default function MenuLaporanMasterRole() {
                           return `${tanda}${Math.abs(selisih)} Pcs`;
                         })()}
                       </td>
-                      <td className="px-1 py-0.5 border border-gray-700">
+                      <td className="px-1 py-0.5 border text-right border-gray-700">
                         {formatRupiah(item.total_harga)}
                       </td>
-                      <td className="px-1 py-0.5 border border-gray-700">
+                      <td className="px-1 py-0.5 border text-right border-gray-700">
                         {formatRupiah(item.total_harga_terpenuhi)}
                       </td>
 
